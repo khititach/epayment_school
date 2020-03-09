@@ -1,0 +1,87 @@
+.edit-mode {
+    background-color: #E8E8E8;
+}
+
+/* notification css */
+.notify-box {
+    background-color: #4EE330;
+    border-radius: 0.2rem;
+    /* box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2); */
+    margin-bottom: 0.5rem;
+}
+
+.notify-title {
+    margin-left: 1rem;
+    font-size: 20px;
+    color: white;
+}
+
+.notify-body {
+    /* margin-left: 2rem; */
+    font-size: 15px;
+    color: white;
+}
+
+h2e {
+    font-size: 2rem;
+}
+
+.sidebar-name-title {
+    width: 100%;
+    text-align: center;
+    color: white;
+    /* font-size: 1.5rem; */
+    word-wrap: break-word;
+}
+
+.name_title {
+    background-color: #f8b739;
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
+    color: black;
+}
+
+.name_title_Nsd {
+    background-color: #f8b739;
+    color: black;
+    width: 100%;
+}
+
+.text-modal {
+    text-align: right;
+    display: flex;
+    align-items: center;
+}
+
+.add-shadow {
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
+}
+
+.input-group-text-edit {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+
+/* history graph */
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 200px;
+    width: 500px;
+}
+  

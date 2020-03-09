@@ -1,0 +1,241 @@
+<!-- Page Content  -->
+<div id="content" class="p-4 p-md-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="toggle-title-name">ประวัติการใช้จ่าย</div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/">หน้าหลัก</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/student/history">ประวัติ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/student/setting">ตั้งค่า</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="emp-profile">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-head">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#graph" role="tab"
+                                aria-controls="profile" aria-selected="false">สรุป</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="home-tab" data-toggle="tab" href="#income" role="tab"
+                                aria-controls="home" aria-selected="true">ตารางการใช้จ่าย</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#calories" role="tab"
+                                aria-controls="profile" aria-selected="false">ตารางแคลอรี่</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#graph" role="tab"
+                                aria-controls="profile" aria-selected="false">กราฟ</a>
+                        </!-->
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <br>
+            </div>
+            <div class="col-md-12">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <!-- graph -->
+                    <div class="tab-pane fade show active" id="graph" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="month" value="" id="selected_month" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="btn-group btn-group-toggle" id="radio_select" data-toggle="buttons">
+                                    <label class="btn btn-info active">
+                                      <input type="radio" name="mode" id="mode_calories" value="mode_calories" autocomplete="off" checked> แคลอรี่
+                                    </label>
+                                    <label class="btn btn-info">
+                                      <input type="radio" name="mode" id="mode_income" value="mode_income" autocomplete="off"> รายรับ
+                                    </label>
+                                    <label class="btn btn-info">
+                                      <input type="radio" name="mode" id="mode_expend" value="mode_expend" autocomplete="off"> รายจ่าย
+                                    </label>
+                                  </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div id="canvas_container" >
+                                    <!-- <canvas id="data_chart"></canvas> -->
+                                </div>
+                               
+                            </div>
+                            <div class="col-md-4">
+                
+                                <div class="card card-body add-shadow">
+                                    <div class="text-center mb-3 name_title_Nsd">
+                                        <h3>สรุป</h3>
+                                    </div>
+                                    <!-- money in -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>รายรับ</h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 id="income_avg">บาท</h5>
+                                        </div>
+                                    </div>
+                                    <!-- money out -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>รายจ่าย(avg)</h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 id="expend_avg">บาท</h5>
+                                        </div>
+                                    </div>
+                                    <!-- calories -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>แคลอรี่(avg)</h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 id="calories_avg">แคล</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- history -->
+                    <div class="tab-pane fade " id="income" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col">
+
+                                <table id="TableID" class="table table-striped table-bordered" style="width:100%">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>วันที่</th>
+                                            <th>เวลา</th>
+                                            <!-- <th>นักเรียน</th> -->
+                                            <th>ร้านค้า</th>
+                                            <th>สถานะ</th>
+                                            <th>เงินเข้า</th>
+                                            <th>เงินออก</th>
+                                            <th>เงินปัจจุบัน</th>
+                                            <th>ผู้รับผิดชอบ</th>
+                                        </tr>
+                                    </thead>
+                                    <% for (var i = 0 ; i < student_history_data.length ; i++) {%>
+                                    <tr>
+                                        <td><%= ('0' + student_history_data[i].date.getDate()).slice(-2) + "/" + ('0' + (student_history_data[i].date.getMonth()+1)).slice(-2)  + "/" + student_history_data[i].date.getFullYear() %>
+                                        </td>
+                                        <td><%= ("0"+student_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+student_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+student_history_data[i].date.getSeconds()).slice(-2) %>
+                                        </td>
+                                        
+                                        <td><%= student_history_data[i].store_name %></td>
+                                        <td><%= student_history_data[i].status %></td>
+                                        <td style="color: #02BB21;"><%= student_history_data[i].deposit %></td>
+                                        <td style="color: red;"><%= student_history_data[i].withdraw %></td>
+                                        <td><%= student_history_data[i].total %></td>
+                                        <td><%= student_history_data[i].responsible %></td>
+                                    </tr>
+                                    <%}%>
+                                    </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- calories -->
+                    <div class="tab-pane fade" id="calories" role="tabpanel" aria-labelledby="profile-tab">
+                       <div class="row">
+                           <div class="col-md-12">
+                                <table id="TableCalID" class="table table-striped table-bordered" style="width:100%">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>วันที่</th>
+                                            <th>เวลา</th>
+                                            <!-- <th>นักเรียน</th> -->
+                                            <th>ร้านค้า</th>
+                                            <th>อาหาร</th>
+                                            <th>แคลอรี่</th>
+                        
+                                        </tr>
+                                    </thead>
+                                    <% for (var i = 0 ; i < student_history_data.length ; i++) {%>
+                                    <% if (student_history_data[i].store_name == '-') {%>
+
+                                    <%} else {%>
+                                    <tr>
+                                        <td><%= ('0' + student_history_data[i].date.getDate()).slice(-2) + "/" + ('0' + (student_history_data[i].date.getMonth()+1)).slice(-2) + "/" + student_history_data[i].date.getFullYear() %>
+                                        </td>
+                                        <td><%= ("0"+student_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+student_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+student_history_data[i].date.getSeconds()).slice(-2) %>
+                                        </td>
+                                        
+                                        <td><%= student_history_data[i].store_name %></td>
+                                        <td><%= student_history_data[i].food %></td>
+                                        <td><%= student_history_data[i].calories %></td>
+
+                                    </tr>
+                                    <%} }%>
+                                </table>
+                            </div>
+                            <!-- <div class="col-md-6">
+                               <div class="text-center">
+                                    <h4>กราฟแคลอรี่</h4>
+                                    <input type="date" name="dob" class="form-control"/>
+                               </div>
+                            <canvas id="line-chart" width="800" height="450"></canvas>
+                            </div> -->
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('#TableID').DataTable();
+    $('#TableCalID').DataTable();
+    
+    getDate();
+    get_data_start_page();
+
+});
+
+</script>

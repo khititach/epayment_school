@@ -1,0 +1,127 @@
+.toggle-title-name {
+    font-size: 25px;
+    /* margin-top: auto;
+    margin-bottom: auto; */
+    padding-left: 15px;
+    color:black;
+}
+
+.topup-form {
+    background-color: #f0f0f0;
+    padding: 2rem !important ;
+    border-radius: 5px;
+    
+}
+
+.admin_name_title {
+    background-color: #f8b739;
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
+    padding: 5px 0px 2px 0px ;
+    color: black;
+    text-align: center;
+}
+
+.background-white {
+    background-color: white;
+}
+
+.input-ml {
+    margin-left: 15px;
+}
+
+.test-css {
+    font-size: 50px;
+}
+ 
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f1f1f1;
+min-width: 100px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f8b739;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+  
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #f8b739;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.a-font {
+    color: white;
+}
+
+h5e {
+    color: black;
+    font-size: 20px;
+    align-items: center;
+}
+
+
+.input-alert-success {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #d4ffc3;
+    border-color: #6efd69;
+    border-radius: 0.25rem; 
+}
+
+.input-alert-error {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #fdbaba;
+    border-color: #e23232;
+    border-radius: 0.25rem; 
+}
+
+.alert-success-font {
+    color: #15ff00;
+
+}
+
+.alert-error-font {
+    color: #f33737;
+    
+}
+
+/* category page css */

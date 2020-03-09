@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/partials/assets/css/header.css">
+    <link rel="stylesheet" href="/partials/assets/css/style.css">
+    <link rel="stylesheet" href="/partials/assets/css/pagination.css">
+
+    <link rel="stylesheet" type="text/css" href="/admin_page/assets/css/admin.css"/>
+
+    <link rel="stylesheet" type="text/css" href="/store_page/assets/css/store.css"/>
+    
+    <link rel="stylesheet" type="text/css" href="/student_page/assets/css/student.css"/>
+
+        <!-- table option -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+        <!-- Chart -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+
+        <!-- toastr -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+        <!-- confirm css -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"> -->
+    <link rel="stylesheet" href="/partials/assets/css/jquery-confirm.css">
+
+    <link rel="shortcut icon" href="/partials/assets/images/loco.ico" />
+
+    <title id="title-tag"></title>
+  
+</head>  
+<body>
+    <!-- Header -->
+        <% include ./partials/header.ejs%>
+    <!-- sidebar -->
+        <% include ./partials/sidebar.ejs%>
+    <!-- Body -->
+        <%- body %>
+
+    <script src="/partials/assets/js/header.js"></script>
+    <% if (user) {%>
+        <% if (user.role === 'นักเรียน') {%>
+            <script src="/student_page/assets/js/student.js"></script>
+            <script src="/student_page/assets/js/student_chart.js"></script>
+        <%} if (user.role === 'แอดมิน') {%>
+            <script src="/admin_page/assets/js/admin.js"></script>
+        <%} if (user.role === 'ร้านค้า') {%>
+            <script src="/store_page/assets/js/store.js"></script>
+        <%}%> 
+      <%} else {%>
+            <!-- No user -->
+      <%}%>
+
+      
+
+    <!-- <script src="/partials/assets/js/jquery.min.js"></script> -->
+    <script src="/partials/assets/js/popper.js"></script>
+    <script src="/partials/assets/js/bootstrap.min.js"></script>
+    <script src="/partials/assets/js/main.js"></script>
+
+        <!-- toastr -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
+
+        <!-- pagination + sort -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+       <!-- confirm js -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script> -->
+    <script src="/partials/assets/js/jquery-confirm.js"></script>
+
+        <!-- Chart -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+</body>
+</html>

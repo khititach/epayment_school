@@ -1,0 +1,112 @@
+<!-- Page Content  -->
+<div id="content" class="p-4 p-md-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="toggle-title-name">สมุดอาหาร</div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">หน้าร้านค้า</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/store/report">ประวัติ</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/store/category">สมุดอาหาร</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="emp-profile">
+        <!-- <form method="post"> -->
+
+            <!-- <div class="row">
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h3>Store name</h3>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-md-6">
+                    <br>
+                    <h4> เมนูร้านค้า </h4>
+                    <table class="table table-bordered" id="StoreFoodDataTableID">
+                        <thead>
+                            <tr>
+                              <th style="width: 80px;">รหัสอาหาร</th>
+                              <th>ชื่ออาหาร</th>
+                              <th>ราคา</th>
+                              <th style="width: 50px;">นำออก</th>
+                            </tr>
+                          </thead>
+                          <tbody id="insert_store_food_list">
+                            <% for (var i = 0 ; i < store_food_data.length ; i++) {%>
+                                <tr>
+                                    <td><%= store_food_data[i].food_id %></td>
+                                    <td><%= store_food_data[i].food_name %></td>
+                                    <td><%= store_food_data[i].food_price %></td>
+                                    <td><button class="btn btn-danger" value="<%= store_food_data[i].food_id %>" onclick="delete_food_menu_book('<%= store_food_data[i].food_id %>')">ลบ</button></td>
+                                </tr>
+                            <%}%>
+                          </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    <h4> คลังอาหาร </h4>
+                    <table class="table table-bordered" id="foodDataTableID">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">รหัสอาหาร</th>
+                                <th>ชื่ออาหาร</th>
+                                <th>ราคา</th>
+                                <th style="width: 50px;">นำเข้า</th>
+                            </tr>
+                          </thead>
+                          <tbody id="insert_food_list">
+                                <% for (var i = 0 ; i < food_data.length ; i++) {%>
+                                    <tr>
+                                        <td><%= food_data[i].food_id %></td>
+                                        <td><%= food_data[i].food_name %></td>
+                                        <td><%= food_data[i].food_price %></td>
+                                        <td><button class="btn btn-success" id="ID_<%= food_data[i].food_id %>" value="<%= food_data[i].food_id %>" onclick="add_food_menu_book('<%= food_data[i].food_id %>')">เพิ่ม</button></td>
+                                    </tr>
+                                <%}%>
+                          </tbody>
+                    </table>
+
+                </div>
+            </div>
+    </div>
+
+
+<script>
+
+$(document).ready(function() {
+
+    category_check_btn();
+    
+    $('#StoreFoodDataTableID').DataTable();
+    $('#foodDataTableID').DataTable();
+});
+
+</script>

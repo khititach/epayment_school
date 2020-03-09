@@ -1,0 +1,119 @@
+<div id="content" class="p-4 p-md-5">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+      <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        <i class="fa fa-bars"></i>
+        <span class="sr-only">Toggle Menu</span>
+      </button>
+      <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="toggle-title-name">แก้ไข / นักเรียน</div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">เติมเงิน</a>
+          </li>
+          <li class="nav-item ">
+            <div class="dropdown">
+              <a class="dropbtn nav-link active">ข้อมูล</a>
+              <div class="dropdown-content">
+                <a href="/admin/edit_store">ร้านค้า</a>
+                <a href="/admin/edit_student">นักเรียน</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/register_store">สมัครร้านค้า</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/category">คลังอาหาร</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <h2 class="mb-2">แก้ไขข้อมูล นักเรียน</h2>
+  <br>
+  <div class="row">
+    <div class="col">
+      <table class="table table-bordered" id="StudentDataTableID">
+        <thead class="thead-dark">
+          <tr>
+            <th>ชั้น</th>
+            <th>ห้อง</th>
+            <th>รหัสนักเรียน</th>
+            <th>ชื่อ - นามสกุล</th>
+            <th>e-mail</th>
+            <th>เบอร์โทรศัพท์</th>
+            <th>แก้ไข</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0 ; i < student_data.length ; i++) {%>
+          <tr>
+            <td><%= student_data[i].class %></td>
+            <td><%= student_data[i].room %></td>
+            <td><%= student_data[i].student_id %></td>
+            <td><%= student_data[i].pre_name %> <%= student_data[i].first_name %> <%= student_data[i].last_name %></td>
+            <td><%= student_data[i].email %></td>
+            <td><%= student_data[i].tel %></td>
+            <td>
+              <a href="/admin/edit_student/<%= student_data[i].student_id %>" class="btn btn-success"> ดูข้อมูล </a>
+              <button class="btn btn-danger" data-toggle="modal" data-target="#removeStudentModal"
+                onclick="init_delete_user('<%= student_data[i].uid %>')"> ลบ </button>
+            </td>
+          </tr>
+          <% }%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="removeStudentModal" tabindex="-1" role="dialog" aria-labelledby="RemoveStudentLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="RemoveStudentLabel">ยืนยันตัวตนแอดมิน</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- <h4>ยืนยันตัวตนแอดมิน</h4> -->
+        <div class="row">
+          <div class="col-md-5">
+            <h5>กรุณาใส่รหัสผ่าน :</h5>
+          </div>
+          <div class="col">
+            <input type="password" class="input-group-text" id="Admin_pass_confirm">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="submit" class="btn btn-primary" data-dismiss="modal"
+          onclick="delete_user($('#Admin_pass_confirm').val())">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function () {
+    $('#StudentDataTableID').DataTable();
+  });
+</script>

@@ -1,0 +1,137 @@
+<!-- navbar -->
+<!-- <link rel="stylesheet" type="text/css" href="./admin_page/assets/css/admin.css"/> -->
+<div id="content" class="p-4 p-md-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>     
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="toggle-title-name">เติมเงิน</div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">เติมเงิน</a>
+            </li>
+            <li class="nav-item">
+                <div class="dropdown">
+                    <a class="dropbtn nav-link">ข้อมูล</a>
+                    <div class="dropdown-content">
+                      <a href="/admin/edit_store">ร้านค้า</a>
+                      <a href="/admin/edit_student">นักเรียน</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/register_store">สมัครร้านค้า</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/category">คลังอาหาร</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- body -->
+    <div class="row">
+      <div class="col-md-5">
+          <div class="text-center admin_name_title rounded mb-4">
+              <h2> <%= admin_data.pre_name %> <%= admin_data.first_name %> <%= admin_data.last_name %></h2>
+          </div>
+
+          <div class="mb-4">
+            <h3>ข้อมูลแอดมินโรงเรียน</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>เบอร์โทรติดต่อ</h5>
+                <h5>อีเมลติดต่อ</h5>
+              </div>
+              <div class="col-md-6">
+                <h5> <%= admin_data.tel %> </h5>
+                <h5> <%= admin_data.email %> </h5>
+              </div>
+            </div>
+          </div>
+
+         <div class="mb-4">
+            <h3>ข้อมูลโรงเรียน</h3>
+            <div class="row">
+              <div class="col-md-4">
+                <h5>จำนวนนักเรียน</h5>
+                <h5>จำนวนร้านค้า</h5>
+              </div>
+              <div class="col-md-6">
+                <h5> <%= student_count%> คน </h5>
+                <h5> <%= store_count%> ร้าน </h5>
+              </div>
+            </div>
+          </div>
+            
+          
+      </div>
+
+      <div class="col-md-6 ml-2 mr-2 topup-form add-shadow" id="topup_component">
+            <h3> เติมเงิน</h3>
+            <h6> ID card or Student ID </h6>
+            <form id="formSearchStudentID">
+            <div class="row mb-2">
+                <input class="input-group-text col-md-6 input-ml mr-2" type="text" id="idcardORstuID" placeholder="ID card or student id" style="background-color:white">
+                <button type="submit" class="btn btn-info col-md-2" id="btn_check" > ตรวจสอบ </button>
+            </div>
+          </form>
+            <h4>รายละเอียด</h4>
+            <div class="row mb-2" >
+              <div class="col-md-4 ml-2" >
+                  <div>
+                    <h5> รหัสนักเรียน </h5>
+                  </div>
+                  <div>
+                    <h5> ชื่อ </h5>
+                  </div>
+                  <div>
+                    <h5> เพศ </h5>
+                  </div>
+                  <div>
+                    <h5> เบอร์โทร </h5>
+                  </div>
+                  <div>
+                    <h5> ชั้น </h5>
+                  </div>
+                  <div >
+                    <h5> ยอดเงินคงเหลือ </h5>
+                  </div>
+              </div>
+              <div class="col-md-7" id="showStudentData"></div>
+            </div>
+            <h4> จำนวนเงิน (บาท) </h4>
+            <form id='formConfirmTopup'>
+              <input class="input-group-text mb-2" type="text" id="TopupAmount" placeholder="จำนวนเงิน" >
+              <button class="btn btn-primary" type="submit" id="topup_confirm" > เติมเงิน </button>
+              <button type="reset" class="btn btn-secondary" onclick='clear_data()'> ล้างข้อมูล </button>
+            </form>
+            
+      </div>
+     
+    </div>
+
+    </div>
+</div>
+
+<script>
+
+document.getElementById('topup_component').scrollIntoView({
+    behavior: 'smooth'
+});
+
+$(document).ready(() => {
+
+  clear_data();
+})
+
+
+</script>

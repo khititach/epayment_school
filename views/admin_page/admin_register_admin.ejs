@@ -1,0 +1,101 @@
+<div class="container">
+    admin register admin page
+    <form action="/admin/register_admin" method="POST">
+        <div class="form-group" >
+            <label for="role">บทบาท</label>
+            <input 
+              type="text"
+              name="role"
+              class="form-control"
+              value="<%= typeof role != 'undefined' ? role : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="pName">คำนำหน้า</label>
+            <input 
+              type="text"
+              name="pName"
+              class="form-control"
+              value="<%= typeof pName != 'undefined' ? pName : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="fName">ชื่อ</label>
+            <input 
+            type="text"
+            name="fName"
+            class="form-control"
+            value="<%= typeof fName != 'undefined' ? fName : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="lName">นามสกุล</label>
+            <input 
+            type="text"
+            name="lName"
+            class="form-control"
+            value="<%= typeof lName != 'undefined' ? lName : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="dob">วันเกิด</label>
+            <input 
+              type="date"
+              name="dob"
+              class="form-control"
+              value="<%= typeof dob != 'undefined' ? dob : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="sex">เพศ</label>
+            <input 
+              type="text"
+              name="sex"
+              class="form-control"
+              value="<%= typeof sex != 'undefined' ? sex : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="address">ที่อยู่</label>
+            <input 
+              type="text"
+              name="address"
+              class="form-control"
+              value="<%= typeof address != 'undefined' ? address : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="uid">เลขบัตรประชาชน</label>
+            <input 
+              type="text"
+              name="uid"
+              class="form-control"
+              value="<%= typeof uid != 'undefined' ? uid : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="tel">เบอร์โทรศัพท์</label>
+            <input 
+              type="text"
+              name="tel"
+              class="form-control"
+              value="<%= typeof tel != 'undefined' ? tel : '' %>" 
+            />
+        </div>
+        <div class="form-group" >
+            <label for="email">email</label>
+            <input 
+              type="text"
+              name="email"
+              class="form-control"
+              value="<%= typeof email != 'undefined' ? email : '' %>" 
+            />
+          </div>
+      <div class="text-center">
+          <button type="submit" class="btn btn-primary">
+                  ลงทะเบียน
+          </button>
+          <input type="button" class="btn btn-secondary" value="กลับ" onclick="history.back()">
+      </div>
+    </form>
+</div>

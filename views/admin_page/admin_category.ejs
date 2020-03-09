@@ -1,0 +1,214 @@
+<!-- Page Content  -->
+<div id="content" class="p-4 p-md-5">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+      <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        <i class="fa fa-bars"></i>
+        <span class="sr-only">Toggle Menu</span>
+      </button>
+      <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <i class="fa fa-bars"></i>
+      </button>
+      <a href="/admin/category/add" >
+        <button class="btn btn-info ml-2" data-toggle="tooltip" data-placement="bottom" title="เพิ่มรายการอาหาร"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      </a>
+      <div class="toggle-title-name">คลังอาหาร</div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">เติมเงิน</a>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown">
+              <a class="dropbtn nav-link">ข้อมูล</a>
+              <div class="dropdown-content">
+                <a href="/admin/edit_store">ร้านค้า</a>
+                <a href="/admin/edit_student">นักเรียน</a>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/register_store">สมัครร้านค้า</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/admin/category">คลังอาหาร</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- body -->
+  <div class="row">
+    <!-- <div class="col-md-6">
+      <a href="/admin/category/add" ><button class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="เพิ่มรายการอาหาร">เพิ่มรายการอาหาร</button></a>
+    </div> -->
+
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <br>
+      <table class="table table-bordered" id="foodDataTableID">
+        <thead class="thead-dark">
+          <tr>
+            <th>รหัสอาหาร</th>
+            <th>ชื่ออาหาร</th>
+            <th>ราคา</th>
+            <th>แคลลอรี่</th>
+            <th>ปริมาณ</th>
+            <th>แก้ไข</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0 ; i < food_data.length ; i++) {%>
+          <tr>
+            <td>
+              <%= food_data[i].food_id %>
+            </td>
+            <td>
+              <%= food_data[i].food_name %>
+            </td>
+            <td>
+              <%= food_data[i].food_price %>
+            </td>
+            <td>
+              <%= food_data[i].food_calories %>
+            </td>
+            <td>
+              <%= food_data[i].food_quantity %>
+            </td>
+            <td>
+              <button class="btn btn-info" data-toggle="modal" data-target="#ModalEditFood"
+                onclick="modal_edit_food_data('<%= food_data[i].food_id %>',
+                '<%= food_data[i].food_name %>',
+                '<%= food_data[i].food_calories %>',
+                '<%= food_data[i].food_quantity %>',
+                '<%= food_data[i].food_price %>',
+                '<%= food_data[i].food_image %>')"> แก้ไข</button>
+              <button class="btn btn-danger" onclick="modal_delete_food_confirm('<%= food_data[i].food_id %>')">
+                ลบ</button>
+            </td>
+          </tr>
+          <%}%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Modal edit food -->
+<div class="modal fade" id="ModalEditFood" tabindex="-1" role="dialog" aria-labelledby="ModalEditFoodLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="ModalEditFoodLabel">แก้ไขข้อมูลอาหาร</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="addText">
+
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-3 mb-2 text-right">
+                  <h5e>รหัสอาหาร</h5e>
+              </div>
+              <div class="col-md-7">
+                  <input class="form-control"  type="text" id="Modal_input_food_id" value="#" readonly>  
+              </div> 
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-3 mb-2 text-right">
+                  <h5e>ชื่ออาหาร</h5e>
+              </div>
+              <div class="col-md-7">
+                  <input class="form-control"  type="text" id="Modal_input_food_name" value="#" onchange="check_food_name(this.id,this.value)">  
+              </div> 
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-3 mb-2 text-right">
+                  <h5e>แคลลอรี่</h5e>
+              </div>
+              <div class="col-md-7">
+                <div class="input-group">
+                  <input class="form-control"  type="text" id="Modal_input_food_calories" value="#">
+                  <div class="input-group-append">
+                    <span class="input-group-text">แคล</span>
+                  </div>
+                </div>   
+              </div> 
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-3 mb-2 text-right">
+                  <h5e>ปริมาณ</h5e>
+              </div>
+              <div class="col-md-7">
+                <div class="input-group">
+                  <input class="form-control"  type="text" id="Modal_input_food_quantity" value="#">  
+                  <div class="input-group-append">
+                    <span class="input-group-text">หน่วย</span>
+                  </div>
+                </div>
+              </div> 
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-3 mb-2 text-right">
+                  <h5e>ราคา</h5e>
+              </div>
+              <div class="col-md-7 mb-3">
+                <div class="input-group">
+                  <input class="form-control"  type="text" id="Modal_input_food_price" value="#">  
+                  <div class="input-group-append">
+                    <span class="input-group-text">บาท</span>
+                  </div>
+                </div>
+              </div> 
+            </div>
+            
+            <div class="file-field">
+              <div class="d-flex justify-content-center z-depth-1-half mb-4">
+                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" id="food_image_change_id" class="img-fluid rounded"
+                  alt="example placeholder">
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <span class="custom-file-label" for="inputGroupFile02" id="choose_name_fileid">Choose file</span>
+                    <input type="file" class="custom-file-input" id="inputGroupFile02" onchange="readURL(this);">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          
+  
+        </div>
+      </div>
+      <div class="modal-footer">
+          <!-- <button type="button" id="SubmitEditFoodData" class="btn btn-secondary" data-dismiss="modal" >ปิด</button> -->
+          <button type="submit" id="SubmitEditFoodData" class="btn btn-primary" onclick="New_food_data($('#Modal_input_food_id').val(),
+                                        $('#Modal_input_food_name').val(),
+                                        $('#Modal_input_food_calories').val(),
+                                        $('#Modal_input_food_quantity').val(),
+                                        $('#Modal_input_food_price').val(),
+                                        $('#Modal_input_food_image'))" >บันทึก</button>
+          <button type="button" id="SubmitEditFoodData" class="btn btn-secondary" data-dismiss="modal" >ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal edit food -->
+
+<script>
+
+$(document).ready(function() {
+    $('#foodDataTableID').DataTable();
+});
+
+</script>

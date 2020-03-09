@@ -1,0 +1,169 @@
+<div id="content" class="p-4 p-md-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="toggle-title-name">สมัครร้านค้า</div>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">เติมเงิน</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="dropbtn nav-link">ข้อมูล</a>
+                            <div class="dropdown-content">
+                                <a href="/admin/edit_store">ร้านค้า</a>
+                                <a href="/admin/edit_student">นักเรียน</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/admin/register_store">สมัครร้านค้า</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/category">คลังอาหาร</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h2 class="mb-2">เพิ่มร้านค้า</h2>
+    <!-- <form action="/admin/register_store" method="POST" id="form_Register_Store"> -->
+    <form id="form_Register_Store">
+        <!-- <div class="row">
+        <div class="col-md-3 mb-2">
+            <h5e>บทบาท</h5e>
+        </div>
+        <div class="col-md-3">
+            <input class="form-control" type="text" placeholder="บทบาท" name="role" value="<%= typeof role != 'undefined' ? role : '' %>">
+        </div>
+    </div> -->
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>คำนำหน้า</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="คำนำหน้า" name="pName"
+                    value="<%= typeof pName != 'undefined' ? pName : '' %>">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>ชื่อ</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="ชื่อ" name="fName"
+                    value="<%= typeof fName != 'undefined' ? fName : '' %>">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>นามสกุล</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="นามสกุล" name="lName"
+                    value="<%= typeof lName != 'undefined' ? lName : '' %>">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>วัน/เดือน/ปี เกิด</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="date" placeholder="วัน/เดือน/ปี" name="dob"
+                    value="<%= typeof dob != 'undefined' ? dob : '' %>">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>เพศ</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="เพศ" name="sex"
+                    value="<%= typeof sex != 'undefined' ? sex : '' %>">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>ที่อยู่</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="ที่อยู่" name="address"
+                    value="<%= typeof address != 'undefined' ? address : '' %>">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>e-mail</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="e-mail" name="email"
+                    value="<%= typeof email != 'undefined' ? email : '' %>">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>เลขบัตรประชาชน</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="เลขบัตรประชาชน" name="uid" id="uidID"
+                    value="<%= typeof uid != 'undefined' ? uid : '' %>"
+                    onchange="check_field(this.value,this.name,this.id)" required>
+            </div>
+            <div class="col-md-3" id="addAlertuidID"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>เบอร์โทรศัพท์</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="เบอร์โทรศัพท์" name="tel" id="telID"
+                    value="<%= typeof tel != 'undefined' ? tel : '' %>"
+                    onchange="check_field(this.value,this.name,this.id)" required>
+            </div>
+            <div class="col-md-3" id="addAlerttelID"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>ชื่อร้านค้า</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="ชื่อร้านค้า" name="storeName" id="storeNameID"
+                    value="<%= typeof storeName != 'undefined' ? storeName : '' %>"
+                    onchange="check_store_name_field(this.value,this.name,this.id)" required>
+            </div>
+            <div class="col-md-3" id="addAlertstoreNameID"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <h5e>เลขที่ร้านค้า</h5e>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" placeholder="เลขที่ร้านค้า" name="storeNumber"
+                    id="storeNumberID" value="<%= store_number_available[0] %>" required readonly>
+            </div>
+            <div class="col-md-3" id="addAlertstoreNumberID"></div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-3"></div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" type="submit"> ลงทะเบียน </button>
+                <button class="btn btn-dark" onclick="history.back()"> กลับ </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+

@@ -1,0 +1,118 @@
+<!-- Page Content  -->
+<div id="content" class="p-4 p-md-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <button type="button" id="sidebarCollapse" class="btn btn-secondary ml-2" onclick="history.back()">
+                <i class="fa fa-arrow-left "></i>
+            </button>
+            <button type="submit" id="btnsubmit" class="btn btn-success ml-2">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </button>
+            <div class="toggle-title-name">คลังอาหาร / เพิ่มข้อมูลในคลังอาหาร</div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">เติมเงิน</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="dropbtn nav-link">แก้ไข</a>
+                            <div class="dropdown-content">
+                                <a href="/admin/edit_store">ร้านค้า</a>
+                                <a href="/admin/edit_student">นักเรียน</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/register_store">สมัครร้านค้า</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/admin/category">คลังอาหาร</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- body -->
+    <div class="row">
+
+        <div class="col-md-6">
+
+        </div>
+
+    </div>
+    <div class="row">
+        <!-- <button class="btn btn-primary input-ml" type="submit" id="btnsubmit">เพิ่มรายการอาหาร</button> -->
+        <div class="col-md-12">
+            <br>
+            <!-- <form id="formID"> -->
+            <table id="table_id" class=" table order-list">
+                <thead>
+                    <tr>
+                        <td>รหัสอาหาร</td>
+                        <td>ชื่อ</td>
+                        <td>ราคา</td>
+                        <td>แคลอรี่</td>
+                        <td>ปริมาณ</td>
+                        <!-- <td>รูปภาพ</td> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- <td> 
+                            <input type="text" name="food_id" class="form-control" id="food_id"  onchange="auto_check_food_id(this.name,this.value,this.id)"/>
+                        </td>
+                        <td>
+                            <input type="mail" name="food_name"  class="form-control" id="food_name" onchange="auto_check_food_name(this.name,this.value,this.id)"/>
+                        </td>
+                        <td>
+                            <input type="text" name="food_price"  class="form-control"/>
+                        </td>
+                        <td>
+                            <input type="text" name="food_calories" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" name="food_quantity" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" name="food_image" class="form-control" />
+                        </td>
+                        <td ><a class="deleteRow"></a>
+            
+                        </td> -->
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align: left;">  
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="เพิ่มรายการ" />
+                        </td>
+                    </tr>
+             
+                </tfoot>
+            </table>
+            <!-- </form> -->
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+
+$(document).ready( function () {
+    get_food_list_in_category();
+});
+
+</script>

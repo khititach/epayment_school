@@ -1,0 +1,56 @@
+<!-- login v1 -->
+<div class="h-75 d-flex justify-content-center">
+    <div class="col-md-3 m-auto">
+      <div class="card card-body shadow p-3 mb-5 bg-white rounded" >
+        <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ</h1>
+        
+        <% include ./partials/messages %>
+        <form action="/auth/login" method="POST">
+          <div class="form-group">
+            <label>ชื่อผู้ใช้</label>
+            <input
+              type="username"
+              id="username"
+              name="username"
+              class="form-control"
+              placeholder="Enter username"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>รหัสผ่าน</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              placeholder="Enter Password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">เข้าสู่ระบบ</button>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<!-- modal > alert Username or Password is wrong -->
+<!-- <div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-labelledby="alertLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="alertLabel">มีบางอย่างผิดพลาด</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 class="modal-body" id="alertLabel">รหัสผู้ใช้ หรือ รหัสผ่าน ไม่ถูกต้อง</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="alertLabel" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </div>
+</div> -->

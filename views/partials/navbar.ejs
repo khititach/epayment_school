@@ -1,0 +1,82 @@
+<!-- NavBar -->
+<style>
+    #navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+    
+    #navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    
+    #navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    
+    #navbar a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .content {
+      padding: 16px;
+    }
+    
+    .sticky {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+    
+    .sticky + .content {
+      padding-top: 60px;
+    }
+</style>
+<div id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">  
+            <div class="navbar-collapse">
+            <ul class="navbar-nav mr-auto" >
+                <li class="nav-item">
+                    <li class="nav-item">
+                        
+                    </li>
+                </ul>
+                    <% if (user) {%>
+                        <% if (user.role === 'student') {%>
+                            <a href="/student/setting" class="btn btn-secondary">ตั้งค่า</a>
+                            <!-- <a href="#" class="btn btn-secondary">Student</a> -->
+                        <%} if (user.role === 'store') {%>
+                            <!-- <a href="#" class="btn btn-secondary">Store</!--> 
+                        <%}%>
+                            <a href="/auth/logout" class="btn btn-secondary ml-1">ออกจากระบบ</a>
+                        <%} else {%>
+                            <!-- <a href="/auth/login" class="btn btn-secondary mr-1">Login</!--> 
+                            <span style="color:#78C2AD;"> .</span>
+                        <%}%>
+        </div>
+    </nav>
+</div>
+
+<script>
+    window.onscroll = function() {myFunction()};
+    
+    var navbar = document.getElementById("navbar");
+    var sticky = navbar.offsetTop;
+    
+    function myFunction() {
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky")
+      } else {
+        navbar.classList.remove("sticky");
+      }
+    }
+
+    
+</script>

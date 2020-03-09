@@ -1,0 +1,324 @@
+<!-- <div class="container">
+    student setting page
+    <div><%= student_data.first_name %></div>
+    <div>
+        <label for="editPassword">Change Password</label>
+        <input type="text" id="Student_New_Password" placeholder="New password">
+        <button class="btn btn-primary" onclick="Change_Password($('#Student_New_Password').val())" >เปลี่ยน</button>
+    </div>
+    <input type="button" class="btn btn-secondary" value="กลับ" onclick="history.back()">
+</div> -->
+
+  <!-- Page Content  -->
+  <div id="content" class="p-4 p-md-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+        <button type="button" id="sidebarCollapse" class="btn btn-info ml-2" data-toggle="modal" data-target="#edit_modal">
+            <i class="fa fa-pencil "></i>
+          </button> 
+        <div class="toggle-title-name">แก้ไขข้อมูล</div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">หน้าหลัก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/student/history">ประวัติ</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/student/setting">ตั้งค่า</a>
+                </li>
+              </ul>
+        </div>
+      </div>
+    </nav>
+
+    
+   
+    <!------ Include the above in your HEAD tag ---------->
+    <div class="emp-profile">
+    
+        <div class="row">
+          <!-- image -->
+          <div class="col-md-3 text-center">
+            <% if(student_data.image != '') {%>
+              <img src="<%= student_data.image%>" class="img-fluid rounded add-shadow" alt="student_img">
+              <% } else {%>
+                <img src="/views/partials/image/unprofile.jpg" class="img-fluid rounded add-shadow" alt="student_img">
+              <% }%>
+          </div>
+          <!-- selete head -->
+          <div class="col-md-6">
+            <div class="text-center border rounded name_title">
+              <h2e><%= student_data.pre_name %> <%= student_data.first_name %> <%= student_data.last_name %></h2e>
+            </div>
+            <br>
+            <div class="profile-head">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="student_profile-tab" data-toggle="tab" href="#student_profile" role="tab"
+                      aria-controls="home" aria-selected="true">ข้อมูลนักเรียน</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                    aria-selected="false">ข้อมูลส่วนตัว</a>
+                </li>
+              </ul>
+            </div>
+            <br>
+            
+            <div class="tab-content profile-tab" id="myTabContent">
+              <!-- ข้อมูลนักเรียน -->
+              <div class="tab-pane fade show active" id="student_profile" role="tabpanel" aria-labelledby="student_profile-tab">
+                <!-- student id -->
+                <div class="row ml-2">
+                  <div class="col-md-4  mb-2">
+                    <h5>รหัสนักเรียน</h5>
+                  </div>
+                  <div class="col-md-4">
+                    <h5><%= student_data.student_id %></h5>
+                  </div>
+                </div>
+                <!-- id card -->
+                <div class="row ml-2">
+                  <div class="col-md-4  mb-2">
+                    <h5>เลขบัตรนักเรียน</h5>
+                  </div>
+                  <div class="col-md-4">
+                    <h5><%= student_data.id_card %></h5>
+                  </div>
+                </div>
+                <!-- class -->
+                <div class="row  ml-2">
+                  <div class="col-md-4  mb-2">
+                    <h5>ชั้น</h5>
+                  </div>
+                  <div class="col-md-4">
+                    <h5><%= student_data.class %> ห้อง <%= student_data.room %></h5>
+                  </div>
+                </div>
+                <!-- sex -->
+                <div class="row  ml-2">
+                  <div class="col-md-4  mb-2">
+                    <h5>เพศ</h5>
+                  </div>
+                  <div class="col-md-4 ">
+                    <h5><%= student_data.sex %></h5>
+                  </div>
+                </div>
+                <!-- weight -->
+                <div class="row ml-2">
+                  <div class="col-md-4  mb-2">
+                    <h5>น้ำหนัก</h5>
+                  </div>
+                  <div class="col-md-4 ">
+                    <h5><%= student_data.weight %> กิโลกรัม</h5>
+                  </div>
+                </div>
+                <!-- height -->
+                <div class="row ml-2">
+                  <div class="col-md-4  mb-2">
+                    <h5>ส่วนสูง</h5>
+                  </div>
+                  <div class="col-md-4 ">
+                    <h5><%= student_data.height %> เซนติเมตร</h5>
+                  </div>
+                </div>
+                
+              </div>
+              <!-- ข้อมูลนักเรียน -->
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <!-- uid -->
+                <div class="row ml-2 ">
+                  <div class="col-md-5 mb-2">
+                    <h5>เลขประจำตัวประชาชน</h5>
+                  </div>
+                  <div class="col-md-5">
+                    <h5 id="uid_id" hidden><%= student_data.uid %></h5>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-primary" id="uid_id_toggle_btn" onclick="show_text('uid_id')">แสดง</button>
+                  </div>
+                </div>
+                <!-- dob -->
+                <div class="row ml-2">
+                  <div class="col-md-5 mb-2">
+                    <h5>วันเกิด</h5>
+                  </div>
+                  <div class="col-md-5">
+                    <h5 id="dob_id" hidden> <%= student_data.dob.getDate() + "/" + (student_data.dob.getMonth()+1) + "/" + student_data.dob.getFullYear() %></h5>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-primary" id="dob_id_toggle_btn" onclick="show_text('dob_id')">แสดง</button>
+                  </div>
+                </div>
+                <!-- address -->
+                <div class="row ml-2">
+                  <div class="col-md-5 mb-2">
+                    <h5>ที่อยู่</h5>
+                  </div>
+                  <div class="col-md-5">
+                    <h5><%= student_data.address %></h5>
+                  </div>
+                </div>
+                <!-- tel -->
+                <div class="row ml-2">
+                  <div class="col-md-5 mb-2">
+                    <h5>เบอร์โทรศัพท์</h5>
+                  </div>
+                  <div class="col-md-5">
+                    <h5><%= student_data.tel %></h5>
+                  </div>
+                </div>
+                 <!-- email -->
+                 <div class="row ml-2">
+                  <div class="col-md-5 mb-2">
+                    <h5>e-mail</h5>
+                  </div>
+                  <div class="col-md-5">
+                    <h5><%= student_data.email %></h5>
+                  </div>
+                </div>
+                <!-- parent -->
+                <div class="row ml-2">
+                  <div class="col-md-5 mb-2">
+                    <h5>ผู้ปกครอง</h5>
+                  </div>
+                  <div class="col-md-5">
+                    <h5><%= student_data.parent_pre_name %> <%= student_data.parent_fname %> <%= student_data.parent_lname %></h5>
+                  </div>
+                </div>
+    
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- edit mode -->
+
+        <!-- <div class="edit-mode rounded buy-item-form">
+            <div class="row mb-2">
+                <div class="col-md-2 text-right">
+                  <h5>น้ำหนัก</h5>  
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="weight" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2 text-right">
+                   <h5>ส่วนสูง</h5> 
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="height" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-right">
+                  <h5>รหัสผ่าน</h5>  
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="password" class="form-control" />
+                </div>
+            </div>
+        </div> -->
+        
+
+
+      </div>
+    </div>
+</div>
+
+    <!-- edit modal -->
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="editmodeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editmodeLabel">อัพเดทข้อมูล</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <div class="modal-body">
+                <!-- weight -->
+                <div class="row mb-2">
+                    <div class="col-md-5 text-modal">
+                        <h5e>น้ำหนัก</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <input class="input-group-text-edit" type="number" id="new_weight" placeholder="อัพเดท น้ำหนัก"> 
+                    </div>
+                </div>
+                <!-- height -->
+                <div class="row mb-2">
+                    <div class="col-md-5 text-modal">
+                        <h5e>ส่วนสูง</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <input class="input-group-text-edit" type="number" id="new_height" placeholder="อัพเดท ส่วนสูง"> 
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-5 text-modal">
+                        <h5e>รหัสผ่านใหม่</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <input class="input-group-text-edit" type="password" id="new_password" placeholder="รหัสผ่านใหม่" > 
+                    </div>
+                </div>
+                
+                <div class="collapse list-unstyled row mt-2 add-shadow" id="show_retype_password">
+                    <div class="row pt-2 pb-2">
+                        <div class="col-md-5 text-modal">
+                            <h5e class="ml-3">ยืนยันรหัสผ่านใหม่</h5e>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center">
+                            <input class="input-group-text-edit" type="password" id="new_retype_password" placeholder="ยืนยันรหัสผ่านใหม่"> 
+                        </div>
+                    </div>
+                </div>  
+
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</!--> 
+                <button type="submit" class="btn btn-primary" onclick="edit_profile($('#new_weight').val(),$('#new_height').val(),$('#new_password').val(),$('#new_retype_password').val())">บันทึก</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+
+<script>
+
+$(document).ready(() => {
+    $('#new_password').on('change',() => {
+        if ($('#new_password').val() != '') {
+            $('#show_retype_password').slideDown()
+        }
+        if ($('#new_password').val() == '') {
+            $('#show_retype_password').slideUp()
+        }
+    })
+
+    $('#new_retype_password').on('change',() => {
+        if ($('#new_retype_password').val() == $('#new_password').val()) {
+            $('#new_retype_password').removeClass('input-group-text-edit , input-alert-error').addClass('input-alert-success')
+        }
+        else {
+            $('#new_retype_password').removeClass('input-group-text-edit , input-alert-success').addClass('input-alert-error')
+        }
+    })
+    
+
+
+})
+
+</script>

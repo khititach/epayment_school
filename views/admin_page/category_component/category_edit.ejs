@@ -1,0 +1,15 @@
+<div>
+    <div id="img_preview">
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        var base64_string = '';
+        var img = document.createElement("img");
+        img.src = "data:image/png;base64," + base64_string;
+        var preview = document.getElementById("img_preview");
+        preview.appendChild(img);
+    })
+</script>
