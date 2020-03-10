@@ -99,7 +99,7 @@
             <!-- table 1 -->
             <tr>
               <% for (var i = 0 ; i < 3 ; i++) { %>
-              <% if(store_food_list[i] != '' ) {%>
+              <% if(store_food_list[i] != null ) {%>
               <th>
                 <span style="color: black; font-size: 25px;">
                   <%= store_food_list[i].food_name %>
@@ -109,7 +109,7 @@
             </tr>
             <tr>
               <% for (var i = 0 ; i < 3 ; i++) { %>
-              <% if(store_food_list[i] != '' ) {%>
+              <% if(store_food_list[i] != null ) {%>
               <td class="text-center " style="padding:0 15px 25px 15px;">
                 <button class="btn btn-primary buy_btn" id="food_list_id_<%= store_food_list[i].food_id %>"
                   onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i].food_id %>','<%= store_food_list[i].food_name %>','<%= store_food_list[i].food_price %>')">
@@ -118,7 +118,14 @@
                   </span>
                 </button>
               </td>
-              <%} else {}}%>
+              <%} else {%>
+               
+              <%}}%>
+              <% if(store_food_list[i] == null ) {%>
+                <div class="text-center mt-5">
+                  <h4>ไม่มีรายการอาหาร</h4>
+                </div>
+              <%}%>
             </tr>
 
             <!-- table 2 -->
