@@ -161,13 +161,13 @@ get_data_start_page = () => {
         processed_data = process_data(data, "mode_calories")
         calories_avg = average_data(processed_data)
         console.log('calories avg : ',calories_avg);
-        
-        if (calories_avg != NaN) {
-            $('#calories_avg').text(calories_avg + ' แคล test');
-        } 
-        if (calories_avg == NaN)  {
+        if (isNaN(calories_avg))  {
            $('#calories_avg').text('0 แคล'); 
         }
+        else {
+            $('#calories_avg').text(calories_avg + ' แคล test');
+        } 
+       
         
     })
     $.get('/student/get_data_graph/?month=' + global_date + '&mode=mode_income', (data) => {
@@ -179,7 +179,13 @@ get_data_start_page = () => {
     $.get('/student/get_data_graph/?month=' + global_date + '&mode=mode_expend', (data) => {
         processed_data = process_data(data, "mode_expend")
         var expend_avg = average_data(processed_data);
-        $('#expend_avg').text(expend_avg + ' บาท');
+        if (isNaN(expend_avg))  {
+           $('#expend_avg').text('0 บาท'); 
+        }
+        else {
+            $('#expend_avg').text(expend_avg + ' บาท');
+        } 
+        
     })
 }
 
