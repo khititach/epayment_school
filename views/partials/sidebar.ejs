@@ -1,12 +1,14 @@
 <% if (user) {%>
   <% if (user.role === 'นักเรียน') {%>
-    <% include .\component\sidebar_student.ejs %>
+    <% include ..\partials\component\sidebar_student.ejs %>
+    <!-- .\component\sidebar_student.ejs -->
   <%} if (user.role === 'แอดมิน') {%>
-    <% include .\component\sidebar_admin.ejs %>
+    <% include ..\partials\component\sidebar_admin.ejs %>
+    <!-- .\component\sidebar_admin.ejs -->
     <!-- <script src="/partials/assets/js/sidebar.js"></script> -->
   <%} if (user.role === 'ร้านค้า') {%>
-    <% include .\component\sidebar_store.ejs %>
-   
+    <% include ..\partials\component\sidebar_store.ejs %>
+    <!-- D:\Work\project\Epayment_Project_v7\views\partials\component\sidebar_store.ejs -->
   <%}%> 
   <script src="/partials/assets/js/sidebar.js"></script>
 <%} else {%>

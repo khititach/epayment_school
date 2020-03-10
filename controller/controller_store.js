@@ -302,6 +302,24 @@ get_data_graph = (req ,res ) => {
     })
 }
 
+get_food_rating = (req ,res ) => {
+    const food_rating_array = [];
+    // store_history.find({status:'ซื้อ'},'status food_id food_name',(err , history_data) => {
+    //     if (err) {
+    //         throw err;
+    //     } else {
+    //         console.log('food history data : ',history_data);
+    //         const food_rating_detail = {};
+            
+    //         history_data.forEach(element => {
+                
+    //         });
+            
+    //         res.send()
+    //     }
+    // });
+}
+
     // store category page
 store_category_page = (req ,res) => {
     // const store_number_test = 1;
@@ -408,6 +426,7 @@ module.exports = {
     buy_item_list,
     get_list,
     get_data_graph,
+    get_food_rating,
     // page
     store_home_page,
     store_home_test_page,

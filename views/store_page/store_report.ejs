@@ -3,30 +3,32 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-      
-          <button type="button" id="sidebarCollapse" class="btn btn-primary">
-            <i class="fa fa-bars"></i>
-            <span class="sr-only">Toggle Menu</span>
-          </button>
-          <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <i class="fa fa-bars"></i>
-          </button>
-          <div class="toggle-title-name">ประวัติการขาย</div>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="nav navbar-nav ml-auto">
-              <li class="nav-item">
-                  <a class="nav-link" href="/">หน้าร้านค้า</a>
-              </li>
-              <li class="nav-item active">
-                  <a class="nav-link" href="/store/report">ประวัติ</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/store/category">สมุดอาหาร</a>
-              </li>
-            </ul>
-          </div>
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="toggle-title-name">ประวัติการขาย</div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">หน้าร้านค้า</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/store/report">ประวัติ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/store/category">สมุดอาหาร</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </nav>
+    </nav>
 
 
 
@@ -36,18 +38,21 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="profile-head">
-                    <h3><%= global_data.store_name %></h3>     
+                    <h3><%= global_data.store_name %></h3>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="report-graph-tab" data-toggle="tab" href="#report-graph" role="tab" aria-controls="report-graph" aria-selected="false">สรุป</a>
+                            <a class="nav-link active" id="report-graph-tab" data-toggle="tab" href="#report-graph"
+                                role="tab" aria-controls="report-graph" aria-selected="false">สรุป</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab" aria-controls="home" aria-selected="true">ประวัติยอดขาย</a>
+                            <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab"
+                                aria-controls="home" aria-selected="true">ประวัติยอดขาย</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="food_rating-tab" data-toggle="tab" href="#food_rating" role="tab" aria-controls="home" aria-selected="true">รายการอาหารนิยม</a>
+                            <a class="nav-link" id="food_rating-tab" data-toggle="tab" href="#food_rating" role="tab"
+                                aria-controls="home" aria-selected="true">รายการอาหารนิยม</a>
                         </li>
-                       
+
                     </ul>
                 </div>
             </div>
@@ -59,7 +64,8 @@
             <div class="col-md-12">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <!-- graph report -->
-                    <div class="tab-pane fade show active" id="report-graph" role="tabpanel" aria-labelledby="report-graph-tab">
+                    <div class="tab-pane fade show active" id="report-graph" role="tabpanel"
+                        aria-labelledby="report-graph-tab">
                         <div class="row">
                             <div class="col-md-4">
                                 <input type="month" value="" id="selected_month" class="form-control" />
@@ -72,21 +78,24 @@
                                 <canvas id="data_chart"></canvas>
                             </div>
                             <div class="col-md-4">
-                                <div class="text-center">
-                                    <h3>สรุป</h3>
-                                </div>
-                                <div class="card card-body">
-                                    <!-- money in -->
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5>รายรับ</h5>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5 id="income_avg">บาท</h5>
-                                        </div>
+                                <div class="card card-body add-shadow">
+                                    <div class="text-center mb-3 name_title_Nsd">
+                                        <h3>สรุป</h3>
                                     </div>
+                                    <div>
+                                        <!-- money in -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h5>รายรับ</h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 id="income_avg">บาท</h5>
+                                            </div>
+                                        </div>
 
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -104,20 +113,22 @@
                                             <th>อาหาร</th>
                                             <!-- <th>แคลโลรี่</th> -->
                                             <th>เงินเข้า</th>
-                                            
+
                                             <th>ผู้รับผิดชอบ</th>
                                         </tr>
                                     </thead>
                                     <% for (var i = 0 ; i < store_history_data.length ; i++) {%>
-                                        <tr>
-                                            <td><%= store_history_data[i].date.getDate() + "/" + (store_history_data[i].date.getMonth()+1) + "/" + store_history_data[i].date.getFullYear() %></td>
-                                            <td><%= ("0"+store_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+store_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+store_history_data[i].date.getSeconds()).slice(-2) %></td>
-                                            <td><%= store_history_data[i].student_id %></td>
-                                            <td><%= store_history_data[i].status %></td>
-                                            <td><%= store_history_data[i].food_name %></td>
-                                            <td><%= store_history_data[i].income %></td>
-                                            <td><%= store_history_data[i].responsible %></td>
-                                        </tr>
+                                    <tr>
+                                        <td><%= store_history_data[i].date.getDate() + "/" + (store_history_data[i].date.getMonth()+1) + "/" + store_history_data[i].date.getFullYear() %>
+                                        </td>
+                                        <td><%= ("0"+store_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+store_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+store_history_data[i].date.getSeconds()).slice(-2) %>
+                                        </td>
+                                        <td><%= store_history_data[i].student_id %></td>
+                                        <td><%= store_history_data[i].status %></td>
+                                        <td><%= store_history_data[i].food_name %></td>
+                                        <td><%= store_history_data[i].income %></td>
+                                        <td><%= store_history_data[i].responsible %></td>
+                                    </tr>
                                     <%}%>
                                     </table>
                             </div>
