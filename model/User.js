@@ -63,7 +63,7 @@ const store_schema = new Schema({
     // password: String,
     // role:{ type:String },
     // school_id:{ type:String },
-    uid:{ type:Number , unique:true},
+    uid:{ type:String , unique:true},
     current_money:{ type:Number },
     image:{ type:String },
     pre_name:{ type:String },

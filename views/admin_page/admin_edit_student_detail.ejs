@@ -138,7 +138,24 @@
                     </div>
                     <!-- ข้อมูลนักเรียน -->
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
+                        <!-- uid -->
+                        <div class="row ml-2">
+                            <div class="col-md-5 mb-2">
+                                <h5>เลขประจำตัวประชาชน</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><%= student_data.uid %></h5>
+                            </div>
+                        </div>
+                        <!-- dob -->
+                        <div class="row ml-2">
+                            <div class="col-md-5 mb-2">
+                                <h5>วันเกิด</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><%= student_data.dob.getDate() + "/" + (student_data.dob.getMonth()+1) + "/" + student_data.dob.getFullYear() %></h5>
+                            </div>
+                        </div>
                         <!-- address -->
                         <div class="row ml-2">
                             <div class="col-md-5 mb-2">

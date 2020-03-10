@@ -524,24 +524,24 @@ delete_food = (food_id) => {
         success: (msg_back) => {
             // console.log(msg_back);
             // alert(msg_back.success);
-            alert_popup( msg_back.success);
-            // $.alert({
-            //     title: 'เสร็จสิ้น!',
-            //     content: msg_back.success,
-            //     type: 'green',
-            //     buttons: {
-            //         ok: {
-            //             text: "ยืนยัน",
-            //             btnClass: 'btn-primary',
-            //             keys: ['enter'],
-            //             action: function () {
+            // alert_popup( msg_back.success);
+            $.alert({
+                title: 'เสร็จสิ้น!',
+                content: msg_back.success,
+                type: 'green',
+                buttons: {
+                    ok: {
+                        text: "ยืนยัน",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function () {
                             
-            //                 setTimeout(() => {
-            //                     window.location.reload();
-            //                 }, 100)
-            //             }
-            //         }}
-            // });
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 100)
+                        }
+                    }}
+            });
         },
         error: (msg_back) => {
             // console.log(msg_back);

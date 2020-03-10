@@ -51,7 +51,7 @@
             <th>ชื่อ - นามสกุล</th>
             <th>e-mail</th>
             <th>เบอร์โทรศัพท์</th>
-            <th>แก้ไข</th>
+            <th>ข้อมูล</th>
           </tr>
         </thead>
         <tbody>
@@ -65,8 +65,8 @@
             <td><%= student_data[i].tel %></td>
             <td>
               <a href="/admin/edit_student/<%= student_data[i].student_id %>" class="btn btn-success"> ดูข้อมูล </a>
-              <button class="btn btn-danger" data-toggle="modal" data-target="#removeStudentModal"
-                onclick="init_delete_user('<%= student_data[i].uid %>')"> ลบ </button>
+              <!-- <button class="btn btn-danger" data-toggle="modal" data-target="#removeStudentModal"
+                onclick="init_delete_user('<%= student_data[i].uid %>')"> ลบ </button> -->
             </td>
           </tr>
           <% }%>
