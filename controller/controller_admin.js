@@ -232,7 +232,7 @@ register_student = (req ,res ) => {
                         room:student_data.room,
                         weight:student_data.weight,
                         height:student_data.height,
-                        image:'image to based64',
+                        image:'',
                         pre_name:student_data.pName,
                         first_name:student_data.fName,
                         last_name:student_data.lName,
