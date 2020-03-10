@@ -244,7 +244,13 @@ change_month_set_summary_calories = (select_month) => {
         // var income_avg = average_data(processed_data);
         // processed_data = process_data(msg_back,"expend")
         var calories_avg = average_data(processed_data);
-        $('#calories_avg').text(calories_avg + ' แคล');
+        if (isNaN(calories_avg))  {
+            $('#calories_avg').text('0 แคล'); 
+         }
+         else {
+             $('#calories_avg').text(calories_avg + ' แคล test');
+         } 
+        // $('#calories_avg').text(calories_avg + ' แคล');
     })
 }
 
@@ -268,7 +274,13 @@ change_month_set_summary_expend = (select_month) => {
         // var income_avg = average_data(processed_data);
         // processed_data = process_data(msg_back,"expend")
         var expend_avg = average_data(processed_data);
-        $('#expend_avg').text(expend_avg + ' บาท');
+        if (isNaN(expend_avg))  {
+            $('#expend_avg').text('0 บาท'); 
+         }
+         else {
+             $('#expend_avg').text(expend_avg + ' บาท');
+         } 
+        // $('#expend_avg').text(expend_avg + ' บาท');
     })
 }
 
