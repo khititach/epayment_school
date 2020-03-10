@@ -160,7 +160,15 @@ get_data_start_page = () => {
 
         processed_data = process_data(data, "mode_calories")
         calories_avg = average_data(processed_data)
-        $('#calories_avg').text(calories_avg + ' แคล');
+        console.log('calories avg : ',calories_avg);
+        
+        if (calories_avg != NaN) {
+            $('#calories_avg').text(calories_avg + ' แคล test');
+        } 
+        if (calories_avg == NaN)  {
+           $('#calories_avg').text('0 แคล'); 
+        }
+        
     })
     $.get('/student/get_data_graph/?month=' + global_date + '&mode=mode_income', (data) => {
         processed_data = process_data(data, "mode_income")
