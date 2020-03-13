@@ -362,3 +362,268 @@ alert_popup = (msg) => {
     //     window.location.reload();
     // }, 100)
 }
+
+
+// store report page script
+
+
+// get data by select month and mode
+$('#selected_month').on('change',() => {
+    // var radio_val = $("input[name='mode']:checked", '#radio_select').val();
+    var select_month = $('#selected_month').val();
+    // console.log('month : ' + select_month);
+    $.ajax({
+        type:'GET',
+        url:'/store/report/get_data_graph/?month='+select_month+'&mode=mode_income',
+        success:(msg_back) => {
+            // console.log(msg_back);
+            draw_income_chart(msg_back);
+        }, 
+        error:(msg_back) => {
+            // console.log(msg_back);
+        }
+    })
+})
+
+// today
+var global_date = '';
+getDate = () => {
+    var today = new Date();
+    console.log(today);
+    global_date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2);
+    $("#selected_month").val(global_date);
+    $("#selected_month_sales_data").val(global_date);
+}
+
+get_data_start_page = () => {
+    $.get('/store/report/get_data_graph/?month='+global_date+'&mode=mode_income',(data) => {
+        // console.log('data from server : ',data);
+        
+        draw_income_chart(data);
+        processed_data = process_data(data,"income")
+        // var income_avg = average_data(processed_data);
+        var sum = 0;
+        processed_data.forEach(number => {
+            if (number != 0) {
+                sum += number;
+            }
+        });
+        $('#income_avg').text(sum+' บาท');
+    })
+}
+
+process_data = (data,mode) => {
+    // console.log('data : '+data+ ' mode : '+mode );
+    var data_unprocess = data.data_to_client;
+    // console.log(data_unprocess);
+    var init_data = 0;
+    var data_process = [];
+    for (let j = 1; j < 32; j++) {
+        for (let i = 0; i < data_unprocess.length; i++) {
+            // console.log('Data : ',data_unprocess[i]);
+            var date = new Date(data_unprocess[i].date) ;
+            // console.log('date : ',date);
+            // console.log('Date : '+j);
+            // console.log('date format : ',date.getDate());
+            if (date.getDate() == j) {
+                if (mode == 'income') {
+                    init_data = Number(data_unprocess[i].income) + Number(init_data);
+                }
+                // console.log('Data : ',init_data);    
+            }       
+        }
+        data_process.push(init_data)
+        init_data = 0;
+    }
+    return data_process;
+}
+
+
+draw_income_chart = (data) => {
+    // init data
+    processed_data = process_data(data,"income")
+    // console.log('data process :',processed_data);
+        // sum topup
+    var sum = 0;
+    processed_data.forEach(number => {
+        if (number != 0) {
+            sum += number;
+            
+        }
+    });
+    // var income_avg = average_data(processed_data);
+    // console.log('data process sum :',sum);
+    $('#income_avg').text(sum+' บาท');
+
+    // draw chart
+    var canvas = $('#canvas_income_history_container').html('<canvas id="data_chart"></canvas>');
+    var ctx = $('#data_chart');
+    var chart_data_month = {
+        type: 'line',
+        data:{
+            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+            26, 27, 28, 29, 30, 31],
+            datasets:[
+                {
+                    // data: [200, 0, 100, 0, 0, 0, 100, 300, 0, 100],
+                    data:processed_data,
+                    label: "รายรับ",
+                    borderColor: "#54FC70",
+                    fill: false
+                }
+            ]
+        }
+        
+    };
+
+    var calories_chart = new Chart(ctx,chart_data_month);
+}
+
+// get food sales data by select month 
+$('#selected_month_sales_data').on('change',() => {
+    var select_month = $('#selected_month_sales_data').val();
+    // console.log('month : ' + select_month);
+    $.get('/store/report/get_food_sales/?month='+select_month,(data) => {
+        console.log('food sales data : ' ,data);
+        // process data for draw chart
+        
+        draw_food_sales_chart(process_food_sales(data));
+        insert_food_sales_list(process_food_sales(data))
+    })
+})
+
+// chart food sales
+get_food_sales = () => {
+
+    $.get('/store/report/get_food_sales/?month='+global_date,(data) => {
+        // console.log('food sales data : ' ,data);
+        // process data for draw chart
+        
+        draw_food_sales_chart(process_food_sales(data));
+        insert_food_sales_list(process_food_sales(data))
+    })
+}
+
+// process food sales data
+process_food_sales = (data) => {
+    // console.log('data : ',data);
+    var process_data = [];
+    var process_data_detail = {};
+    var food_id_list = [];
+    for (let j = 1; j <= data.length; j++) {
+        for (let i = 0; i < data.length; i++) {  
+                if (data[i].food_id != 0) {
+                    // if (!process_data_detail.hasOwnProperty(data[i].food_id)) {
+                    if (data[i].food_id == j) {
+                        process_data_detail.food_name = data[i].food_name;
+                        process_data_detail.food_id = data[i].food_id;
+                        
+                        if (process_data_detail.count == null) {
+                            process_data_detail.count = 1;
+                        } else {
+                            process_data_detail.count++;
+                        }
+                    }
+                    
+                }    
+        }
+        // console.log('data detail : ',$.isEmptyObject(process_data_detail)); 
+        
+        if ($.isEmptyObject(process_data_detail) != true) { // filter delete empty obj
+            process_data.push(process_data_detail)
+            var process_data_detail = {}
+        }
+        
+    }
+    // console.log('food id list : ',process_data_detail);
+    // console.log('process data array : ',process_data);
+    return process_data;
+}
+
+// insert food list to div
+insert_food_sales_list = (data) => {
+    console.log('data : ',data);
+    // init div
+    $('#insert_food_sales_list').html('');
+    for (let i = 0; i < data.length; i++) {
+       
+         var insert_to_div = '<div class="row">'+
+                            '<div class="col-md-6">'+
+                                '<h5>'+ data[i].food_name+'</h5>'+
+                            '</div>'+
+                            '<div class="col-md-6">'+
+                                '<h5>'+ data[i].count+' จาน/ชาม/ชิ้น</h5>'+
+                            '</div>'+
+                        '</div>';
+        $('#insert_food_sales_list').append(insert_to_div);
+    }
+   
+
+}
+
+
+    // draw food sales chart 
+        // platform draw chart
+        // data : 
+        // [ {food_name:'name 1', food_id:'id 1', count:'count '},
+        // {food_name:'name 2', food_id:'id 2', count:'count '} ]
+draw_food_sales_chart = (processed_data) => {
+    // labels 
+    var labels_data = [];
+    jQuery.each(processed_data,(key,data) => {
+        // console.log('data : ',data);
+        labels_data.push(data.food_name)
+    })
+
+    // count 
+    var count_data = [];
+    jQuery.each(processed_data,(key,data) => {
+        // console.log('data : ',data);
+        count_data.push(data.count)
+    })
+ 
+    
+    // console.log('labels : ',labels_data);
+    // console.log('count data : ',count_data);
+    var canvas = $('#canvas_container').html('<canvas id="data_sales_chart"></canvas>');
+    var ctx = $('#data_sales_chart');
+    var sales_chart = {
+        type: 'bar',
+        data: {
+            labels: labels_data,
+            datasets: [{
+                label:'ยอดขาย(จาน/ชาม/ชิ้น)',
+                minBarLength: 0,
+                data: count_data,
+                backgroundColor: '#4287f5', 
+                
+            }]
+        },
+        options:{
+            scales:{
+                yAxes:[{
+                    display:true,
+                    ticks:{
+                        min:0,
+                        beginAtZero: true,
+                        userCallback: function(label, index, labels) {
+                            // when the floored value is the same as the value we have a whole number
+                            if (Math.floor(label) === label) {
+                                return label;
+                            }
+
+                        }
+                    }
+                }]
+            }
+        }
+    
+    };
+
+    var draw_sales_chart = new Chart(ctx,sales_chart);
+}
+
+
+gotoHTMLtoPDF = () => {
+    window.location = '/store/report/download_report'
+}

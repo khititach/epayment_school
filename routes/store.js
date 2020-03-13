@@ -23,8 +23,9 @@ router.get('/report',controller.store_report_page);
         // get history data by select month and mode
 router.get('/report/get_data_graph/',controller.get_data_graph);
         // get food rating 
-router.get('/repoty/get_food_rating',controller.get_food_rating);
-
+router.get('/report/get_food_sales',controller.get_food_sales);
+    // to pdf page 
+router.get('/report/download_report',controller.download_report_page);
     // store category page
 router.get('/category',controller.store_category_page);
     // get store food data 

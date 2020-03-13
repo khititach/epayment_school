@@ -1,0 +1,115 @@
+
+<div id="content" class="p-4 p-md-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <button type="button" id="sidebarCollapse" class="btn btn-secondary ml-2" onclick="history.back()">
+                <i class="fa fa-arrow-left "></i>
+            </button>
+            <button type="button" class="btn btn-success ml-2" alt='บันทึกเป็น pdf' onclick="tableToPDF()">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+            <div class="toggle-title-name">ประวัติการขาย</div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">หน้าร้านค้า</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/store/report">ประวัติ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/store/category">สมุดอาหาร</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- body -->
+    <div class="emp-profile">
+        <div id="report_tableID" class="col">
+           <div class="ml-5">
+                <h3><%= global_data.store_name %></h3>
+           </div> 
+            <table id="TableID" class="table table-striped table-bordered" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>วันที่</th>
+                        <th>เวลา</th>
+                        <th>นักเรียน</th>
+                        <th>สถานะ</th>
+                        <th>อาหาร</th>
+                        <!-- <th>แคลโลรี่</th> -->
+                        <th>เงินเข้า</th>
+
+                        <th>ผู้รับผิดชอบ</th>
+                    </tr>
+                </thead>
+                <% for (var i = 0 ; i < store_history_data.length ; i++) {%>
+                <tr>
+                    <td><%= store_history_data[i].date.getDate() + "/" + (store_history_data[i].date.getMonth()+1) + "/" + store_history_data[i].date.getFullYear() %>
+                    </td>
+                    <td><%= ("0"+store_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+store_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+store_history_data[i].date.getSeconds()).slice(-2) %>
+                    </td>
+                    <td><%= store_history_data[i].student_id %></td>
+                    <td><%= store_history_data[i].status %></td>
+                    <td><%= store_history_data[i].food_name %></td>
+                    <td><%= store_history_data[i].income %></td>
+                    <td><%= store_history_data[i].responsible %></td>
+                </tr>
+                <%}%>
+                </table>
+        </div>
+    </div>
+</div>
+</div>
+    
+
+    </div>
+</div>
+
+<script>
+
+$(document).ready(() => {
+    html2canvas(document.getElementById('report_tableID'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("store report.pdf");
+                }
+            });
+   
+})
+
+tableToPDF = () => {
+    html2canvas(document.getElementById('report_tableID'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("store report.pdf");
+                }
+            });
+}
+
+</script>

@@ -69,11 +69,20 @@
             </div>
             <div class="col-md-8" id="showStudentData"></div>
           </div>
-          <h4> จำนวนเงิน (บาท) </h4>
-          <input class="input-group-text mb-2" type="text" id="item_price" placeholder="จำนวนเงิน">
-          <button class="btn btn-primary" id="buyItem_confirm" onclick="initBuyitem($('#item_price').val())"> จ่ายเงิน
-          </button>
-          <button class="btn btn-secondary" onclick='clear_data()'> ล้างข้อมูล </button>
+          <div class="row">
+            <div class="col-md-6">
+                <h4> จำนวนเงิน (บาท) </h4>
+                <input class="input-group-text mb-2" type="text" id="item_price" placeholder="จำนวนเงิน">
+                <button class="btn btn-primary" id="buyItem_confirm" onclick="initBuyitem($('#item_price').val())"> จ่ายเงิน
+                </button>
+                <button class="btn btn-secondary" onclick='clear_data()'> ล้างข้อมูล </button>
+            </div>
+            <!-- <div class="col-md-6">
+              <h4> เลือกอาหาร </h4>
+              <input class="input-group-text mb-2" type="text" id="select_food_price" placeholder="เลือกอาหาร">
+            </div> -->
+          </div>
+          
         </div>
 
       </div>
@@ -82,7 +91,7 @@
           <h3 class="font-weight-bold">เมนูอาหาร</h3>
         </div>
 
-        <table class="table table-bordered edit-table-food-list">
+        <table id="enable_select_menu" class="table table-bordered edit-table-food-list">
           <!-- <thead>
             <tr>
               <th>รายการที่</th>
@@ -216,12 +225,14 @@
 </div>
 
 <script>
-  document.getElementById('buyItem_component').scrollIntoView({
-    behavior: 'smooth'
-  });
+document.getElementById('buyItem_component').scrollIntoView({
+  behavior: 'smooth'
+});
 
-  $(document).ready(() => {
-    clear_data();
-  })
+$(document).ready(() => {
+  
+  clear_data();
+})
+
 
 </script>

@@ -265,61 +265,6 @@ store_report_page = (req ,res ) => {
     })
 }
 
-    // format date
-formatDate = (date) => {
-    // req > year month day
-    var Format_date = new Date(date),
-        month = '' + (Format_date.getMonth() + 1 ),
-        year = '' + Format_date.getFullYear();
-
-    if (month.length < 2) {
-        month = '0' + month;
-    }
-
-    return [year,month].join('-');
-}
-
-get_data_graph = (req ,res ) => {
-    const selected = req.query;
-    const data_to_client = [];
-    console.log('selected month : ' + selected.month + ' mode : '+selected.mode);
-    store_history.find({store_number:global_data.store_number})
-    .exec((err , history_data) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send({ error : 'find store history something wrong.'})
-        } else {
-            history_data.forEach((history_data,index) => {
-                // console.log('No : '+index+' date format : ' +formatDate(calories_data.date));
-                // console.log('select date  : ' +select_data.month);
-                if (formatDate(history_data.date) == selected.month) {
-                    data_to_client.push(history_data)
-                }
-            });
-            // console.log('select date data : ' +data_to_client);
-            res.status(200).send({data_to_client})
-        }
-    })
-}
-
-get_food_rating = (req ,res ) => {
-    const food_rating_array = [];
-    // store_history.find({status:'ซื้อ'},'status food_id food_name',(err , history_data) => {
-    //     if (err) {
-    //         throw err;
-    //     } else {
-    //         console.log('food history data : ',history_data);
-    //         const food_rating_detail = {};
-            
-    //         history_data.forEach(element => {
-                
-    //         });
-            
-    //         res.send()
-    //     }
-    // });
-}
-
     // store category page
 store_category_page = (req ,res) => {
     // const store_number_test = 1;
@@ -350,6 +295,78 @@ store_category_page = (req ,res) => {
         }
     })
     
+}
+
+    // format date
+formatDate = (date) => {
+    // req > year month day
+    var Format_date = new Date(date),
+        month = '' + (Format_date.getMonth() + 1 ),
+        year = '' + Format_date.getFullYear();
+
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+
+    return [year,month].join('-');
+}
+
+get_data_graph = (req ,res ) => {
+    const selected = req.query;
+    const data_to_client = [];
+    // console.log('selected month : ' + selected.month + ' mode : '+selected.mode);
+    store_history.find({store_number:global_data.store_number})
+    .exec((err , history_data) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send({ error : 'find store history something wrong.'})
+        } else {
+            history_data.forEach((history_data,index) => {
+                // console.log('No : '+index+' date format : ' +formatDate(calories_data.date));
+                // console.log('select date  : ' +select_data.month);
+                if (formatDate(history_data.date) == selected.month) {
+                    data_to_client.push(history_data)
+                }
+            });
+            // console.log('select date data : ' +data_to_client);
+            res.status(200).send({data_to_client})
+        }
+    })
+}
+
+get_food_sales = (req ,res ) => {
+    const selected = req.query;
+    const data_to_client = [];
+    console.log('selected month : ' + selected.month);
+    store_history.find({$and:[{store_number:global_data.store_number},{status:'ซื้อ'}]},'store_number date status food_id food_name',(err , history_data) => {
+        if (err) {
+            throw err;
+        } else {
+            history_data.forEach((history_data,index) => {
+                // console.log('No : '+index+' date format : ' +formatDate(calories_data.date));
+                // console.log('select date  : ' +select_data.month);
+                if (formatDate(history_data.date) == selected.month) {
+                    data_to_client.push(history_data)
+                }
+            });
+            res.status(200).send(data_to_client)
+        }
+    });
+}
+
+    // store download report page
+download_report_page = (req ,res ) => {
+    store_history
+    .find({store_number:global_data.store_number})
+    .sort({ date: 'desc'})
+    .exec((err , store_history_data) => {
+        if (err) {
+            res.status(500).send({error : ' find store history something wrong.'})
+        }
+        // console.log('history : ',store_history_data);
+        
+        res.status(200).render('../views/store_page/report_component/pdf_page.ejs',{global_data,store_history_data})
+    })
 }
 
     // store food data
@@ -426,12 +443,13 @@ module.exports = {
     buy_item_list,
     get_list,
     get_data_graph,
-    get_food_rating,
+    get_food_sales,
     // page
     store_home_page,
     store_home_test_page,
     store_report_page,
     store_category_page,
+    download_report_page,
     // add menu
     add_menu,
     delete_menu

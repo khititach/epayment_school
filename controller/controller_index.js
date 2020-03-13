@@ -39,7 +39,11 @@ init_page = (req ,res ,next) => {
         if (req.user.roleStore()) {
             if (req.isAuthenticated() && req.user.roleStore()) {
                 const User_data = req.session.passport.user;     
+                // console.log('user data : ',User_data);
+                
                 store_model.findOne({uid:User_data.uid},(err, store_data) => {
+                    // console.log('store data : ',store_data);
+                    
                     if (err) {
                         throw err;
                     } else {
