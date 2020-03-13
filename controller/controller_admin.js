@@ -56,7 +56,7 @@ add_notification = (data,msg_data) => {
     // data = topup data , msg_data = title, message 
     console.log("student data : ",data , ' / msg title : ',msg_data.title,' / msg body : ',msg_data.message);
     
-    const notification_data = {id:data.student_ID,title:msg_data.title,message:msg_data.message,date:Date().toLocaleString()};
+    const notification_data = {student_id:data.student_ID,title:msg_data.title,message:msg_data.message,date:Date().toLocaleString()};
     notification_model.create(notification_data, (err, insert_notification) => {
         if (err) {
             console.log(err);

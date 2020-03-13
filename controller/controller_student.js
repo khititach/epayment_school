@@ -11,7 +11,7 @@ const notification_model = require('../model/notification');
 student_home_page = (req ,res) => {
     // console.log(student_data);
     var student_data = global_data;
-    notification_model.find({id:global_data.student_id})
+    notification_model.find({student_id:global_data.student_id})
     .sort({date : 'desc'})
     .exec((err , posts) => {
         // console.log('post : ',posts);

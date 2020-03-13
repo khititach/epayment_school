@@ -107,6 +107,11 @@
 
             <!-- table 1 -->
             <tr>
+              <% if(store_food_list[0] == null ) {%>
+                <div class="text-center mt-5">
+                  <h4>ไม่มีรายการอาหาร</h4>
+                </div>
+              <%}%>
               <% for (var i = 0 ; i < 3 ; i++) { %>
               <% if(store_food_list[i] != null ) {%>
               <th>
@@ -130,11 +135,7 @@
               <%} else {%>
                
               <%}}%>
-              <% if(store_food_list[i] == null ) {%>
-                <div class="text-center mt-5">
-                  <h4>ไม่มีรายการอาหาร</h4>
-                </div>
-              <%}%>
+              
             </tr>
 
             <!-- table 2 -->

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const notification_schema = new Schema({
-    id:{ type:String },
+    student_id:{ type:String },
     title:{ type:String },
     message:{ type:String },
     date:{ type:Date}
