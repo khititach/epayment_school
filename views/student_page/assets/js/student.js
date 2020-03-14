@@ -165,7 +165,7 @@ get_data_start_page = () => {
            $('#calories_avg').text('0 แคล'); 
         }
         else {
-            $('#calories_avg').text(calories_avg + ' แคล test');
+            $('#calories_avg').text(calories_avg + ' แคล');
         } 
        
         

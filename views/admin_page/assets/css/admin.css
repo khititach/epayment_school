@@ -32,6 +32,11 @@
 .test-css {
     font-size: 50px;
 }
+
+.warning-text {
+    font-size: 15px;
+    color: red;
+}
  
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {

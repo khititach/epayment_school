@@ -581,13 +581,13 @@ $("#addrow").on("click", function () {
         // check id list
         
         var id_available = '';
-        console.log("food id list : ",id_list_only);
+        // console.log("food id list : ",id_list_only);
         for (var i = 1; i ; i++) {
             if(jQuery.inArray(i, id_list_only) != -1) {
                 // console.log(i+" is in food id list array");
                 // $('#test').html('<p>'+i+' This num is in array </p>')
             } else {
-                console.log(i+" is NOT in food id list array");
+                // console.log(i+" is NOT in food id list array");
                 // $('#test').html('<p>'+i+' This num is NOT in array </p>')
                 id_list_only.push(i)
                 id_available = i;
@@ -615,12 +615,12 @@ $("#addrow").on("click", function () {
     });
 
     $("table.order-list").on("click", ".ibtnDel", function (event) {
-        console.log('Delete id : ',$(this).val());
+        // console.log('Delete id : ',$(this).val());
         var select_id_del = $(this).val();
         id_list_only = jQuery.grep(id_list_only, function(value) {
                 return value != select_id_del;
         })
-        console.log('Deleted id : ',id_list_only);
+        // console.log('Deleted id : ',id_list_only);
         $(this).closest("tr").remove();
         
         
