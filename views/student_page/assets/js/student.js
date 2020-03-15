@@ -248,7 +248,7 @@ change_month_set_summary_calories = (select_month) => {
             $('#calories_avg').text('0 แคล'); 
          }
          else {
-             $('#calories_avg').text(calories_avg + ' แคล test');
+             $('#calories_avg').text(calories_avg + ' แคล');
          } 
         // $('#calories_avg').text(calories_avg + ' แคล');
     })

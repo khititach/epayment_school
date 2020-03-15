@@ -241,14 +241,14 @@ alert_js = (msg) => {
 // * * * * * buy item by select from food list * * * * * 
 
 
-// = = = = = Add and Remove food = = = = = 
+// // = = = = = Add and Remove food = = = = = 
 category_check_btn = () => {
     $.get("/store/category/get_list", (data) => {
-        // console.log('store food list : ',data);
+        console.log('store food list : ',data);
         for (let i = 0; i < data.store_food_list.length; i++) {
             for (let j = 0; j - 1 < data.food_data.length; j++) {
-                // console.log('id : ',$('#ID_'+j).val());
-                // console.log('store list :',data.store_food_list[i]);
+                console.log('id : ',$('#ID_'+j).val());
+                console.log('store list :',data.store_food_list[i]);
                 if ($('#ID_' + j).val() == data.store_food_list[i]) {
                     $('#ID_' + j).removeClass('btn-success').addClass('btn-secondary').attr('disabled', true);
                 }

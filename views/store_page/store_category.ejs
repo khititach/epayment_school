@@ -91,6 +91,10 @@
                                         <td><button class="btn btn-success" id="ID_<%= food_data[i].food_id %>" value="<%= food_data[i].food_id %>" onclick="add_food_menu_book('<%= food_data[i].food_id %>')">เพิ่ม</button></td>
                                     </tr>
                                 <%}%>
+
+                              
+        
+
                           </tbody>
                     </table>
 
@@ -106,7 +110,18 @@ $(document).ready(function() {
     category_check_btn();
     
     $('#StoreFoodDataTableID').DataTable();
-    $('#foodDataTableID').DataTable();
+    $('#foodDataTableID').DataTable({
+        drawCallback: function(){
+            $('.paginate_button').on('click', function(){
+                    // alert('next');
+                    category_check_btn();
+            });       
+        }
+    });
+
+ 
+    
 });
+
 
 </script>
