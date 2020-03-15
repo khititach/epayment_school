@@ -1,7 +1,7 @@
 // student setting page script
 // function Change Password
 Change_Password = (new_password) => {
-    console.log("New Password : " + new_password);
+    // console.log("New Password : " + new_password);
     $.ajax({
         url: '/student/change_password',
         type: 'patch',
@@ -10,11 +10,11 @@ Change_Password = (new_password) => {
             newPassword: newPassword
         },
         success: (msg_complete) => {
-            console.log(msg_complete.responseText);
+            // console.log(msg_complete.responseText);
 
         },
         error: (msg_error) => {
-            console.log(msg_error);
+            // console.log(msg_error);
         }
     })
 }
@@ -38,7 +38,7 @@ show_text = (id) => {
 // edit profile page script
 
 edit_profile = (new_weight, new_height, new_password, new_retype_password) => {
-    console.log('New data : ', new_weight, new_height, new_password, new_retype_password);
+    // console.log('New data : ', new_weight, new_height, new_password, new_retype_password);
     $.ajax({
         type: 'PATCH',
         url: '/student/update_profile',
@@ -50,7 +50,7 @@ edit_profile = (new_weight, new_height, new_password, new_retype_password) => {
             new_retype_password
         },
         success: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             $.alert({
                 title: 'เสร็จสิ้น!',
                 content: msg_back.success,
@@ -75,7 +75,7 @@ edit_profile = (new_weight, new_height, new_password, new_retype_password) => {
 
         },
         error: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
         }
     })
 }
@@ -88,7 +88,7 @@ edit_profile = (new_weight, new_height, new_password, new_retype_password) => {
 var global_date = '';
 getDate = () => {
     var today = new Date();
-    console.log(today);
+    // console.log(today);
     global_date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2);
     $("#selected_month").val(global_date);
 }
@@ -160,7 +160,7 @@ get_data_start_page = () => {
 
         processed_data = process_data(data, "mode_calories")
         calories_avg = average_data(processed_data)
-        console.log('calories avg : ',calories_avg);
+        // console.log('calories avg : ',calories_avg);
         if (isNaN(calories_avg))  {
            $('#calories_avg').text('0 แคล'); 
         }
@@ -233,7 +233,7 @@ $('#selected_month, #radio_select input').on('change', () => {
 
         },
         error: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
         }
     })
 })

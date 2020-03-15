@@ -3,7 +3,7 @@
 $('#formSearchStudentID').on('submit', (e) => {
     e.preventDefault();
     var idcard = $('#idcardORstuID').val();
-    console.log("ID card : " + idcard);
+    // console.log("ID card : " + idcard);
     if (!idcard) {
         alert_js('กรุณาใส่เลขบัตร หรือ รหัสนักเรียน');
         $("#idcardORstuID").select();
@@ -24,7 +24,7 @@ $('#formSearchStudentID').on('submit', (e) => {
                 create_table(msg_back.success)
             },
             error: (msg_back) => {
-                console.log("error : " + msg_back.responseText);
+                // console.log("error : " + msg_back.responseText);
                 // console.log("error : " + msg_back.responseJSON.error);
                 alert_js(msg_back.responseJSON.error);
                 clear_data();
@@ -55,8 +55,8 @@ create_table = (data) => {
 // - - - - - buy item by insert price - - - - - 
 // // init buy item
 initBuyitem = (item_price) => {
-    console.log("Student ID : " + reqUserBuyItemData);
-    console.log("Item Price : " + item_price);
+    // console.log("Student ID : " + reqUserBuyItemData);
+    // console.log("Item Price : " + item_price);
     if (Number(item_price)  <= 0) {
         // alert('กรูณาใส่จำนวนเงินมากกว่า 0');
         // alert_popup({error:'กรูณาใส่จำนวนเงินมากกว่า 0'});
@@ -103,7 +103,7 @@ initBuyitem = (item_price) => {
 
 // buy item confirm script
 buy_item_confirm = (student_id, item_price) => {
-    console.log('student id : ' + student_id + ' > buy : ' + item_price);
+    // console.log('student id : ' + student_id + ' > buy : ' + item_price);
     $.ajax({
         type: 'PATCH',
         url: '/store/buy_item',
@@ -113,7 +113,7 @@ buy_item_confirm = (student_id, item_price) => {
             item_price
         },
         success: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             // alert(msg_back.success);
             $.alert({
                 title: 'เสร็จสิ้น!',
@@ -133,7 +133,7 @@ buy_item_confirm = (student_id, item_price) => {
             
         },
         error: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             alert_popup(msg_back.responseJSON);
 
         }
@@ -145,7 +145,7 @@ buy_item_confirm = (student_id, item_price) => {
 
 confirm_buy_item = (student_id, food_id, food_name, food_price) => {
     var student_money = $('#student_current_money').data('value');
-      console.log('student current money : ',student_money,' / food price : ',food_price);
+      // console.log('student current money : ',student_money,' / food price : ',food_price);
       if (food_price > student_money) {
         toastr.error("จำนวนเงินไม่เพียงพอ")
         clear_data();
@@ -168,7 +168,7 @@ confirm_buy_item = (student_id, food_id, food_name, food_price) => {
                     btnClass: 'btn-secondary',
                     keys: ['esc'],
                     action: function () {
-                        console.log('ยกเลิกการเลือกรายการอาหาร');
+                        // console.log('ยกเลิกการเลือกรายการอาหาร');
                     }
   
                 }
@@ -179,7 +179,7 @@ confirm_buy_item = (student_id, food_id, food_name, food_price) => {
   }
 
 seleted_buy_item_list = (student_id, food_id, food_name, food_price) => {
-    console.log('student id : ', student_id, ' buy : ', food_id);
+    // console.log('student id : ', student_id, ' buy : ', food_id);
     $.ajax({
         type: 'PATCH',
         url: '/store/buy_item_list',
@@ -189,12 +189,12 @@ seleted_buy_item_list = (student_id, food_id, food_name, food_price) => {
             food_id
         },
         success: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             alert_js_success(msg_back.success);
             // clear_data();
         },
         error: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
         }
     })
 }
@@ -262,7 +262,7 @@ category_check_btn = () => {
 // add food to menu book
 add_food_menu_book = (food_id) => {
 
-    console.log(food_id);
+    // console.log(food_id);
 
     $.ajax({
         type: "PATCH",
@@ -272,13 +272,13 @@ add_food_menu_book = (food_id) => {
             food_id
         },
         success: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             // alert_popup_success(msg_back);
             alert_popup(msg_back);
             // add_food_tr(msg_back);
         },
         error: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             alert_popup(msg_back.responseJSON);
         }
     })
@@ -286,7 +286,7 @@ add_food_menu_book = (food_id) => {
 
 // delete food from menu book
 delete_food_menu_book = (food_id) => {
-    console.log('food id to delete : ', food_id);
+    // console.log('food id to delete : ', food_id);
     $.ajax({
         type: 'PATCH',
         url: '/store/category/delete_menu',
@@ -295,11 +295,11 @@ delete_food_menu_book = (food_id) => {
             food_id
         },
         success: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             alert_popup(msg_back);
         },
         error: (msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             alert_popup(msg_back.responseJSON);
         }
     })
@@ -389,7 +389,7 @@ $('#selected_month').on('change',() => {
 var global_date = '';
 getDate = () => {
     var today = new Date();
-    console.log(today);
+    // console.log(today);
     global_date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2);
     $("#selected_month").val(global_date);
     $("#selected_month_sales_data").val(global_date);
@@ -484,7 +484,7 @@ $('#selected_month_sales_data').on('change',() => {
     var select_month = $('#selected_month_sales_data').val();
     // console.log('month : ' + select_month);
     $.get('/store/report/get_food_sales/?month='+select_month,(data) => {
-        console.log('food sales data : ' ,data);
+        // console.log('food sales data : ' ,data);
         // process data for draw chart
         
         draw_food_sales_chart(process_food_sales(data));
@@ -542,7 +542,7 @@ process_food_sales = (data) => {
 
 // insert food list to div
 insert_food_sales_list = (data) => {
-    console.log('data : ',data);
+    // console.log('data : ',data);
     // init div
     $('#insert_food_sales_list').html('');
     for (let i = 0; i < data.length; i++) {

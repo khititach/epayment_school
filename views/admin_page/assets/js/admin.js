@@ -193,16 +193,16 @@ $('#form_Register_Store').on('submit', (e) => {
 })
 
 check_field = (data, name_field, id) => {
-    console.log("Send to check : " + name_field + ' > ' + data);
-    console.log('id : ', '#' + id);
+    // console.log("Send to check : " + name_field + ' > ' + data);
+    // console.log('id : ', '#' + id);
     if (data == '') {
-        console.log('data == null');
+        // console.log('data == null');
 
         $('#' + id).removeClass('input-alert-success , input-alert-error');
         $('#addAlert' + id + '').html('')
     }
     if (data != '') {
-        console.log('data != null');
+        // console.log('data != null');
         $.ajax({
             type: 'PATCH',
             url: '/admin/register_auto_check/',
@@ -230,7 +230,7 @@ check_field = (data, name_field, id) => {
 check_store_name_field = (data, name_field, id) => {
     // console.log("Send to check : " + name_field + ' > ' + data);
     if (data == '') {
-        console.log('data == null');
+        // console.log('data == null');
 
         $('#' + id).removeClass('input-alert-success , input-alert-error');
         $('#addAlert' + id + '').html('')
@@ -305,7 +305,7 @@ init_delete_user = (uid) => {
 }
 
 delete_user = (admin_password) => {
-    console.log('Store uid : ' + init_uid + ' / admin password : ' + admin_password);
+    // console.log('Store uid : ' + init_uid + ' / admin password : ' + admin_password);
     $.ajax({
         type: 'DELETE',
         url: '/admin/delete_store',
@@ -557,10 +557,10 @@ delete_food = (food_id) => {
     var id_list_only = [];
     get_food_list_in_category = () => {
         $.get('/admin/category/add/get_id_list',(id_list) => {
-            console.log('ID list already : ',id_list.food_id_list);
+            // console.log('ID list already : ',id_list.food_id_list);
             // var id_list_only = [];
             id_list.food_id_list.forEach(data => {
-                //  console.log("food data list : ",data);
+                //  // console.log("food data list : ",data);
                 id_list_only.push(data.food_id)
             });
                
