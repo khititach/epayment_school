@@ -8,6 +8,7 @@ $(document).ready(() => {
             // console.log("Success : " + msg_back);
             // send data to function
             add_school_name(msg_back);
+            add_school_logo(msg_back);
         },error:(msg_back) => {
             // console.log(msg_back);
             // console.log("Error : " + msg_back);
@@ -20,4 +21,10 @@ add_school_name = (school_data) => {
     var school_name_eng = school_data.school_name_eng;
     $("#insert_school_name").html(school_name)
     $("#title-tag").text(school_name_eng)
+}
+
+add_school_logo = (school_data) => {
+    // console.log('logo : ',school_data.school_logo);
+    
+    $("#school_logo").attr('src',school_data.school_logo)
 }
