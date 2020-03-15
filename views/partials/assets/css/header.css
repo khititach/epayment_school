@@ -3,3 +3,7 @@
     text-align: center;
     background: #ffffff;
 }
+
+.footer-shadow{
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2) inset;
+}

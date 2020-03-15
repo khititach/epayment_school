@@ -46,7 +46,10 @@
         <% include ./partials/sidebar.ejs%>
     <!-- Body -->
         <%- body %>
-
+    <!-- footer -->
+    <% if (!user) {%>
+        <% include ./partials/footer.ejs%>
+    <%}%>
     <script src="/partials/assets/js/header.js"></script>
     <% if (user) {%>
         <% if (user.role === 'นักเรียน') {%>
