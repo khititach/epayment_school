@@ -349,9 +349,10 @@ get_food_sales = (req ,res ) => {
                     data_to_client.push(history_data)
                 }
             });
+            console.log('data to client  : ' +data_to_client);
             res.status(200).send(data_to_client)
         }
-    });
+    }).sort({food_id : 'asc'});
 }
 
     // store download report page

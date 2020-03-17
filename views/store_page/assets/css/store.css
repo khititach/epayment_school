@@ -27,6 +27,9 @@
     font-size: 100px;
 } */
 
+.font-black {
+    color: black;
+}
 
 /* table food list */
 .responsive-table li {

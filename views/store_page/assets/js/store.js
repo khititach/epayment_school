@@ -505,16 +505,23 @@ get_food_sales = () => {
 }
 
 // process food sales data
-process_food_sales = (data) => {
+process_food_sales =  (data) => {
     // console.log('data : ',data);
     var process_data = [];
     var process_data_detail = {};
     var food_id_list = [];
-    for (let j = 1; j <= data.length; j++) {
-        for (let i = 0; i < data.length; i++) {  
+    var last_data = data[data.length-1].food_id;
+
+    for (let j = 1; j <= last_data; j++) {
+        for (let i = 0; i < data.length; i++) {
+            // console.log('i > ',i,' data : ',data[i],' / j > ',j);
+            
+            // console.log('data food id : ',data[i].food_id,' / j > ',j);
+              
                 if (data[i].food_id != 0) {
-                    // if (!process_data_detail.hasOwnProperty(data[i].food_id)) {
                     if (data[i].food_id == j) {
+                        // console.log('food _id = j > ',data[i].food_id,' = ',j);
+                        
                         process_data_detail.food_name = data[i].food_name;
                         process_data_detail.food_id = data[i].food_id;
                         
@@ -523,20 +530,37 @@ process_food_sales = (data) => {
                         } else {
                             process_data_detail.count++;
                         }
+                    } else {
+                        // console.log('food _id != j > ',data[i].food_id,' != ',j);
                     }
                     
                 }    
         }
-        // console.log('data detail : ',$.isEmptyObject(process_data_detail)); 
-        
-        if ($.isEmptyObject(process_data_detail) != true) { // filter delete empty obj
-            process_data.push(process_data_detail)
-            var process_data_detail = {}
-        }
+        // console.log('food id list detail in for: ',process_data_detail );
+        process_data.push(process_data_detail);
+        // console.log('process data array : ',process_data);
+        process_data_detail = {}
         
     }
+    // console.log('food id list detail in out for: ',process_data_detail );
+
+    // process_data.push($.makeArray( process_data_detail['ชาเย็น'] ))
+
+    // console.log('data detail : ',$.isEmptyObject(process_data_detail)); 
+    // console.log('food id list detail : ',$.makeArray( process_data_detail['ชาเย็น'] ) );
+
+    // if ($.isEmptyObject(process_data_detail) != true) { // filter delete empty obj
+    //     process_data.push(process_data_detail)
+    //     var process_data_detail = {}
+    // }
+
+    var process_data = process_data.filter(function (el) {
+        return el.food_id != null;
+    });
+
     // console.log('food id list : ',process_data_detail);
-    // console.log('process data array : ',process_data);
+    // console.log('process data array delete empty : ',process_data);
+
     return process_data;
 }
 
@@ -551,8 +575,8 @@ insert_food_sales_list = (data) => {
                             '<div class="col-md-6">'+
                                 '<h5>'+ data[i].food_name+'</h5>'+
                             '</div>'+
-                            '<div class="col-md-6">'+
-                                '<h5>'+ data[i].count+' จาน/ชาม/ชิ้น</h5>'+
+                            '<div class="col-md-6 font-black">'+
+                                '<h6>'+ data[i].count+' จาน/ชาม/ชิ้น/แก้ว</h6>'+
                             '</div>'+
                         '</div>';
         $('#insert_food_sales_list').append(insert_to_div);
@@ -571,20 +595,20 @@ draw_food_sales_chart = (processed_data) => {
     // labels 
     var labels_data = [];
     jQuery.each(processed_data,(key,data) => {
-        // console.log('data : ',data);
+        console.log('data : ',data);
         labels_data.push(data.food_name)
     })
 
     // count 
     var count_data = [];
     jQuery.each(processed_data,(key,data) => {
-        // console.log('data : ',data);
+        console.log('data : ',data);
         count_data.push(data.count)
     })
  
     
-    // console.log('labels : ',labels_data);
-    // console.log('count data : ',count_data);
+    console.log('labels : ',labels_data);
+    console.log('count data : ',count_data);
     var canvas = $('#canvas_container').html('<canvas id="data_sales_chart"></canvas>');
     var ctx = $('#data_sales_chart');
     var sales_chart = {
