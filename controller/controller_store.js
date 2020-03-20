@@ -337,7 +337,7 @@ get_data_graph = (req ,res ) => {
 get_food_sales = (req ,res ) => {
     const selected = req.query;
     const data_to_client = [];
-    console.log('selected month : ' + selected.month);
+    // console.log('selected month : ' + selected.month);
     store_history.find({$and:[{store_number:global_data.store_number},{status:'ซื้อ'}]},'store_number date status food_id food_name',(err , history_data) => {
         if (err) {
             throw err;
@@ -349,7 +349,7 @@ get_food_sales = (req ,res ) => {
                     data_to_client.push(history_data)
                 }
             });
-            console.log('data to client  : ' +data_to_client);
+            // console.log('data to client  : ' +data_to_client);
             res.status(200).send(data_to_client)
         }
     }).sort({food_id : 'asc'});

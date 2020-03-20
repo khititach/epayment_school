@@ -114,7 +114,7 @@
                                         <tr>
                                             <th>วันที่</th>
                                             <th>เวลา</th>
-                                            <th>นักเรียน</th>
+                                            <!-- <th>นักเรียน</th> -->
                                             <th>สถานะ</th>
                                             <th>อาหาร</th>
                                             <!-- <th>แคลโลรี่</th> -->
@@ -129,7 +129,7 @@
                                         </td>
                                         <td><%= ("0"+store_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+store_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+store_history_data[i].date.getSeconds()).slice(-2) %>
                                         </td>
-                                        <td><%= store_history_data[i].student_id %></td>
+                                        
                                         <td><%= store_history_data[i].status %></td>
                                         <td><%= store_history_data[i].food_name %></td>
                                         <td><%= store_history_data[i].income %></td>
