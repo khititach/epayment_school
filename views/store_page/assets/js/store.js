@@ -45,6 +45,7 @@ create_table = (data) => {
         '<h5>' + data.tel + '</h5>' +
         '<h5>' + data.class + ' / ' + data.room + '</h5>' +
         '<h5 id="student_current_money" data-value="' + data.current_money + '">' + data.current_money + ' บาท </h5>';
+    $('#showStudentImageData').attr('src',data.image)
     $("#showStudentData").html(student_data_table)
     reqUserBuyItemData = data.student_id;
     student_currentMoney = data.current_money;
@@ -244,16 +245,20 @@ alert_js = (msg) => {
 // // = = = = = Add and Remove food = = = = = 
 category_check_btn = () => {
     $.get("/store/category/get_list", (data) => {
+        var store_list = data.store_food_list;
         // console.log('store food list : ',data);
-        for (let i = 0; i < data.store_food_list.length; i++) {
-            for (let j = 0; j - 1 < data.food_data.length; j++) {
-                // console.log('id : ',$('#ID_'+j).val());
-                // console.log('store list :',data.store_food_list[i]);
-                if ($('#ID_' + j).val() == data.store_food_list[i]) {
-                    $('#ID_' + j).removeClass('btn-success').addClass('btn-secondary').attr('disabled', true);
-                }
-            }
-        }
+        $('.category-btn').each((index,data) => {
+            for (let i = 0; i < store_list.length; i++) {
+            //    console.log('category btn : ',data.value);
+            //    console.log('store food btn : ',store_list[i]);
+            //    console.log('category btn : ',data);
+               if (data.value == store_list[i]) {
+                //    console.log('data value = store food id list');
+                   
+                   $('#'+data.id).removeClass('btn-success').addClass('btn-secondary').attr('disabled', true);
+               }
+            }    
+        })
 
     });
 
@@ -314,6 +319,7 @@ clear_data = () => {
     $("#btn_check").attr("disabled", false);
     $("#item_price").attr('readonly', true).val('');
     $("#buyItem_confirm").attr("disabled", true);
+    $('#showStudentImageData').attr('src','/partials/image/unprofile.jpg')
     $("#showStudentData").html("");
 }
 
@@ -472,6 +478,23 @@ draw_income_chart = (data) => {
                     fill: false
                 }
             ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'กิโลแคลอรี่'
+                  }
+                }],
+                xAxes:[{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'วันที่'
+                      }
+                }]
+            }
         }
         
     };
@@ -510,7 +533,14 @@ process_food_sales =  (data) => {
     var process_data = [];
     var process_data_detail = {};
     var food_id_list = [];
-    var last_data = data[data.length-1].food_id;
+    // console.log('data : ',data);
+    
+    if (jQuery.isEmptyObject(data)) {
+        var last_data = 0
+    } else {
+        var last_data = data[data.length-1].food_id;
+    }
+    
 
     for (let j = 1; j <= last_data; j++) {
         for (let i = 0; i < data.length; i++) {
@@ -595,20 +625,20 @@ draw_food_sales_chart = (processed_data) => {
     // labels 
     var labels_data = [];
     jQuery.each(processed_data,(key,data) => {
-        console.log('data : ',data);
+        // console.log('data : ',data);
         labels_data.push(data.food_name)
     })
 
     // count 
     var count_data = [];
     jQuery.each(processed_data,(key,data) => {
-        console.log('data : ',data);
+        // console.log('data : ',data);
         count_data.push(data.count)
     })
  
     
-    console.log('labels : ',labels_data);
-    console.log('count data : ',count_data);
+    // console.log('labels : ',labels_data);
+    // console.log('count data : ',count_data);
     var canvas = $('#canvas_container').html('<canvas id="data_sales_chart"></canvas>');
     var ctx = $('#data_sales_chart');
     var sales_chart = {
@@ -627,6 +657,10 @@ draw_food_sales_chart = (processed_data) => {
             scales:{
                 yAxes:[{
                     display:true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'จำนวนที่ขาย'
+                    },
                     ticks:{
                         min:0,
                         beginAtZero: true,
@@ -638,6 +672,12 @@ draw_food_sales_chart = (processed_data) => {
 
                         }
                     }
+                }],
+                xAxes:[{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'รายการอาหาร'
+                      }
                 }]
             }
         }
@@ -648,6 +688,70 @@ draw_food_sales_chart = (processed_data) => {
 }
 
 
-gotoHTMLtoPDF = () => {
-    window.location = '/store/report/download_report'
+// gotoHTMLtoPDF = () => {
+//     window.location = '/store/report/download_report'
+// }
+
+// change password page 
+
+
+change_password = (new_password , retype_new_password) => {
+    console.log('new password : ', new_password , ' / retype : ',retype_new_password);
+    if (new_password != retype_new_password) {
+        $.alert({
+                title: 'แจ้งเตือน!',
+                content: 'ยืนยันรหัสผ่านไม่ตรงกัน',
+                type: 'red',
+                buttons: {
+                    ok: {
+                        text: "ปิด",
+                        btnClass: 'btn-secondary',
+                        keys: ['enter'],
+                        action: function () {
+                
+                        }
+                    }}
+            });
+    } else {
+        $.ajax({
+            type:'PATCH',
+            url:'/store/edit/change_password',
+            dataType:'json',
+            data:{
+                new_password,
+                retype_new_password
+            },
+            success:(msg_back) => {
+                $.alert({
+                title: 'เสร็จสิ้น!',
+                content: msg_back.success,
+                type: 'green',
+                buttons: {
+                    ok: {
+                        text: "ยืนยัน",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function () {
+                            
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 100)
+                        }
+                    }}
+            });
+            },
+            error:(msg_back) => {
+                console.log('change password something wrong > ',msg_back);
+                
+            }
+        })
+    }
 }
+
+$('#new_retype_password').on('change',() => {
+    if ($('#new_retype_password').val() == $('#new_password').val()) {
+        $('#new_retype_password').removeClass('input-group-text-edit , input-alert-error').addClass('input-alert-success')
+    } else {
+        $('#new_retype_password').removeClass('input-group-text-edit , input-alert-success').addClass('input-alert-error')
+    }
+})

@@ -114,6 +114,18 @@
 
 <script>
   $(document).ready(function () {
-    $('#StudentDataTableID').DataTable();
+    $('#StudentDataTableID').DataTable({
+      "language": {
+            "lengthMenu": "แสดง _MENU_ ข้อมูล",
+            "info": "แสดง หน้า _PAGE_ จาก _PAGES_",
+            "search": "ค้นหา",
+            "paginate": {
+                "first": "หน้าแรก",
+                "last":"หน้าสุดท้าย",
+                "next":"ต่อไป",
+                "previous":"ก่อนหน้า"
+            }
+        }
+    });
   });
 </script>

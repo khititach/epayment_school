@@ -139,7 +139,7 @@
                 <div class="input-group">
                   <input class="form-control"  type="text" id="Modal_input_food_calories" value="#">
                   <div class="input-group-append">
-                    <span class="input-group-text">แคล</span>
+                    <span class="input-group-text">กิโลแคลอรี่</span>
                   </div>
                 </div>   
               </div> 
@@ -208,7 +208,19 @@
 <script>
 
 $(document).ready(function() {
-    $('#foodDataTableID').DataTable();
+    $('#foodDataTableID').DataTable({
+      "language": {
+            "lengthMenu": "แสดง _MENU_ ข้อมูล",
+            "info": "แสดง หน้า _PAGE_ จาก _PAGES_",
+            "search": "ค้นหา",
+            "paginate": {
+                "first": "หน้าแรก",
+                "last":"หน้าสุดท้าย",
+                "next":"ต่อไป",
+                "previous":"ก่อนหน้า"
+            }
+        }
+    });
 });
 
 </script>

@@ -76,6 +76,7 @@ h5e {
     color: black;
     font-size: 20px;
     align-items: center;
+
 }
 
 
@@ -127,6 +128,16 @@ h5e {
 .alert-error-font {
     color: #f33737;
     
+}
+
+.status-open-box {
+    background-color: #5afa67;
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
+}
+
+.status-close-box {
+    background-color: #fa5a5a;
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
 }
 
 /* category page css */

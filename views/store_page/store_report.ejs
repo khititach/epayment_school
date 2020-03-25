@@ -13,7 +13,7 @@
                 aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <button type="button" class="btn btn-info ml-2" alt='บันทึกเป็น pdf' onclick="gotoHTMLtoPDF()">
+            <button type="button" class="btn btn-info ml-2" data-toggle="modal" data-target="#select_date_pdf_modal">
                 <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
             </button>
             <div class="toggle-title-name">ประวัติการขาย</div>
@@ -27,6 +27,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/store/category">สมุดอาหาร</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/store/edit">แก้ไข</a>
                     </li>
                 </ul>
             </div>
@@ -188,12 +191,57 @@
     </div>
 </div>
 
+<!-- modal select date to pdf -->
+<div class="modal fade" id="select_date_pdf_modal" tabindex="-1" role="dialog" aria-labelledby="selectDatePDFLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="selectDatePDFLabel">ดาวน์โหลด PDF</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form action="/store/report/download_report" method="POST">
+            <div class="modal-body">
+                
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5> เลือกช่วงเวลา</h5>
+                            <input type="month" name="month" value="" id="pdf_selected_month" class="form-control" />
+                        </div>
+                    </div>
+               
+               
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</!--> 
+                <button type="submit" class="btn btn-primary">ตกลง</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
 
 <script>
 $(document).ready(function() {
-    $('#TableID').DataTable();
+    $('#TableID').DataTable({
+        "language": {
+            "lengthMenu": "แสดง _MENU_ ข้อมูล",
+            "info": "แสดง หน้า _PAGE_ จาก _PAGES_",
+            "search": "ค้นหา",
+            "paginate": {
+                "first": "หน้าแรก",
+                "last":"หน้าสุดท้าย",
+                "next":"ต่อไป",
+                "previous":"ก่อนหน้า"
+            }
+        },"order": [[ 0, "desc" ]]
+    });
 
     getDate();
+    pdf_get_date();
     get_data_start_page();
 
     // food sales
@@ -201,4 +249,15 @@ $(document).ready(function() {
     // draw_food_sales_chart();
 } );
 
+
+pdf_get_date = () => {
+    var today = new Date();
+    // console.log(today);
+    global_date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2);
+    $("#pdf_selected_month").val(global_date);
+}
+
+// go_to_pdf = (date) => {
+//     window.location = '/store/report/download_report'
+// }
 </script>

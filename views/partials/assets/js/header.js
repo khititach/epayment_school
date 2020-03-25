@@ -17,7 +17,7 @@ $(document).ready(() => {
 })
 
 add_school_name = (school_data) => {
-    var school_name = '<h1 class="display-4" style="color:#f8b739">'+ school_data.school_name_th +'</h1>';
+    var school_name = '<h1 class="display-4 text-header" style="color:#f8b739">'+ school_data.school_name_th +'</h1>';
     var school_name_eng = school_data.school_name_eng;
     $("#insert_school_name").html(school_name)
     $("#title-tag").text(school_name_eng)

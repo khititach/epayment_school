@@ -1,6 +1,7 @@
 const math = require('mathjs');
     // user model
 const User = require('../model/User')
+const user_model = User.user_model;
 const store_model = User.store_model;
 const student_model = User.student_model;
     // history model
@@ -356,17 +357,49 @@ get_food_sales = (req ,res ) => {
 }
 
     // store download report page
+    // format date
+formatDate = (date) => {
+    // req > year month day
+    var Format_date = new Date(date),
+        month = '' + (Format_date.getMonth() + 1 ),
+        year = '' + Format_date.getFullYear();
+
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+
+    return [year,month].join('-');
+}
+
 download_report_page = (req ,res ) => {
+    const month = req.body.month;
+    const data_selected_month = [];
+    // console.log('month : ',month);
+    
     store_history
     .find({store_number:global_data.store_number})
     .sort({ date: 'desc'})
     .exec((err , store_history_data) => {
         if (err) {
             res.status(500).send({error : ' find store history something wrong.'})
+        } else {
+            // console.log(store_history_data);
+            
+            store_history_data.forEach((data,index) => {
+                // console.log('data : ',data);
+                
+                if (formatDate(data.date) == month) {
+                    data_selected_month.push(data)
+                    
+                }
+            })
+            // console.log('data_selected_month : ',data_selected_month);
+            
+            res.status(200).render('../views/store_page/report_component/pdf_page.ejs',{global_data,store_history_data:data_selected_month})
         }
         // console.log('history : ',store_history_data);
         
-        res.status(200).render('../views/store_page/report_component/pdf_page.ejs',{global_data,store_history_data})
+        // res.status(200).render('../views/store_page/report_component/pdf_page.ejs',{global_data,store_history_data})
     })
 }
 
@@ -436,6 +469,34 @@ delete_menu = (req ,res ) => {
 
 }
 
+    // store change password
+store_change_password_page = (req ,res ) => {
+    // console.log('store data : ',global_data);
+    store_model.findOne({uid:global_data.uid},(err, store_data ) => {
+        if (err) {
+            throw err;
+        } else {
+            res.status(200).render('../views/store_page/store_edit',{store_data})
+        }
+    })
+    
+}
+change_password = (req ,res ) => {
+    const req_change_password = req.body;
+    console.log('req change password : ',req_change_password);
+
+    var newPassword = User.user_model.generateHash(req_change_password.new_password);
+
+    user_model.updateOne({uid:global_data.uid},{password:newPassword},(err) => {
+        if (err) {
+            res.status(500).send({ error : 'update password something wrong.'})
+        } else {
+            console.log('password updated.');
+            res.status(200).send({ success : 'เปลี่ยนรหัสผ่านเสร็จสิ้น'})
+        }
+    })
+}
+
 
 module.exports = {
     // function
@@ -445,12 +506,14 @@ module.exports = {
     get_list,
     get_data_graph,
     get_food_sales,
+    change_password,
     // page
     store_home_page,
     store_home_test_page,
     store_report_page,
     store_category_page,
     download_report_page,
+    store_change_password_page,
     // add menu
     add_menu,
     delete_menu

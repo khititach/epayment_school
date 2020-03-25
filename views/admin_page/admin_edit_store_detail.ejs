@@ -13,7 +13,8 @@
                 aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <button type="button" id="sidebarCollapse" class="btn btn-secondary ml-2" onclick="history.back()">
+            <button type="button" id="sidebarCollapse" class="btn btn-secondary ml-2"
+                onclick="window.location = '/admin/edit_store'">
                 <i class="fa fa-arrow-left "></i>
             </button>
             <div class="toggle-title-name">แก้ไข / ร้านค้า / <%= store_data.store_number %></div>
@@ -38,6 +39,7 @@
                         <a class="nav-link" href="/admin/category">คลังอาหาร</a>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -51,6 +53,19 @@
                         <%= store_data.store_name %> </h2>
                     <br>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="mr-4 ml-4 nav-item d-flex align-items-center justify-content-end">
+                            <div class="custom-control custom-switch" style="width: 50px;">
+                                <% if(store_data.store_status == 'เปิด') {%>
+                                <input type="checkbox" class="custom-control-input" id="switch_status" checked>
+                                <label class="custom-control-label" id="switch_status_text"
+                                    for="switch_status">เปิด</label>
+                                <%} else if (store_data.store_status == 'ปิด') {%>
+                                <input type="checkbox" class="custom-control-input" id="switch_status">
+                                <label class="custom-control-label" id="switch_status_text"
+                                    for="switch_status">ปิด</label>
+                                <%}%>
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                 aria-controls="home" aria-selected="true">ข้อมูลส่วนตัว</a>
@@ -59,7 +74,10 @@
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                 aria-controls="profile" aria-selected="false">ข้อมูลร้านค้า</a>
                         </li>
+                       
+                      
                     </ul>
+                   
                 </div>
             </div>
 
@@ -69,137 +87,204 @@
         <br>
         <div class="tab-content profile-tab" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>รหัสบัตรประจำตัวประชาชน</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.uid %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>ชื่อ - นามสกุล</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.pre_name %> <%= store_data.first_name %> <%= store_data.last_name %>
-                        </h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>เพศ</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.sex %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>E-mail</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.email %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>เบอร์โทรศัพท์</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.tel %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>ที่อยู่</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.address %></h5e>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>เลขที่ร้าน</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.store_number %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>ชื่อร้าน</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.store_name %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>เบอร์โทรศัพท์</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.tel %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>รายการเมนูอาหาร</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <h5e><%= store_data.menu_list %></h5e>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-3">
-                        <h5e>แก้ไขรหัสผ่าน</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="button" id="sidebarCollapse" class="btn btn-info ml-2" data-toggle="modal"
-                            data-target="#edit_password_modal">
-                            <i class="fa fa-pencil "></i>
-                        </button>
-                    </div>
+                <div class="row">
+                    <div class="col-md-10">
+                         <div class="row mb-2">
+                            <div class="col-md-4">
+                                <h5e>เลขประจำตัวประชาชน</h5e>
+                            </div>
+                            <div class="col-md-6">
+                                <h5e><%= store_data.uid %></h5e>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <h5e>ชื่อ - นามสกุล</h5e>
+                            </div>
+                            <div class="col-md-6">
+                                <h5e><%= store_data.pre_name %> <%= store_data.first_name %> <%= store_data.last_name %>
+                                </h5e>
+                            </div>
 
-                </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <h5e>เพศ</h5e>
+                            </div>
+                            <div class="col-md-6">
+                                <h5e><%= store_data.sex %></h5e>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <h5e>E-mail</h5e>
+                            </div>
+                            <div class="col-md-6">
+                                <h5e><%= store_data.email %></h5e>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <h5e>เบอร์โทรศัพท์</h5e>
+                            </div>
+                            <div class="col-md-6">
+                                <h5e><%= store_data.tel %></h5e>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <h5e>ที่อยู่</h5e>
+                            </div>
+                            <div class="col-md-6">
+                                <h5e><%= store_data.address %></h5e>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <% if(store_data.store_status == 'เปิด') {%>
+                            <div class="border rounded status-open-box">
+                                <div class="text-center">
+                                    <h5e>สถานะร้านค้า</h5e>
+                                </div>
+                                <div class="text-center">
+                                    <h5e><%= store_data.store_status %></h5e>
+                                </div>
+                            </div>
+                        <%} else {%>
+                            <div class="border rounded status-close-box">
+                                <div class="text-center">
+                                    <h5e>สถานะร้านค้า</h5e>
+                                </div>
+                                <div class="text-center">
+                                    <h5e><%= store_data.store_status %></h5e>
+                                </div>
+                            </div>
+                        <%}%>
+                    </div>
+             </div>
 
+    </div>
+
+
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <h5e>เลขที่ร้าน</h5e>
             </div>
+            <div class="col-md-6">
+                <h5e id="store_number"><%= store_data.store_number %></h5e>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <h5e>ชื่อร้าน</h5e>
+            </div>
+            <div class="col-md-6">
+                <h5e><%= store_data.store_name %></h5e>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <h5e>เบอร์โทรศัพท์</h5e>
+            </div>
+            <div class="col-md-6">
+                <h5e><%= store_data.tel %></h5e>
+            </div>
+        </div>
+        <!-- <div class="row mb-2">
+            <div class="col-md-4">
+                <h5e>รายการเมนูอาหาร</h5e>
+            </div>
+            <div class="col-md-6">
+                <h5e> store_data.menu_list</h5e>
+            </div>
+        </div> -->
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <!-- <h5e>แก้ไขรหัสผ่าน</h5e> -->
+                <h5e>รีเซ็ตรหัสผ่าน</h5e>
+            </div>
+            <div class="col-md-6">
+                <!-- <button type="button" id="sidebarCollapse" class="btn btn-info ml-2" data-toggle="modal"
+                    data-target="#edit_password_modal">
+                    <i class="fa fa-pencil "></i>
+                </button> -->
+                <button type="button" id="sidebarCollapse" class="btn btn-info ml-2" data-toggle="modal"
+                    data-target="#reset_password_modal">
+                    <i class="fa fa-pencil "></i>
+                </button>
+            </div>
+
         </div>
 
     </div>
+</div>
+
+</div>
 
 </div>
 
 <!-- modal edit password -->
-<div class="modal fade" id="edit_password_modal" tabindex="-1" role="dialog" aria-labelledby="editmodeLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="edit_password_modal" tabindex="-1" role="dialog" aria-labelledby="editmodalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="editmodeLabel">แก้ไขรหัสผ่าน</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="editmodalLabel">แก้ไขรหัสผ่าน</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="modal-body">
                 <div class="row rounded">
-                    <div class="col-md-4 " >
+                    <div class="col-md-4 ">
                         <h5e>รหัสผ่านใหม่</h5e>
                     </div>
                     <div class="col-md-7">
-                        <input type="password" class="input-group-text-edit"
-                            placeholder="รหัสผ่านใหม่" id="NewPassword">
+                        <input type="password" class="input-group-text-edit" placeholder="รหัสผ่านใหม่"
+                            id="NewPassword">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary"
+                    onclick="change_password($('#NewPassword').val(),'<%= store_data.uid %>')">บันทึก</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- modal reset password -->
+<div class="modal fade" id="reset_password_modal" tabindex="-1" role="dialog" aria-labelledby="resetmodalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetmodalLabel">ยืนยันรหัสผ่านแอดมิน</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row rounded">
+                    <div class="col-md-5">
+                        <h5e>รหัสผ่านแอดมิน</h5e>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="password" class="input-group-text-edit" placeholder="รหัสผ่านใหม่" id="admin_password">
                         <!-- <button type="submit" class="btn btn-primary col-md-4"
                             onclick="change_password($('#NewPassword').val(),'<%= store_data.uid %>')">เปลี่ยน</button> -->
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" onclick="change_password($('#NewPassword').val(),'<%= store_data.uid %>')">บันทึก</button>
+                <button type="submit" class="btn btn-primary"
+                    onclick="reset_password($('#admin_password').val(),'<%= store_data.uid %>','<%= store_data.dob %>')">บันทึก</button>
                 <!-- <button type="submit" class="btn btn-primary" onclick="edit_profile($('#new_weight').val(),$('#new_height').val(),$('#new_password').val(),$('#new_retype_password').val())">บันทึก</button> -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
             </div>
         </div>
     </div>
-</div>  
+</div>

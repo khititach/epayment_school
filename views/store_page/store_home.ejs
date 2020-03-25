@@ -25,15 +25,18 @@
           <li class="nav-item">
             <a class="nav-link" href="/store/category">สมุดอาหาร</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/store/edit">แก้ไข</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- main body -->
-  <div class="container emp-profile">
+  <div class="emp-profile">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-7">
         <div class=" buy-item-form add-shadow" id="buyItem_component">
           <h3> ข้อมูลนักเรียน</h3>
           <h6> ID card or Student ID </h6>
@@ -67,9 +70,11 @@
                 <h5> ยอดเงินคงเหลือ </h5>
               </div>
             </div>
-            <div class="col-md-8" id="showStudentData"></div>
+            <div class="col-md-5" id="showStudentData"></div>
+            <div class="col-md-3 "><img class="add-shadow" src="/partials/image/unprofile.jpg" id="showStudentImageData" width="100%" alt=""></div>
           </div>
-          <div class="row">
+
+          <!-- <div class="row mt-5">
             <div class="col-md-6">
                 <h4> จำนวนเงิน (บาท) </h4>
                 <input class="input-group-text mb-2" type="text" id="item_price" placeholder="จำนวนเงิน">
@@ -77,147 +82,62 @@
                 </button>
                 <button class="btn btn-secondary" onclick='clear_data()'> ล้างข้อมูล </button>
             </div>
-            <!-- <div class="col-md-6">
-              <h4> เลือกอาหาร </h4>
-              <input class="input-group-text mb-2" type="text" id="select_food_price" placeholder="เลือกอาหาร">
-            </div> -->
-          </div>
+          </div> -->
           
         </div>
-
+        <div class="buy-item-form add-shadow mt-2">
+            <div class="row">
+              <div class="col-md-5">
+                <h4> จำนวนเงิน (บาท) </h4>
+              </div>
+              <div class="col-md-6">
+                  <input class="input-group-text mb-2" type="text" id="item_price" placeholder="จำนวนเงิน">
+                  <button class="btn btn-primary" id="buyItem_confirm" onclick="initBuyitem($('#item_price').val())"> จ่ายเงิน
+                  </button>
+                  <button class="btn btn-secondary" onclick='clear_data()'> ล้างข้อมูล </button>
+              </div>
+            </div>
+        </div>
+      
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5">
         <div class="text-center border rounded name_title">
           <h3 class="font-weight-bold">เมนูอาหาร</h3>
         </div>
 
-        <table id="enable_select_menu" class="table table-bordered edit-table-food-list">
-          <!-- <thead>
-            <tr>
-              <th>รายการที่</th>
-              <th>ชื่ออาหาร</th>
-              <th>ราคา</th>
-            </tr>
-          </thead> -->
-
-          <table class="tg text-center">
-            <col width="33%" />
-            <col width="33%" />
-            <col width="33%" />
-
-            <!-- table 1 -->
-            <tr>
-              <% if(store_food_list[0] == null ) {%>
-                <div class="text-center mt-5">
-                  <h4>ไม่มีรายการอาหาร</h4>
+        <!-- <table id="enable_select_menu" class="table table-bordered edit-table-food-list responsive-table">
+           <% if(store_food_list[0] == null ) {%>
+              <div class="text-center mt-5">
+                <h4>ไม่มีรายการอาหาร</h4>
+              </div>
+            <%}%>
+        </table> -->
+        <div class="scollbar-food-list mt-4">
+          <div class="div-table ">  
+            <% if(store_food_list[0] == null ) {%>
+              <div class="text-center mt-5">
+                <h4>ไม่มีรายการอาหาร</h4>
+              </div>
+            <%} else {%>
+              <% for (var i = 0 ; i < store_food_list.length ; i++) { %>
+                <% if(store_food_list[i] != null ) {%>
+                <div>
+                  <span class="title-food">
+                    <%= store_food_list[i].food_name %>
+                  </span>
+                  <button class="btn btn-primary buy_btn" id="food_list_id_<%= store_food_list[i].food_id %>"
+                    onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i].food_id %>','<%= store_food_list[i].food_name %>','<%= store_food_list[i].food_price %>')">
+                    <span class="btn-font-size">
+                      <%= store_food_list[i].food_price %> บาท
+                    </span>
+                  </button>
                 </div>
-              <%}%>
-              <% for (var i = 0 ; i < 3 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <th>
-                <span style="color: black; font-size: 25px;">
-                  <%= store_food_list[i].food_name %>
-                </span>
-              </th>
-              <%} else {}}%>
-            </tr>
-            <tr>
-              <% for (var i = 0 ; i < 3 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <td class="text-center " style="padding:0 15px 25px 15px;">
-                <button class="btn btn-primary buy_btn" id="food_list_id_<%= store_food_list[i].food_id %>"
-                  onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i].food_id %>','<%= store_food_list[i].food_name %>','<%= store_food_list[i].food_price %>')">
-                  <span class="btn-font-size">
-                    <%= store_food_list[i].food_price %> บาท
-                  </span>
-                </button>
-              </td>
-              <%} else {%>
-               
-              <%}}%>
-              
-            </tr>
+                
+                <%} else {}}%>
+            <%} %>
+          </div>
+        </div>
 
-            <!-- table 2 -->
-            <tr>
-              <% for (var i = 3 ; i < 6 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <th>
-                <span style="color: black; font-size: 25px;">
-                  <%= store_food_list[i].food_name %>
-                </span>
-              </th>
-              <%} else { }}%>
-            </tr>
-            <tr>
-              <% for (var i = 3 ; i < 6 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <td class="text-center"  style="padding:0 15px 25px 15px;">
-                <button class="btn btn-primary buy_btn" id="food_list_id_<%= store_food_list[i].food_id %>"
-                  onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i].food_id %>','<%= store_food_list[i].food_name %>','<%= store_food_list[i].food_price %>')">
-                  <span class="btn-font-size">
-                    <%= store_food_list[i].food_price %> บาท
-                  </span>
-                </button>
-              </td>
-              <%} else {}}%>
-            </tr>
-
-            <!-- table 3 -->
-            <tr>
-              <% for (var i = 6 ; i < 9 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <th>
-                <span style="color: black; font-size: 25px;">
-                  <%= store_food_list[i].food_name %>
-                </span>
-              </th>
-              <%} else { }}%>
-            </tr>
-            <tr>
-              <% for (var i = 6 ; i < 9 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <td class="text-center"  style="padding:0 15px 25px 15px;">
-                <button class="btn btn-primary buy_btn" id="food_list_id_<%= store_food_list[i].food_id %>"
-                  onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i].food_id %>','<%= store_food_list[i].food_name %>','<%= store_food_list[i].food_price %>')">
-                  <span class="btn-font-size">
-                    <%= store_food_list[i].food_price %> บาท
-                  </span>
-                </button>
-              </td>
-              <%} else {}}%>
-            </tr>
-
-            <!-- table 3 -->
-            <tr>
-              <% for (var i = 9 ; i < 12 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <th>
-                <span style="color: black; font-size: 25px;">
-                  <%= store_food_list[i].food_name %>
-                </span>
-              </th>
-              <%} else { }}%>
-            </tr>
-            <tr>
-              <% for (var i = 9 ; i < 12 ; i++) { %>
-              <% if(store_food_list[i] != null ) {%>
-              <td class="text-center"  style="padding:0 15px 25px 15px;">
-                <button class="btn btn-primary buy_btn" id="food_list_id_<%= store_food_list[i].food_id %>"
-                  onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i].food_id %>','<%= store_food_list[i].food_name %>','<%= store_food_list[i].food_price %>')">
-                  <span class="btn-font-size">
-                    <%= store_food_list[i].food_price %> บาท
-                  </span>
-                </button>
-              </td>
-              <%} else {}}%>
-            </tr>
-
-
-          </table>
-
-
-        </table>
 
       </div>
     </div>

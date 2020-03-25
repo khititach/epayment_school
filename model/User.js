@@ -75,8 +75,9 @@ const store_schema = new Schema({
     tel:{ type:String },
     email:{ type:String },
     store_name:{ type:String },
-    store_number:{ type:Number , unique:true},
-    menu_list:[{ type:Number }]
+    store_number:{ type:String , unique:true},
+    store_status:{ type:String },
+    menu_list:[{ type:String }]
 
     // menu_list:[{
     //     food_image:{ type:String },

@@ -38,6 +38,48 @@ formatDate_for_password = (date) => {
     }
     return [year,month,day].join('');
 }
+
+format_store_number = (store_number) => {
+    // console.log('format store number : ',store_number);
+    if (store_number < 10) {
+        // console.log('between 1 - 9');
+        
+        store_number = '00' + store_number;
+    }
+    else if (store_number >= 10 && store_number < 100) {
+        // console.log('between 10 - 99');
+        store_number = '0' + store_number;
+    }
+    else if (store_number >= 100 && store_number < 1000) {
+        // console.log('between 100 - 999');
+    }
+    
+    return store_number;
+    // no function
+}
+
+format_food_id = (food_id) => {
+    console.log('format food id : ', food_id);
+    if (food_id < 10) {
+        console.log('food id between 1 - 9');
+        food_id = '000' + food_id;
+    }
+    else if (food_id >= 10 && food_id < 100) {
+        console.log('food id between 10 - 99');
+        food_id = '00' + food_id;
+    }
+    else if (food_id >= 100 && food_id < 1000) {
+        console.log('food id between 100 - 999');
+        food_id = '0' + food_id;
+    }
+    else if (food_id >= 1000 && food_id < 10000) {
+        console.log('food id between 1000 - 9999');
+    }
+
+    return food_id;
+    
+}
+
     // generate username (store and admin)
 generate_username = (username) => {
     // console.log(username);
@@ -186,9 +228,18 @@ admin_home_page = async (req ,res ) => {
         return user_store_data_count;
     })
 
-    console.log('student count : ', student_count,' / store count : ',store_count);
+        // food count
+    const food_count = await category.countDocuments({},(err , food_data_count) => {
+        if (err) {
+            throw err;
+        }
+
+        return food_data_count;
+    })
+
+    console.log('student count : ', student_count,' / store count : ',store_count, ' / food count : ',food_count);
     
-    res.render('../views/admin_page/admin_home',{admin_data:global_data,student_count,store_count});
+    res.render('../views/admin_page/admin_home',{admin_data:global_data,student_count,store_count,food_count});
 }
 
     // Register student
@@ -291,28 +342,40 @@ register_student = (req ,res ) => {
 
     // Register Store
 register_store_page = async (req ,res) => {
-    // console.log("number of stores : ",school_data.Number_of_stores);
-    const Num_of_store = school_data.Number_of_stores;
-    const store_number_available = [];
-    for (let i = 1; i <= Num_of_store; i++) {
-        await store_model.findOne({store_number:i},'store_number',(err , store_data) => {
-            // console.log('found data : ',store_data);
+        // old code register store page 
+    // const Num_of_store = school_data.Number_of_stores;
+    // const store_number_available = [];
+    // for (let i = 1; i <= Num_of_store; i++) {
+    //     await store_model.findOne({},'store_number',(err , store_data) => {
+    //         console.log('found data : ',store_data);
             
-            if (err) {
-                throw err;
-            }
-            if (!store_data) {
-                store_number_available.push(i)
-            }
-        })
+    //         if (err) {
+    //             throw err;
+    //         }
+    //         if (!store_data) {
+    //             store_number_available.push(i)
+    //         }
+    //     })
         
-    }
-    
-    // res.send( store_number_available)
+    // }
 
-    // console.log('store number is available : ',store_number_available);
+        // new code v2 register store oage
+    await store_model.find({}).limit(1).sort({store_number:-1}).exec((err,store_data) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log(store_data[0].store_number);
+            console.log(Number(store_data[0].store_number) + 1);
+            
+            const store_number_available = format_store_number(Number(store_data[0].store_number) + 1);
+            // const new_store_number = format_store_number(130);
+            console.log(store_number_available);
+            res.render('../views/admin_page/admin_register_store',{store_number_available});
+        }
+    })
     
-    res.render('../views/admin_page/admin_register_store',{store_number_available});
+    
+    // res.render('../views/admin_page/admin_register_store',{store_number_available});
 }
 
 register_store = (req ,res ) => {
@@ -359,6 +422,7 @@ register_store = (req ,res ) => {
                             email:store_data.email,
                             store_name:store_data.storeName,
                             store_number:store_data.storeNumber,
+                            store_status:'เปิด',
                             menu_list:[]
                         });
         
@@ -546,6 +610,39 @@ edit_store_change_password = (req ,res ) => {
         res.status(200).send({success : "เปลี่ยนรหัสผ่านสำเร็จ."});
     })
 }
+        // store change status
+edit_store_change_status = (req ,res ) => {
+    const req_change_status = req.body;
+    // console.log('req change status : ',req_change_status);
+    store_model.updateOne({store_number:req_change_status.store_number},{store_status:req_change_status.status},(err ) => {
+        if (err) {
+            throw err;
+        } else {
+            // console.log('changed status');
+            res.status(200).send({success : req_change_status.status+'ร้านค้าแล้ว'})
+            
+        }
+    })
+    
+}
+        // store reset password
+reset_store_password = (req ,res ) => {
+    const ReqResetPassword = req.body;
+    // console.log('req reset password : ',ReqResetPassword);
+    // console.log('defaul password : ',formatDate_for_password(ReqResetPassword.store_dob));
+    
+    if (bcrypt.compareSync(ReqResetPassword.admin_password, req.user.password) === false) {
+        res.status(400).send({error : 'รหัสผ่านแอดมินไม่ถูกต้อง'})
+    } else {
+        user_model.updateOne({uid:ReqResetPassword.store_uid},{password:User.user_model.generateHash(formatDate_for_password(ReqResetPassword.store_dob))},(err) => {
+            if (err) {
+                throw err;
+            } else {
+                res.status(200).send({success : 'รีเซ็ตรหัสผ่านสำเร็จ'})
+            }
+        })
+    }
+}
 
         // Delete store ** test req ** use delete_user
 delete_store = (req, res) => {
@@ -575,72 +672,72 @@ category_add_page = (req ,res ) => {
 category_add = async (req ,res ) => {
     const AddMenuReq = req.body;
     // console.log(AddMenuReq);
-    console.log(AddMenuReq.food_data);
+    // console.log(AddMenuReq.food_data);
     const food_already = [];
     const food_avaliable = [];
-    for (let i = 0; i < AddMenuReq.food_data.length; i++) {
-        const data = AddMenuReq.food_data[i];
-        console.log('data array : ' + i + ' > '+ JSON.stringify(data) );
-        
-        // const food_Data = new category({
-        //     food_id:data.food_id,
-        //     food_name:data.food_name,
-        //     food_price:data.food_price,
-        //     food_calories:data.food_calories,
-        //     food_quantity:data.food_quantity,
-        //     food_image:'img to base 64',
-        // });
-        // console.log(food_Data);
-        
-       await category
-        .findOne({$or:[{food_id:data.food_id},{food_name:data.food_name}]},(err , found_food_data) => {
 
-             const food_Data = new category({
-                    food_id:data.food_id,
-                    food_name:data.food_name,
-                    food_price:data.food_price,
-                    food_calories:data.food_calories,
-                    food_quantity:data.food_quantity,
-                    food_image:'',
-                });
+        // new code : find food in db
+    var process_promise = new Promise((resolve,reject) => {
+        AddMenuReq.food_data.forEach(data => {
+            // console.log('data : ',data);
+            
+            category.findOne({$or:[{food_id:data.food_id},{food_name:data.food_name}]},(err , found_food_data) => {
+                // console.log('found data : ',found_food_data);
+                
+                const food_Data = new category({
+                        food_id:data.food_id,
+                        food_name:data.food_name,
+                        food_price:data.food_price,
+                        food_calories:data.food_calories,
+                        food_quantity:data.food_quantity,
+                        food_image:'',
+                    });
+                
+                // console.log('food data model : ',food_Data);
+                    
 
+                if (err) {
+                    console.log(err);
+                    res.status(500).send({error : 'found food something wrong'});
+                }
+                if (found_food_data != null) {
+                    // console.log('found food data');
+                    
+                    food_already.push(food_Data)
+                    // console.log('food already : ',food_already);
+                    resolve();
+                }
+                if (found_food_data == null) {
+
+                    // console.log('New model : ');
+                    // console.log(food_Data);
+                    food_avaliable.push(food_Data)
+                    // console.log('food avaliable : ',food_avaliable);
+                    resolve();
+                }
+            })
+        })
+    })
+    process_promise.then(() => {
+
+        console.log('Process data done');
+        console.log('food already : ',food_already);
+        console.log('food avaliable : ',food_avaliable);
+        category.insertMany(food_avaliable,(err , found_food_Data) => {
             if (err) {
                 console.log(err);
-                res.status(500).send({error : 'found food something wrong'});
-            }
-            if (found_food_data) {
-                console.log('found food data');
-                
-                food_already.push(food_Data)
-            }
-            if (!found_food_data) {
-
-                console.log('New model : ');
-                console.log(food_Data);
-                food_avaliable.push(food_Data)
+                res.status(500).send({error : 'insert new food something wrong.'});
+            } else {
+                res.status(200).send({success:'เพิ่มอาหาร '+ found_food_Data.length +' รายการสำเร็จ', error:'มีรายการในคลังอาหารแล้ว ' + food_already.length + ' รายการ'})
             }
         })
-    }
-
-    console.log(food_already);
-    console.log(food_avaliable);
- 
-    category.insertMany(food_avaliable,(err , found_food_Data) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send({error : 'insert new food something wrong.'});
-        } else {
-            // console.log(food_data);
-            // res.status(200).render('../views/admin_page/admin_category',{success:'เพิ่ม'+ found_food_Data.length +'อาหารสำเร็จ',error:food_already});
-            res.status(200).send({success:'เพิ่มอาหาร '+ found_food_Data.length +' รายการสำเร็จ', error:'มีรายการในคลังอาหารแล้ว ' + food_already.length + ' รายการ'})
-        }
     })
 
 }
 
 category_add_check = (req ,res) => {
     const AddMenuAutoCheckReq = req.body;
-    console.log(AddMenuAutoCheckReq);
+    // console.log(AddMenuAutoCheckReq);
 
     category.findOne({$or:[{food_id:AddMenuAutoCheckReq.food_id},{food_name:AddMenuAutoCheckReq.food_name}]},(err , found_food_Data) => {
         if (err) {
@@ -727,7 +824,7 @@ category_edit = async (req ,res ) => {
             // delete
 category_delete = (req ,res ) => {
     const DelMenuReq = req.body;
-    console.log(DelMenuReq);
+    // console.log(DelMenuReq);
     
     category.findOneAndDelete({food_id:DelMenuReq.food_id},(err , data) => {
         if (err) {
@@ -930,6 +1027,8 @@ module.exports = {
     edit_store_detail_page,
     edit_store_profile,
     edit_store_change_password,
+    edit_store_change_status,
+    reset_store_password,
     delete_store,
     // category 
     category_page,

@@ -119,8 +119,8 @@
             </div>
             <div class="col-md-3">
                 <input class="form-control" type="text" placeholder="เลขบัตรประชาชน" name="uid" id="uidID"
-                    value="<%= typeof uid != 'undefined' ? uid : '' %>"
-                    onchange="check_field(this.value,this.name,this.id)" required>
+                    value="<%= typeof uid != 'undefined' ? uid : '' %>" minlength="13" maxlength="13"
+                    onchange="check_pid(this.value,this.name,id)" required>
             </div>
             <div class="col-md-3" id="addAlertuidID"></div>
         </div>
@@ -130,7 +130,7 @@
             </div>
             <div class="col-md-3">
                 <input class="form-control" type="text" placeholder="เบอร์โทรศัพท์" name="tel" id="telID"
-                    value="<%= typeof tel != 'undefined' ? tel : '' %>"
+                    value="<%= typeof tel != 'undefined' ? tel : '' %>" minlength="10" maxlength="10"
                     onchange="check_field(this.value,this.name,this.id)" required>
             </div>
             <div class="col-md-3" id="addAlerttelID"></div>
@@ -152,7 +152,7 @@
             </div>
             <div class="col-md-3">
                 <input class="form-control" type="text" placeholder="เลขที่ร้านค้า" name="storeNumber"
-                    id="storeNumberID" value="<%= store_number_available[0] %>" required readonly>
+                    id="storeNumberID" value="<%= store_number_available %>" required readonly>
             </div>
             <div class="col-md-3" id="addAlertstoreNumberID"></div>
         </div>

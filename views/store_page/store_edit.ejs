@@ -1,0 +1,206 @@
+<!-- Page Content  -->
+<div id="content" class="p-4 p-md-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+  
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <i class="fa fa-bars"></i>
+        </button>
+        <button type="button" class="btn btn-info ml-2" data-toggle="modal" data-target="#change_password_modal">
+            <i class="fa fa-pencil "></i>
+        </button> 
+        <div class="toggle-title-name"><%= store_data.store_name %></div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">หน้าร้านค้า</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/store/report">ประวัติ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/store/category">สมุดอาหาร</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/store/edit">แก้ไข</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  
+    <!-- main body -->
+    <div class="container emp-profile">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-head">
+                    <h2 class="admin_name_title ">ร้านค้า ที่ <%= store_data.store_number %>
+                        <%= store_data.store_name %> </h2>
+                    <br>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">ข้อมูลส่วนตัว</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="false">ข้อมูลร้านค้า</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+        <br>
+        <div class="tab-content profile-tab" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>รหัสบัตรประจำตัวประชาชน</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.uid %></h5e>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>ชื่อ - นามสกุล</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.pre_name %> <%= store_data.first_name %> <%= store_data.last_name %>
+                        </h5e>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>เพศ</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.sex %></h5e>
+                    </div>
+                </div>
+                <!-- dob -->
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5>วันเกิด</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5> <%= store_data.dob.getDate() + "/" + (store_data.dob.getMonth()+1) + "/" + store_data.dob.getFullYear() %></h5>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>E-mail</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.email %></h5e>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>เบอร์โทรศัพท์</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.tel %></h5e>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>ที่อยู่</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.address %></h5e>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>เลขที่ร้าน</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.store_number %></h5e>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>ชื่อร้าน</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.store_name %></h5e>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>เบอร์โทรศัพท์</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.tel %></h5e>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <h5e>รายการเมนูอาหาร</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <h5e><%= store_data.menu_list.length %> เมนู</h5e>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+  
+    <!-- edit modal -->
+<div class="modal fade" id="change_password_modal" tabindex="-1" role="dialog" aria-labelledby="changepassLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="changepassLabel">เปลี่ยนรหัสผ่าน</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <div class="modal-body">
+                <!-- change password -->
+                <div class="row mb-2">
+                    <div class="col-md-5 text-right">
+                        <h5e>รหัสผ่านใหม่ : </h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <input class="input-group-text-edit" type="password" id="new_password" placeholder="รหัสผ่านใหม่" > 
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-5 text-right">
+                        <h5e >ยืนยันรหัสผ่านใหม่ : </h5e>
+                    </div>
+                    <div class="col-md-6 ">
+                        <input class="input-group-text-edit" type="password" id="new_retype_password" placeholder="ยืนยันรหัสผ่านใหม่"> 
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</!--> 
+                <button type="submit" class="btn btn-primary" onclick="change_password($('#new_password').val(),$('#new_retype_password').val())">บันทึก</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>
+

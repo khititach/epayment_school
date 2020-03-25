@@ -47,6 +47,7 @@
         <th>ชื่อร้าน</th>
         <th>ชื่อเจ้าของร้าน</th>
         <th>เบอร์โทรศัพท์</th>
+        <th>สถานะร้านค้า</th>
         <th>แก้ไข / ลบ</th>
       </tr>
     </thead>
@@ -57,6 +58,7 @@
         <td><%= store_data[i].store_name %></td>
         <td><%= store_data[i].pre_name %> <%= store_data[i].first_name %> <%= store_data[i].last_name %></td>
         <td><%= store_data[i].tel %></td>
+        <td><%= store_data[i].store_status %></td>
         <td>
           <a href="/admin/edit_store/<%= store_data[i].store_number %>" class="btn btn-success"> แก้ไข </a>
           <button class="btn btn-danger" data-toggle="modal" data-target="#removeStoreModal"
@@ -103,6 +105,18 @@
 
 <script>
   $(document).ready(function () {
-    $('#StoreDataTableID').DataTable();
+    $('#StoreDataTableID').DataTable({
+      "language": {
+            "lengthMenu": "แสดง _MENU_ ข้อมูล",
+            "info": "แสดง หน้า _PAGE_ จาก _PAGES_",
+            "search": "ค้นหา",
+            "paginate": {
+                "first": "หน้าแรก",
+                "last":"หน้าสุดท้าย",
+                "next":"ต่อไป",
+                "previous":"ก่อนหน้า"
+            }
+        }
+    });
   });
 </script>

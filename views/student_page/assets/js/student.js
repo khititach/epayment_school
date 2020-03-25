@@ -162,10 +162,10 @@ get_data_start_page = () => {
         calories_avg = average_data(processed_data)
         // console.log('calories avg : ',calories_avg);
         if (isNaN(calories_avg))  {
-           $('#calories_avg').text('0 แคล'); 
+           $('#calories_avg').text('0 กิโลแคลอรี่'); 
         }
         else {
-            $('#calories_avg').text(calories_avg + ' แคล');
+            $('#calories_avg').text(calories_avg + ' กิโลแคลอรี่');
         } 
        
         
@@ -245,12 +245,12 @@ change_month_set_summary_calories = (select_month) => {
         // processed_data = process_data(msg_back,"expend")
         var calories_avg = average_data(processed_data);
         if (isNaN(calories_avg))  {
-            $('#calories_avg').text('0 แคล'); 
+            $('#calories_avg').text('0 กิโลแคลอรี่'); 
          }
          else {
-             $('#calories_avg').text(calories_avg + ' แคล');
+             $('#calories_avg').text(calories_avg + ' กิโลแคลอรี่');
          } 
-        // $('#calories_avg').text(calories_avg + ' แคล');
+        // $('#calories_avg').text(calories_avg + ' กิโลแคลอรี่');
     })
 }
 
@@ -317,7 +317,21 @@ draw_chart = (chart_data, mode) => {
             }]
         },
         options: {
-            responsive: true
+            responsive: true,
+            scales: {
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'กิโลแคลอรี่'
+                  }
+                }],
+                xAxes:[{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'วันที่'
+                      }
+                }]
+            }
         }
 
     };

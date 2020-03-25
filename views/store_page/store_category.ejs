@@ -25,6 +25,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/store/category">สมุดอาหาร</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/store/edit">แก้ไข</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -88,7 +91,7 @@
                                         <td><%= food_data[i].food_id %></td>
                                         <td><%= food_data[i].food_name %></td>
                                         <td><%= food_data[i].food_price %></td>
-                                        <td><button class="btn btn-success" id="ID_<%= food_data[i].food_id %>" value="<%= food_data[i].food_id %>" onclick="add_food_menu_book('<%= food_data[i].food_id %>')">เพิ่ม</button></td>
+                                        <td><button class="btn btn-success category-btn" id="ID_<%= food_data[i].food_id %>" value="<%= food_data[i].food_id %>" onclick="add_food_menu_book('<%= food_data[i].food_id %>')">เพิ่ม</button></td>
                                     </tr>
                                 <%}%>
 
@@ -109,13 +112,42 @@ $(document).ready(function() {
 
     category_check_btn();
     
-    $('#StoreFoodDataTableID').DataTable();
+    $('#StoreFoodDataTableID').DataTable({
+        "language": {
+            "lengthMenu": "แสดง _MENU_ ข้อมูล",
+            "info": "แสดง หน้า _PAGE_ จาก _PAGES_",
+            "search": "ค้นหา",
+            "paginate": {
+                "first": "หน้าแรก",
+                "last":"หน้าสุดท้าย",
+                "next":"ต่อไป",
+                "previous":"ก่อนหน้า"
+            }
+        }
+    });
     $('#foodDataTableID').DataTable({
+        "language": {
+            "lengthMenu": "แสดง _MENU_ ข้อมูล",
+            "info": "แสดง หน้า _PAGE_ จาก _PAGES_",
+            "search": "ค้นหา",
+            "paginate": {
+                "first": "หน้าแรก",
+                "last":"หน้าสุดท้าย",
+                "next":"ต่อไป",
+                "previous":"ก่อนหน้า"
+            }
+        },
         drawCallback: function(){
             $('.paginate_button').on('click', function(){
-                    // alert('next');
-                    category_check_btn();
-            });       
+                // alert('next');
+                category_check_btn();
+            });   
+            $('.custom-select ,sorting ,sorting_asc ,sorting_desc').on('change',() => {
+                category_check_btn();
+            });
+            $('input[type=search]').on('change',() => {
+                category_check_btn();
+            });
         }
     });
 
@@ -123,5 +155,26 @@ $(document).ready(function() {
     
 });
 
+
+category_check_btn = () => {
+    $.get("/store/category/get_list", (data) => {
+        var store_list = data.store_food_list;
+        // console.log('store food list : ',data);
+        $('.category-btn').each((index,data) => {
+            for (let i = 0; i < store_list.length; i++) {
+            //    console.log('category btn : ',data.value);
+            //    console.log('store food btn : ',store_list[i]);
+            //    console.log('category btn : ',data);
+               if (data.value == store_list[i]) {
+                //    console.log('data value = store food id list');
+                   
+                   $('#'+data.id).removeClass('btn-success').addClass('btn-secondary').attr('disabled', true);
+               }
+            }    
+        })
+
+    });
+
+}
 
 </script>

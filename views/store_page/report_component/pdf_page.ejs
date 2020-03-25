@@ -56,19 +56,22 @@
                         <th>ผู้รับผิดชอบ</th>
                     </tr>
                 </thead>
-                <% for (var i = 0 ; i < store_history_data.length ; i++) {%>
-                <tr>
-                    <td><%= store_history_data[i].date.getDate() + "/" + (store_history_data[i].date.getMonth()+1) + "/" + store_history_data[i].date.getFullYear() %>
-                    </td>
-                    <td><%= ("0"+store_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+store_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+store_history_data[i].date.getSeconds()).slice(-2) %>
-                    </td>
-                    <td><%= store_history_data[i].student_id %></td>
-                    <td><%= store_history_data[i].status %></td>
-                    <td><%= store_history_data[i].food_name %></td>
-                    <td><%= store_history_data[i].income %></td>
-                    <td><%= store_history_data[i].responsible %></td>
-                </tr>
-                <%}%>
+                    <% if(store_history_data == null) {%>
+                        <h5>กรุณาเลือกช่วงเวลา</h5>
+                    <%}%>
+                    <% for (var i = 0 ; i < store_history_data.length ; i++) {%>
+                    <tr>
+                        <td><%= store_history_data[i].date.getDate() + "/" + (store_history_data[i].date.getMonth()+1) + "/" + store_history_data[i].date.getFullYear() %>
+                        </td>
+                        <td><%= ("0"+store_history_data[i].date.getHours()).slice(-2) + ":" + ("0"+store_history_data[i].date.getMinutes()).slice(-2) + ":" +  ("0"+store_history_data[i].date.getSeconds()).slice(-2) %>
+                        </td>
+                        <td><%= store_history_data[i].student_id %></td>
+                        <td><%= store_history_data[i].status %></td>
+                        <td><%= store_history_data[i].food_name %></td>
+                        <td><%= store_history_data[i].income %></td>
+                        <td><%= store_history_data[i].responsible %></td>
+                    </tr>
+                    <%}%>
                 </table>
         </div>
     </div>
@@ -111,5 +114,6 @@ tableToPDF = () => {
                 }
             });
 }
+
 
 </script>

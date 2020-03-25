@@ -15,6 +15,7 @@ router.post('/register_student',controller.register_student)
     // register store
 router.get('/register_store',controller.register_store_page);
 router.post('/register_store',controller.register_store);
+// router.get('/register_store_test',controller.register_store_page_test);
 
         // register store auto check
 router.patch('/register_auto_check',controller.register_store_check);
@@ -30,6 +31,10 @@ router.get('/edit_store/?:id',controller.edit_store_detail_page);
 router.patch('/edit_profile',controller.edit_store_profile);
         // edit store password
 router.patch('/store_change_password',controller.edit_store_change_password);
+        // edit store change status
+router.patch('/edit_store/change_status',controller.edit_store_change_status);
+        // reset password
+router.patch('/edit_store/reset_password',controller.reset_store_password);
         // delete store 
 router.delete('/delete_store',controller.delete_user);
 
