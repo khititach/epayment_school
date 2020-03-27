@@ -113,12 +113,12 @@
             <%}%>
         </table> -->
         <div class="scollbar-food-list mt-4">
-          <div class="div-table ">  
-            <% if(store_food_list[0] == null ) {%>
-              <div class="text-center mt-5">
+          <% if(store_food_list[0] == null ) {%>
+             <div class="text-center mt-5">
                 <h4>ไม่มีรายการอาหาร</h4>
               </div>
-            <%} else {%>
+          <%} else {%>
+            <div class="div-table ">  
               <% for (var i = 0 ; i < store_food_list.length ; i++) { %>
                 <% if(store_food_list[i] != null ) {%>
                 <div>

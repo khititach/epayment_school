@@ -165,7 +165,7 @@ get_data_start_page = () => {
            $('#calories_avg').text('0 กิโลแคลอรี่'); 
         }
         else {
-            $('#calories_avg').text(calories_avg + ' กิโลแคลอรี่');
+            $('#calories_avg').text(Math.trunc(calories_avg)  + ' กิโลแคลอรี่');
         } 
        
         
@@ -248,7 +248,7 @@ change_month_set_summary_calories = (select_month) => {
             $('#calories_avg').text('0 กิโลแคลอรี่'); 
          }
          else {
-             $('#calories_avg').text(calories_avg + ' กิโลแคลอรี่');
+             $('#calories_avg').text(Math.trunc(calories_avg) + ' กิโลแคลอรี่');
          } 
         // $('#calories_avg').text(calories_avg + ' กิโลแคลอรี่');
     })

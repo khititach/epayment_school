@@ -671,69 +671,45 @@ category_add_page = (req ,res ) => {
             // add
 category_add = async (req ,res ) => {
     const AddMenuReq = req.body;
-    // console.log(AddMenuReq);
-    // console.log(AddMenuReq.food_data);
+    // console.log("req food to add : ",AddMenuReq);
+    const food_data_array = AddMenuReq.food_data;
+    // const food_data_array_length = food_data_array.length ;
+    // console.log('Number of food add req : ',food_data_array_length);
     const food_already = [];
     const food_avaliable = [];
 
-        // new code : find food in db
-    var process_promise = new Promise((resolve,reject) => {
-        AddMenuReq.food_data.forEach(data => {
-            // console.log('data : ',data);
-            
-            category.findOne({$or:[{food_id:data.food_id},{food_name:data.food_name}]},(err , found_food_data) => {
-                // console.log('found data : ',found_food_data);
-                
-                const food_Data = new category({
-                        food_id:data.food_id,
-                        food_name:data.food_name,
-                        food_price:data.food_price,
-                        food_calories:data.food_calories,
-                        food_quantity:data.food_quantity,
-                        food_image:'',
-                    });
-                
-                // console.log('food data model : ',food_Data);
-                    
-
-                if (err) {
-                    console.log(err);
-                    res.status(500).send({error : 'found food something wrong'});
+    const find_food_promise = new Promise(async(resolve,reject) => {
+        await food_data_array.forEach( async(food_data) => {
+            await category.findOne({$or:[{food_id:food_data.food_id},{food_name:food_data.food_name}]},'food_id food_name',(err,food_data_db) => {
+                if (food_data_db) {
+                    food_already.push(food_data)
                 }
-                if (found_food_data != null) {
-                    // console.log('found food data');
-                    
-                    food_already.push(food_Data)
-                    // console.log('food already : ',food_already);
-                    resolve();
-                }
-                if (found_food_data == null) {
-
-                    // console.log('New model : ');
-                    // console.log(food_Data);
-                    food_avaliable.push(food_Data)
-                    // console.log('food avaliable : ',food_avaliable);
-                    resolve();
+                if (!food_data_db) {
+                    food_avaliable.push(food_data)
                 }
             })
+            resolve(food_avaliable)
         })
+        
     })
-    process_promise.then(() => {
+    
 
-        console.log('Process data done');
-        console.log('food already : ',food_already);
-        console.log('food avaliable : ',food_avaliable);
+    find_food_promise.then((result) => {
+        // console.log('Process data done');
+        // console.log('food already : ',food_already);
+        // console.log('food avaliable : ',result);
         category.insertMany(food_avaliable,(err , found_food_Data) => {
             if (err) {
                 console.log(err);
                 res.status(500).send({error : 'insert new food something wrong.'});
             } else {
-                res.status(200).send({success:'เพิ่มอาหาร '+ found_food_Data.length +' รายการสำเร็จ', error:'มีรายการในคลังอาหารแล้ว ' + food_already.length + ' รายการ'})
+                res.status(200).send({success:'เพิ่มอาหาร '+ found_food_Data.length +' รายการสำเร็จ'})
             }
         })
     })
-
 }
+
+
 
 category_add_check = (req ,res) => {
     const AddMenuAutoCheckReq = req.body;
