@@ -66,7 +66,7 @@ buy_item = (req , res) =>{
                 deposit:'0',
                 withdraw:reqBuyItem.item_price,
                 total:newCurrentMoney,
-                responsible:'store owner:'+global_data.first_name
+                responsible:'เจ้าของร้าน:'+global_data.first_name
             }
             // console.log("Record student history model preview : " + JSON.stringify(student_data_record));
 
@@ -149,7 +149,7 @@ buy_item_list = (req ,res ) => {
                     deposit:'0',
                     withdraw:food_data.food_price,
                     total:newCurrentMoney,
-                    responsible:'store owner:'+global_data.first_name
+                    responsible:'เจ้าของร้าน:'+global_data.first_name
                 }
                 // console.log("Record student history model preview : ",student_data_record);
 

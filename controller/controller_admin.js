@@ -180,7 +180,7 @@ topup = (req ,res ) => {
                 deposit:reqTopup.amount_Topup,
                 withdraw:'0',
                 total:newCurrentMoney,
-                responsible:'admin:' + global_data.first_name
+                responsible:'เจ้าหน้าที่:' + global_data.first_name
             }
             // console.log("Record history model preview : " + JSON.stringify(student_data_record));
 
