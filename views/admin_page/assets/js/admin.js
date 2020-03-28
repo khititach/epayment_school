@@ -195,7 +195,8 @@ $('#form_Register_Store').on('submit', (e) => {
 })
 
 check_field = (data, name_field, id) => {
-    console.log("ID : ",id," > Send to check : " + name_field + ' > ' + data);
+    var data = data.replace(/-/g, "");
+    // console.log("ID : ",id," > Send to check : " + name_field + ' > ' + data);
     // console.log('id : ', '#' + id);
     if (data == '') {
         // console.log('data == null');
@@ -229,6 +230,7 @@ check_field = (data, name_field, id) => {
 }
 
 check_pid = (data, name_field, id) => {
+    var data = data.replace(/-/g, "");
     if (data == '') {
         // console.log('data == null');
 
