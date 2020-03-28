@@ -15,6 +15,11 @@
 
 @media (max-width: 1366px){
     .info-student h5{ font-size: 1rem;}
+    .info-school h5{font-size: 1rem;}
+    .info-admin h5{font-size: 1rem;}
+    .profile-tab h5{font-size: 1rem;}
+    .info-alert h5{font-size: 1rem;}
+    .info-alert h6{font-size: 0.75rem;}
 }
 
 .admin_name_title {

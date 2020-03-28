@@ -47,7 +47,12 @@
 @media (max-width: 1366px){
     .title-food{ font-size: 12px;}
     .info-student h5{ font-size: 1rem;}
-  }
+    div.dataTables_wrapper div.dataTables_filter input.form-control{
+        margin-left: 0.25em;
+        display: inline-block;
+        width: 150px;
+    }
+}
 
 .img-store-page {
     height: 200px;

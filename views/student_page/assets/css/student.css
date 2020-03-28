@@ -40,9 +40,14 @@ h1 , h2 , h3, h4 , h5 , h6 {
     width: 100%;
     text-align: center;
     color: white;
-    font-size: 1.4em;
+    /* font-size: 1.4em; */
     word-wrap: break-word;  
     font-family: 'Prompt', sans-serif;
+}
+
+@media (max-width: 1366px){
+    #insert_sidebar_name{ font-size: 1rem;}
+
 }
 
 .name_title {
