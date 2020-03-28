@@ -673,40 +673,68 @@ category_add = async (req ,res ) => {
     const AddMenuReq = req.body;
     // console.log("req food to add : ",AddMenuReq);
     const food_data_array = AddMenuReq.food_data;
-    // const food_data_array_length = food_data_array.length ;
-    // console.log('Number of food add req : ',food_data_array_length);
+    const food_data_array_length = food_data_array.length ;
+    console.log('start find and add food');
+    // console.log('food add req : ',food_data_array);
+    // console.log('number of food add req : ',food_data_array_length);
+    var count = 1;
     const food_already = [];
     const food_avaliable = [];
+    // console.log('food already : ',food_already);
+    // console.log('food avaliable : ',food_avaliable);
 
-    const find_food_promise = new Promise(async(resolve,reject) => {
-        await food_data_array.forEach( async(food_data) => {
-            await category.findOne({$or:[{food_id:food_data.food_id},{food_name:food_data.food_name}]},'food_id food_name',(err,food_data_db) => {
-                if (food_data_db) {
-                    food_already.push(food_data)
+    // new code v...
+    var add_food_process_promise = new Promise((resolve,reject) => {
+        food_data_array.forEach(async(food_data) => {
+
+            const food_data_model = new category({
+                food_id:food_data.food_id,
+                food_name:food_data.food_name,
+                food_price:food_data.food_price,
+                food_calories:food_data.food_calories,
+                food_quantity:food_data.food_quantity,
+                food_image:'',
+            });
+
+            category.findOne({$or:[{food_id:food_data.food_id},{food_name:food_data.food_name}]},'food_id food_name',(err , food_data_db) => {
+                if (err) {
+                    throw err;
                 }
-                if (!food_data_db) {
+                else if (food_data_db != null) {
+                    food_already.push(food_data)
+                    // console.log('food already : ',food_already);
+                }
+                else if (food_data_db == null) {
                     food_avaliable.push(food_data)
+                    // console.log('food avaliable : ',food_avaliable)
+                    food_data_model.save((err) => {
+                         if (err) {
+                            throw err;
+                        } else {
+
+                        //    console.log('insert complete. ');
+                           count++;
+                        //    console.log('conut add > ',count);
+                           if (count === food_data_array_length) {
+                               resolve(count)
+                           }
+                        }
+                    })
                 }
             })
-            resolve(food_avaliable)
         })
-        
     })
+
+    add_food_process_promise.then((result) => {
+        // console.log('result : ',result);
+        
+        res.status(200).send({success:'เพิ่มอาหารรายการสำเร็จ'})
+    })
+
+
     
 
-    find_food_promise.then((result) => {
-        // console.log('Process data done');
-        // console.log('food already : ',food_already);
-        // console.log('food avaliable : ',result);
-        category.insertMany(food_avaliable,(err , found_food_Data) => {
-            if (err) {
-                console.log(err);
-                res.status(500).send({error : 'insert new food something wrong.'});
-            } else {
-                res.status(200).send({success:'เพิ่มอาหาร '+ found_food_Data.length +' รายการสำเร็จ'})
-            }
-        })
-    })
+
 }
 
 
