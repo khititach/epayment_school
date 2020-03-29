@@ -183,7 +183,7 @@ get_data_start_page = () => {
            $('#expend_avg').text('0 บาท'); 
         }
         else {
-            $('#expend_avg').text(expend_avg + ' บาท');
+            $('#expend_avg').text(Math.trunc(expend_avg) + ' บาท');
         } 
         
     })
@@ -278,9 +278,9 @@ change_month_set_summary_expend = (select_month) => {
             $('#expend_avg').text('0 บาท'); 
          }
          else {
-             $('#expend_avg').text(expend_avg + ' บาท');
+             $('#expend_avg').text(Math.trunc(expend_avg) + ' บาท');
          } 
-        // $('#expend_avg').text(expend_avg + ' บาท');
+        // $('#expend_avg').text(Math.trunc(expend_avg) + ' บาท');
     })
 }
 
