@@ -7,7 +7,7 @@ const student_history_schema = new Schema({
     student_id:{ type:String },
     date:{ type:Date }, // day + time > dd/mm/yyyy,00:00:00
     status:{ type:String }, // Topup or buy
-    store_number:{ type:Number },
+    store_number:{ type:String },
     store_name:{ type:String },
     food:{ type:String },
     calories:{ type:String },
@@ -19,7 +19,7 @@ const student_history_schema = new Schema({
 
     // store history schema
 const store_history_schema = new Schema({
-    store_number:{ type:Number },
+    store_number:{ type:String },
     store_name:{ type:String },
     date:{ type:Date },
     student_id:{ type:String },
