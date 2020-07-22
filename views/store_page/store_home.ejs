@@ -105,37 +105,61 @@
           <h3 class="font-weight-bold">เมนูอาหาร</h3>
         </div>
 
-        <!-- <table id="enable_select_menu" class="table table-bordered edit-table-food-list responsive-table">
-           <% if(store_food_list[0] == null ) {%>
-              <div class="text-center mt-5">
-                <h4>ไม่มีรายการอาหาร</h4>
-              </div>
-            <%}%>
-        </table> -->
         <div class="scollbar-food-list mt-4">
           <% if(store_food_list[0] == null ) {%>
-             <div class="text-center mt-5">
-                <h4>ไม่มีรายการอาหาร</h4>
-              </div>
+            <div class="text-center mt-5">
+               <h4>ไม่มีรายการอาหาร</h4>
+             </div>
           <%} else {%>
-            <div class="div-table ">  
-              <% for (var i = 0 ; i < store_food_list.length ; i++) { %>
-                <% if(store_food_list[i] != null ) {%>
-                <div>
-                  <span class="title-food">
-                    <%= store_food_list[i].food_name %>
-                  </span>
-                  <button class="btn btn-primary buy_btn" id="food_list_id_<%= store_food_list[i].food_id %>"
-                    onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i].food_id %>','<%= store_food_list[i].food_name %>','<%= store_food_list[i].food_price %>')">
-                    <span class="btn-font-size">
-                      <%= store_food_list[i].food_price %> บาท
-                    </span>
-                  </button>
-                </div>
+            <% row = 1; %>
+            <% for (var i = 0 ; i < parseInt(store_food_list.length / 2)+1 ; i++) { %>
+              <!-- row data -->
+              <!-- <h4>row : </h4> -->
+              <div class="row-list">
+              <% if(store_food_list[i] != null ) {%>
+                <% if(store_food_list[i+(row-1)] != null ) {%>
+                  <div class="column-list" >
+                    <h5 class="title-name-food">
+                      <%= store_food_list[i+(row-1)].food_name %>
+                    </h5>
+                    
+                    <button class="btn btn-primary buy-btn" id="food_list_id_<%= store_food_list[i+(row-1)].food_id %>"
+                      onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+(row-1)].food_id %>','<%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>')">
+                      <div>
+                        <%= store_food_list[i+(row-1)].food_price %> บาท
+                      </div>
+                    </button>
+                  </div>
                 
-                <%} else {}}%>
+                <%} %>
+                <% if(store_food_list[i+row] != null ) {%>
+                  <div class="column-list" >
+                    <h5 class="title-name-food">
+                      <%= store_food_list[i+row].food_name %>
+                    </h5>
+                    
+                    <button class="btn btn-primary buy-btn" id="food_list_id_<%= store_food_list[i+row].food_id %>"
+                      onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+row].food_id %>','<%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>')">
+                      <div>
+                        <%= store_food_list[i+row].food_price %> บาท
+                      </div>
+                    </button>
+                  </div>
+                <%} %>
+                <% row += 1 %>
+        
+              <%} else {}%>
+              </div>
             <%} %>
-          </div>
+          <%} %>
+        
+
+        </div>
+
+        </div>
+         
+
+          
         </div>
 
 
@@ -151,7 +175,7 @@ document.getElementById('buyItem_component').scrollIntoView({
 });
 
 $(document).ready(() => {
-  
+
   clear_data();
 })
 

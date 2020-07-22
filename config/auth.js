@@ -27,7 +27,8 @@ router.get('/login',(req,res,next) => {
     // Login Handle
 router.post('/login', passport.authenticate('local-login', {
     failureRedirect:'/',
-    failureFlash:'Username or Password is wrong.'
+    // failureFlash:'Username or Password is wrong.'
+    failureFlash:'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง โปรดลองใหม่อีกครั้ง'
 }),(req,res,next) => {
     var user = req.session.passport.user;
     // console.log("name : " + user);

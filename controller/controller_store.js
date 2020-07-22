@@ -231,7 +231,11 @@ store_home_page = (req ,res) => {
             res.status(500).send({ error : 'store home page > find store data something wrong.'})
         } else {
             // console.log('store food list 1 : ', store_data.menu_list);
-             category.find({food_id:store_data.menu_list},'food_id food_name food_price food_calories food_quantity ',(err, store_food_list) => {
+            category.find({food_id:store_data.menu_list},'food_id food_name food_price food_calories food_quantity ')
+            // .sort({ food_id : "asc"  })
+            .exec((err, store_food_list) => {
+                // console.log("store_food_list : " ,store_food_list);
+                
                 if (err) {
                     console.log(err);
                     res.status(500).send({ error : 'store home page > find food data something wrong.'})

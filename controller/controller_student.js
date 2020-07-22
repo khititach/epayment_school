@@ -62,7 +62,7 @@ update_profile = (req ,res) => {
     var newPassword = User.user_model.generateHash(update_profile_data.new_password);
     var newWeight ='' ;
     var newHeight ='';
-    // console.log(newPassword);
+    console.log(update_profile_data);
 
     if (update_profile_data.new_password != '') {
          user_model.updateOne({uid:global_data.uid},{password:newPassword},(err) => {
@@ -88,6 +88,10 @@ update_profile = (req ,res) => {
         newWeight = update_profile_data.new_weight;
         newHeight = global_data.height;
     }
+    if (update_profile_data.new_height == '' && update_profile_data.new_weight == '') {
+        newWeight = global_data.weight;
+        newHeight = global_data.height;
+    }
 
     student_model.updateOne({uid:global_data.uid},{weight:newWeight,height:newHeight},(err) => {
         if (err) {
@@ -100,6 +104,48 @@ update_profile = (req ,res) => {
     })
 
     res.status(200).send({ success : 'อัพเดทข้อมูลสำเร็จ'})
+}
+
+edit_weight = (req,res) => {
+    const new_weight = req.body.new_weight;
+    console.log(new_weight);
+    
+    student_model.findOneAndUpdate({uid:global_data.uid},{weight:new_weight},(err, student_data) => {
+        if (err) {
+            throw err;
+        } else {
+            res.status(200).send({ success : 'อัพเดทน้ำหนักสำเร็จ'})
+        }
+    })
+}
+
+edit_height = (req,res) => {
+    const new_height = req.body.new_height;
+    console.log(new_height);
+    
+    student_model.findOneAndUpdate({uid:global_data.uid},{height:new_height},(err, student_data) => {
+        if (err) {
+            throw err;
+        } else {
+            res.status(200).send({ success : 'อัพเดทส่วนสูงสำเร็จ'})
+        }
+    })
+}
+
+edit_password = (req, res) => {
+    const new_password = req.body.new_password;
+    var newPassword = User.user_model.generateHash(new_password);
+
+    user_model.updateOne({uid:global_data.uid},{password:newPassword},(err) => {
+        if (err) {
+            // throw err;
+            res.status(500).send({ error : 'update password something wrong.'})
+        } else {
+            console.log('password updated.');
+            res.status(200).send({ success : 'เปลี่ยนรหัสผ่านสำเร็จ'})
+        }
+    })
+
 }
 
     // format date
@@ -193,5 +239,7 @@ module.exports = {
     // function
     get_data_graph,
     update_profile,
-    
+    edit_weight,
+    edit_height,
+    edit_password
 }

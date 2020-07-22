@@ -40,7 +40,7 @@ create_table = (data) => {
     // console.log(data);
 
     var student_data_table = '<h5 id="student_id" value=' + data.student_id + '>' + data.student_id + '</h5>' +
-        '<h5>' + data.pre_name + " " + data.first_name + " " + data.last_name + '</h5>' +
+        '<h5>' + data.pre_name + data.first_name + " " + data.last_name + '</h5>' +
         '<h5>' + data.sex + ' </h5>' +
         '<h5>' + data.tel + '</h5>' +
         '<h5>' + data.class + ' / ' + data.room + '</h5>' +
@@ -485,7 +485,7 @@ draw_income_chart = (data) => {
                 yAxes: [{
                   scaleLabel: {
                     display: true,
-                    labelString: 'กิโลแคลอรี่'
+                    labelString: 'บาท'
                   }
                 }],
                 xAxes:[{

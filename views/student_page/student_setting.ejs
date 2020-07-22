@@ -118,8 +118,11 @@
                   <div class="col-md-4  mb-2">
                     <h5>น้ำหนัก</h5>
                   </div>
-                  <div class="col-md-4 ">
+                  <div class="col-md-4">
                     <h5><%= student_data.weight %> กิโลกรัม</h5>
+                  </div>
+                  <div class="col-md-3">
+                      <button class="btn btn-info" data-toggle="modal" data-target="#edit_weight_modal" onclick="edit_weight('<%= student_data.weight %>')">แก้ไข</button>
                   </div>
                 </div>
                 <!-- height -->
@@ -130,6 +133,9 @@
                   <div class="col-md-4 ">
                     <h5><%= student_data.height %> เซนติเมตร</h5>
                   </div>
+                  <div class="col-md-3">
+                    <button class="btn btn-info" data-toggle="modal" data-target="#edit_height_modal" onclick="edit_height('<%= student_data.height %>')">แก้ไข</button>
+                </div>
                 </div>
                 
               </div>
@@ -201,47 +207,55 @@
           </div>
         </div>
 
-        <!-- edit mode -->
-
-        <!-- <div class="edit-mode rounded buy-item-form">
-            <div class="row mb-2">
-                <div class="col-md-2 text-right">
-                  <h5>น้ำหนัก</h5>  
-                </div>
-                <div class="col-md-5">
-                    <input type="text" name="weight" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-md-2 text-right">
-                   <h5>ส่วนสูง</h5> 
-                </div>
-                <div class="col-md-5">
-                    <input type="text" name="height" class="form-control" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2 text-right">
-                  <h5>รหัสผ่าน</h5>  
-                </div>
-                <div class="col-md-5">
-                    <input type="text" name="password" class="form-control" />
-                </div>
-            </div>
-        </div> -->
-        
-
-
       </div>
     </div>
 </div>
 
-    <!-- edit modal -->
+    <!-- edit password modal -->
 <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="editmodeLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="editmodeLabel">อัพเดทข้อมูล</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <div class="modal-body">
+                <div class="row mb-2">
+                    <div class="col-md-5 text-modal">
+                        <h5e>รหัสผ่านใหม่</h5e>
+                    </div>
+                    <div class="col-md-6">
+                        <input class="input-group-text-edit" type="password" id="new_password" placeholder="รหัสผ่านใหม่" > 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 text-modal">
+                        <h5e>ยืนยันรหัสผ่านใหม่</h5e>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <input class="input-group-text-edit" type="password" id="new_retype_password" placeholder="ยืนยันรหัสผ่านใหม่"> 
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</!--> 
+                <button type="submit" class="btn btn-primary" onclick="edit_password($('#new_password').val(),$('#new_retype_password').val())">บันทึก</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+    <!-- edit weight modal -->
+<div class="modal fade" id="edit_weight_modal" tabindex="-1" role="dialog" aria-labelledby="editweightmodeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editweightmodeLabel">อัพเดทข้อมูล</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -253,43 +267,43 @@
                         <h5e>น้ำหนัก</h5e>
                     </div>
                     <div class="col-md-6">
-                        <input class="input-group-text-edit" type="number" id="new_weight" placeholder="อัพเดท น้ำหนัก"> 
+                        <input class="input-group-text-edit" type="number" id="new_weight" placeholder="อัพเดทน้ำหนัก"> 
                     </div>
                 </div>
-                <!-- height -->
-                <div class="row mb-2">
-                    <div class="col-md-5 text-modal">
-                        <h5e>ส่วนสูง</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <input class="input-group-text-edit" type="number" id="new_height" placeholder="อัพเดท ส่วนสูง"> 
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-5 text-modal">
-                        <h5e>รหัสผ่านใหม่</h5e>
-                    </div>
-                    <div class="col-md-6">
-                        <input class="input-group-text-edit" type="password" id="new_password" placeholder="รหัสผ่านใหม่" > 
-                    </div>
-                </div>
-                
-                <div class="collapse list-unstyled row mt-2 add-shadow" id="show_retype_password">
-                    <div class="row pt-2 pb-2">
-                        <div class="col-md-5 text-modal">
-                            <h5e class="ml-3">ยืนยันรหัสผ่านใหม่</h5e>
-                        </div>
-                        <div class="col-md-6 d-flex align-items-center">
-                            <input class="input-group-text-edit" type="password" id="new_retype_password" placeholder="ยืนยันรหัสผ่านใหม่"> 
-                        </div>
-                    </div>
-                </div>  
-
-
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</!--> 
-                <button type="submit" class="btn btn-primary" onclick="edit_profile($('#new_weight').val(),$('#new_height').val(),$('#new_password').val(),$('#new_retype_password').val())">บันทึก</button>
+                <button type="submit" class="btn btn-primary" onclick="submit_new_weight($('#new_weight').val())">บันทึก</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+  <!-- edit height modal -->
+  <div class="modal fade" id="edit_height_modal" tabindex="-1" role="dialog" aria-labelledby="editheightmodeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editheightmodeLabel">อัพเดทข้อมูล</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <div class="modal-body">
+                <!-- height -->
+                <div class="row mb-2">
+                  <div class="col-md-5 text-modal">
+                      <h5e>ส่วนสูง</h5e>
+                  </div>
+                  <div class="col-md-6">
+                      <input class="input-group-text-edit" type="number" id="new_height" placeholder="อัพเดทส่วนสูง"> 
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</!--> 
+                <button type="submit" class="btn btn-primary" onclick="submit_new_height($('#new_height').val())">บันทึก</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
             </div>
         </div>
@@ -318,8 +332,6 @@ $(document).ready(() => {
         }
     })
     
-
-
 })
 
 </script>

@@ -37,48 +37,215 @@ show_text = (id) => {
 
 // edit profile page script
 
-edit_profile = (new_weight, new_height, new_password, new_retype_password) => {
-    // console.log('New data : ', new_weight, new_height, new_password, new_retype_password);
-    $.ajax({
-        type: 'PATCH',
-        url: '/student/update_profile',
-        dataType: 'json',
-        data: {
-            new_weight,
-            new_height,
-            new_password,
-            new_retype_password
-        },
-        success: (msg_back) => {
-            // console.log(msg_back);
-            $.alert({
-                title: 'เสร็จสิ้น!',
-                content: msg_back.success,
-                type: 'green',
-                buttons: {
-                    ok: {
-                        text: "ยืนยัน",
-                        btnClass: 'btn-primary',
-                        keys: ['enter'],
-                        action: function () {
+// edit_profile = (new_weight, new_height, new_password, new_retype_password) => {
+//     // console.log('New data : ', new_weight, new_height, new_password, new_retype_password);
+//     $.ajax({
+//         type: 'PATCH',
+//         url: '/student/update_profile',
+//         dataType: 'json',
+//         data: {
+//             new_weight,
+//             new_height,
+//             new_password,
+//             new_retype_password
+//         },
+//         success: (msg_back) => {
+//             // console.log(msg_back);
+//             $.alert({
+//                 title: 'เสร็จสิ้น!',
+//                 content: msg_back.success,
+//                 type: 'green',
+//                 buttons: {
+//                     ok: {
+//                         text: "ยืนยัน",
+//                         btnClass: 'btn-primary',
+//                         keys: ['enter'],
+//                         action: function () {
                             
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 100)
-                        }
-                    }}
-            });
-            // $('#edit_modal').modal('toggle');
-            // setTimeout(() => {
-            //     window.location.reload();
-            // }, 100)
+//                             setTimeout(() => {
+//                                 window.location.reload();
+//                             }, 100)
+//                         }
+//                     }}
+//             });
+//             // $('#edit_modal').modal('toggle');
+//             // setTimeout(() => {
+//             //     window.location.reload();
+//             // }, 100)
 
-        },
-        error: (msg_back) => {
-            // console.log(msg_back);
-        }
-    })
-}
+//         },
+//         error: (msg_back) => {
+//             // console.log(msg_back);
+//         }
+//     })
+// }
+
+  // edit weight
+  edit_weight = (weight) => {
+    // console.log("weight : ",weight);
+    $('#new_weight').val(weight);
+  }
+  
+  submit_new_weight = (new_weight) => {
+    // console.log("new_weight : ",new_weight);
+    if (new_weight <= 0) {
+        $.alert({
+            title: 'ผิดพลาด!',
+            content: "น้ำหนักต้องมากกว่า 0 เซนติเมตร",
+            type: 'red',
+            buttons: {
+                ok: {
+                    text: "ปิด",
+                    btnClass: 'btn-secondary',
+                    keys: ['enter'],
+                    action: function () {
+                        
+                    }
+                }}
+        });
+    } else {
+        $.ajax({
+            type:'PATCH',
+            url:'/student/edit_weight',
+            dataType:'json',
+            data:{new_weight},
+            success:(msg_back) => {
+                $.alert({
+                        title: 'เสร็จสิ้น!',
+                        content: msg_back.success,
+                        type: 'green',
+                        buttons: {
+                            ok: {
+                                text: "ยืนยัน",
+                                btnClass: 'btn-primary',
+                                keys: ['enter'],
+                                action: function () {
+                                    
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 100)
+                                }
+                            }}
+                    });
+            },
+            error:(msg_back) => {
+                console.log(msg_back);
+                
+            }
+        })
+    }
+    
+  }
+  
+    // edit height
+  edit_height = (height) => {
+    // console.log("height : ",height);
+    $('#new_height').val(height);
+  }
+  
+  submit_new_height = (new_height) => {
+    // console.log("new_height : ",new_height);
+    if (new_height <= 0) {
+        $.alert({
+            title: 'ผิดพลาด!',
+            content: "ส่วนสูงต้องมากกว่า 0 เซนติเมตร",
+            type: 'red',
+            buttons: {
+                ok: {
+                    text: "ปิด",
+                    btnClass: 'btn-secondary',
+                    keys: ['enter'],
+                    action: function () {
+                        
+                    }
+                }}
+        });
+    } else {
+        $.ajax({
+            type:'PATCH',
+            url:'/student/edit_height',
+            dataType:'json',
+            data:{new_height},
+            success:(msg_back) => {
+                $.alert({
+                        title: 'เสร็จสิ้น!',
+                        content: msg_back.success,
+                        type: 'green',
+                        buttons: {
+                            ok: {
+                                text: "ยืนยัน",
+                                btnClass: 'btn-primary',
+                                keys: ['enter'],
+                                action: function () {
+                                    
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 100)
+                                }
+                            }}
+                    });
+            },
+            error:(msg_back) => {
+                console.log(msg_back);
+                
+            }
+        })
+    }
+    
+  }
+  
+    // edit password
+  edit_password = (new_password,new_password_retype) => {
+    //   console.log("new password : ",new_password," / retype : ",new_password_retype);
+      if (new_password_retype != new_password) {
+         $.alert({
+            title: 'ผิดพลาด!',
+            content: "รหัสผ่านไม่ตรงกัน",
+            type: 'red',
+            buttons: {
+                ok: {
+                    text: "ปิด",
+                    btnClass: 'btn-secondary',
+                    keys: ['enter'],
+                    action: function () {
+                        
+                    }
+                }}
+        });
+      } else {
+        $.ajax({
+          type:'PATCH',
+          url:'/student/edit_password',
+          dataType:'json',
+          data:{new_password},
+          success:(msg_back) => {
+            $.alert({
+                      title: 'เสร็จสิ้น!',
+                      content: msg_back.success,
+                      type: 'green',
+                      buttons: {
+                          ok: {
+                              text: "ยืนยัน",
+                              btnClass: 'btn-primary',
+                              keys: ['enter'],
+                              action: function () {
+                                  
+                                  setTimeout(() => {
+                                      window.location.reload();
+                                  }, 100)
+                              }
+                          }}
+                  });
+          },
+          error:(msg_back) => {
+            console.log(msg_back);
+            
+          }
+        })
+      }
+      
+  }
+  
 
 
 // history page script
@@ -173,11 +340,27 @@ get_data_start_page = () => {
     $.get('/student/get_data_graph/?month=' + global_date + '&mode=mode_income', (data) => {
         processed_data = process_data(data, "mode_income")
         // var income_avg = average_data(processed_data);
+            // income per month
         sum_income = sum_data(processed_data)
-        $('#income_avg').text(sum_income + ' บาท');
+        $('#income_per_month').text(sum_income + ' บาท');
+
+            // income avg per month
+        var income_avg = average_data(processed_data);
+        if (isNaN(income_avg))  {
+            $('#income_avg').text('0 บาท'); 
+        }
+        else {
+            $('#income_avg').text(Math.trunc(income_avg) + ' บาท');
+        } 
+
     })
     $.get('/student/get_data_graph/?month=' + global_date + '&mode=mode_expend', (data) => {
         processed_data = process_data(data, "mode_expend")
+            // expend per month
+        expend_per_month = sum_data(processed_data);
+        $('#expend_per_month').text(expend_per_month + ' บาท');
+
+            // expend avg per month
         var expend_avg = average_data(processed_data);
         if (isNaN(expend_avg))  {
            $('#expend_avg').text('0 บาท'); 
@@ -258,13 +441,27 @@ change_month_set_summary_income = (select_month) => {
     $.get('/student/get_data_graph/?month=' + select_month + '&mode=mode_income', (data) => {
         processed_data = process_data(data, "mode_income")
         // var income_avg = average_data(processed_data);
-        var sum = 0;
-        processed_data.forEach(number => {
-            if (number != 0) {
-                sum += number;
-            }
-        });
-        $('#income_avg').text(sum + ' บาท');
+            // income per month
+                // v1
+        // var sum = 0;
+        // processed_data.forEach(number => {
+        //     if (number != 0) {
+        //         sum += number;
+        //     }
+        // });
+        // $('#income_per_month').text(sum + ' บาท');
+                // v2
+        sum_income = sum_data(processed_data)
+        $('#income_per_month').text(sum_income + ' บาท');
+
+            // income avg per month
+        var income_avg = average_data(processed_data);
+        if (isNaN(income_avg))  {
+            $('#income_avg').text('0 บาท'); 
+        }
+        else {
+            $('#income_avg').text(Math.trunc(income_avg) + ' บาท');
+        } 
     })
 }
 
@@ -292,14 +489,17 @@ draw_chart = (chart_data, mode) => {
     if (mode == 'mode_calories') {
         var label_text = "แคลอรี่";
         var color_line = "#3e95cd";
+        var labelString_text = "กิโลแคลอรี่";
     }
     if (mode == 'mode_income') {
         var label_text = "รายรับ";
         var color_line = "#54FC70";
+        var labelString_text = "บาท";
     }
     if (mode == 'mode_expend') {
         var label_text = "รายจ่าย";
         var color_line = "#FF7373";
+        var labelString_text = "บาท";
     }
     var canvas = $('#canvas_container').html('<canvas id="data_chart"></canvas>');
     var ctx = $('#data_chart');
@@ -322,7 +522,7 @@ draw_chart = (chart_data, mode) => {
                 yAxes: [{
                   scaleLabel: {
                     display: true,
-                    labelString: 'กิโลแคลอรี่'
+                    labelString: labelString_text
                   }
                 }],
                 xAxes:[{

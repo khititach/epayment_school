@@ -11,6 +11,9 @@ router.get('/', controller.student_home_page);
 router.get('/setting',controller.student_setting_page);
         // student change password
 router.patch('/update_profile',controller.update_profile);
+router.patch('/edit_weight',controller.edit_weight);
+router.patch('/edit_height',controller.edit_height);
+router.patch('/edit_password',controller.edit_password);
 
     // student history page
 router.get('/history',controller.student_history_page);

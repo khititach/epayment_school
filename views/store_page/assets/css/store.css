@@ -32,8 +32,42 @@
     grid-gap: 20px;  
     grid-template-columns: repeat(auto-fit, 100px);
     grid-template-rows: repeat(1, 130px);   
+    background-color: blue;
 }
 
+
+/* Create two equal columns that floats next to each other */
+.column-list {
+    float: left;
+    width: 50%;
+
+}
+
+/* Clear floats after the columns */
+.row-list:after {
+    content: "";
+    display: table;
+    clear: both;
+    margin: 10px 0px 10px 0px ;
+}
+
+.title-name-food {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.buy-btn{
+    width: 90%;
+    /* margin-left: 10px;
+    margin-right: 10px; */
+    margin: 0px 10px 10px 10px ;
+    background-color: brown;
+}
+
+.buy-btn div {
+    color: black;
+    font-size: 30px;
+}
 
 .title-food {
     /* width: 100%; */
