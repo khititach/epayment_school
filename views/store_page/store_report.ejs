@@ -224,8 +224,10 @@
     </div>
 </div>
 
+
 <script>
 $(document).ready(function() {
+    $.fn.dataTable.moment( 'D/M/YYYY');
     $('#TableID').DataTable({
         "language": {
             "lengthMenu": "แสดง _MENU_ ข้อมูล",
@@ -237,7 +239,8 @@ $(document).ready(function() {
                 "next":"ต่อไป",
                 "previous":"ก่อนหน้า"
             }
-        },"order": [[ 0, "desc" ]]
+        },"order": [[ 0, "desc" ]],
+
     });
 
     getDate();
