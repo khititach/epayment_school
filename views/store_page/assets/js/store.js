@@ -22,6 +22,8 @@ $('#formSearchStudentID').on('submit', (e) => {
                 $('.buy_btn').attr("disabled", false);
                 // create student detail table
                 create_table(msg_back.success)
+                //? open order modal
+                openOrderModal()
             },
             error: (msg_back) => {
                 // console.log("error : " + msg_back.responseText);
@@ -755,3 +757,72 @@ $('#new_retype_password').on('change',() => {
         $('#new_retype_password').removeClass('input-group-text-edit , input-alert-success').addClass('input-alert-error')
     }
 })
+
+var foodOrder={}
+// inint value 
+$( document ).ready(function() {
+    console.log('initData')
+    const initRow = `<div class="row" >
+    <h6 class="col-md-5 text-center">รายการ</h6>
+    <h6 class="col-md-2 text-center">จำนวน</h6>
+    <h6 class="col-md-5"></h6>
+    </div>`
+    // $('#orderData').append(initRow);
+    closeOrderModal()
+  });
+
+  const appendOrder = ({foodId,foodName,amount})=>{
+    return `<div class="row" >
+    <div class="col-md-5">${foodName}</div>
+    <div class="col-md-2">${amount}</div>
+    <div class="col-md-5">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" onclick="increaseFoodAmount('${foodId}')" class="btn-sm  btn-outline-primary">เพิ่ม</button>
+            <button type="button" onclick="decreaseFoodAmount('${foodId}')" class="btn-sm  btn-outline-secondary">ลบ</button>
+        </div>
+        </div>
+    </div>`
+  }
+
+ const  closeOrderModal = ()=>{
+    $('#itemData').css({"display":"none"})
+  }
+
+  const  openOrderModal = ()=>{
+    $('#itemData').css({"display":"initial"})
+  }
+
+const addFoodOrder = (foodId,foodName)=>{
+    foodOrder[foodId] = {foodName,amount:1,foodId}
+    const foodIdButton = '#food_list_id_'+foodId
+    $(foodIdButton).prop('disabled', true);
+    renderOrder()
+} 
+
+const renderOrder = ()=>{
+    let orderObject = ''
+    for (const [key, value] of Object.entries(foodOrder)) {
+        orderObject = orderObject+appendOrder(foodOrder[key])
+      }
+      console.log('foodOrder', foodOrder)
+      $('#orderData').html(orderObject) 
+}
+
+
+const increaseFoodAmount = (foodId)=>{
+    console.log('foodOrder[foodId]', foodOrder[foodId])
+        foodOrder[foodId].amount++;
+        renderOrder()
+}
+
+const decreaseFoodAmount = (foodId)=>{
+
+    if (foodOrder[foodId].amount <= 1) {
+        delete foodOrder[foodId];
+        const foodIdButton = '#food_list_id_'+foodId
+        $(foodIdButton).prop('disabled', false);
+      } else {
+        foodOrder[foodId].amount--;
+      }
+      renderOrder()
+}

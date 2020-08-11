@@ -98,7 +98,29 @@
               </div>
             </div>
         </div>
-      
+        <div class="buy-item-form add-shadow mt-2">
+          <div id="itemData" class="p-2" style="background-color: white;position: fixed;top:0;left:0;min-width: 347px;min-height: 1024px;display:initial">
+            <div class="row">
+              <div class="col-md-12">
+                <div class=" clearfix">
+                  <button type="button"  onclick="closeOrderModal()"
+                   class="btn-sm btn-outline-dark float-right">Close</button>
+                </div>
+              </div>
+            </div>
+
+              <div class="row mt-1" >
+                <h6 class="col-md-5 text-center">รายการ</h6>
+                <h6 class="col-md-2 text-center">จำนวน</h6>
+                <h6 class="col-md-5"></h6>
+              </div>
+
+            <div  class="mt-2" id="orderData">
+             
+
+            </div>
+          </div>
+      </div>
       </div>
       <div class="col-md-5">
         <div class="text-center border rounded name_title">
@@ -122,9 +144,10 @@
                     <h5 class="title-name-food">
                       <%= store_food_list[i+(row-1)].food_name %>
                     </h5>
-                    
+                    <!-- onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+(row-1)].food_id %>','<%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>')"  -->
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+(row-1)].food_id %>"
-                      onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+(row-1)].food_id %>','<%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>')" disabled>
+                      onclick="addFoodOrder('<%= store_food_list[i+(row-1)].food_id %>',' <%= store_food_list[i+(row-1)].food_name %>')"
+                      disabled>
                       <div>
                         <%= store_food_list[i+(row-1)].food_price %> บาท
                       </div>
@@ -134,12 +157,14 @@
                 <%} %>
                 <% if(store_food_list[i+row] != null ) {%>
                   <div class="column-list" >
-                    <h5 class="title-name-food">
+                    <h5 class="title-name-food" id="foodName">
                       <%= store_food_list[i+row].food_name %>
                     </h5>
-                    
+                    <!-- onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+row].food_id %>','<%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>')"  -->
+              
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+row].food_id %>"
-                      onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+row].food_id %>','<%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>')" disabled>
+                      onclick="addFoodOrder('<%= store_food_list[i+row].food_id %>',' <%= store_food_list[i+row].food_name %>')"
+                      disabled>
                       <div>
                         <%= store_food_list[i+row].food_price %> บาท
                       </div>
@@ -152,7 +177,6 @@
               </div>
             <%} %>
           <%} %>
-        
 
         </div>
 
