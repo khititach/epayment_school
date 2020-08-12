@@ -166,7 +166,7 @@
                     </h5>
                     <!-- onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+(row-1)].food_id %>','<%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>')"  -->
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+(row-1)].food_id %>"
-                      onclick="addFoodOrder('<%= store_food_list[i+(row-1)].food_id %>',' <%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>')"
+                      onclick="addFoodOrder('<%= store_food_list[i+(row-1)].food_id %>',' <%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>','<%= store_food_list[i+(row-1)].food_calories %>')"
                       disabled>
                       <div>
                         <%= store_food_list[i+(row-1)].food_price %> บาท
@@ -183,7 +183,7 @@
                     <!-- onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+row].food_id %>','<%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>')"  -->
               
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+row].food_id %>"
-                      onclick="addFoodOrder('<%= store_food_list[i+row].food_id %>',' <%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>')"
+                      onclick="addFoodOrder('<%= store_food_list[i+row].food_id %>',' <%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>','<%= store_food_list[i+row].food_calories %>')"
                       disabled>
                       <div>
                         <%= store_food_list[i+row].food_price %> บาท

@@ -132,9 +132,16 @@ buy_item_list = (req ,res ) => {
         }
         if (student_data) {
             // category.findOne({food_id:reqBuyItemData.food_id},'food_id food_name food_price food_calories',(err , food_data) => {
-                // new current money
+           let sumCalories = 0
+           let sumPrice = 0
+           for (const [key, value] of Object.entries(foodOderList)) {
+            console.log(`${key}: ${value}`);
+            sumCalories = sumCalories+parseInt(value.calories)
+            sumPrice = sumPrice+(parseInt(value.price)*parseInt(value.amount))
+          }
+            // new current money
                 // const newCurrentMoney = math.subtract(Number(student_data.current_money),Number(food_data.food_price));
-                const newCurrentMoney = math.subtract(Number(student_data.current_money),Number(reqBuyItemData.food_price));
+                const newCurrentMoney = math.subtract(Number(student_data.current_money),Number(sumPrice));
                 // console.log("New current money : " + newCurrentMoney);
 
                 // record history
@@ -148,10 +155,10 @@ buy_item_list = (req ,res ) => {
                     store_name:global_data.store_name,
                     // food:food_data.food_name,
                     foodOrderList:reqBuyItemData.foodOderList,
-                    calories:0,
+                    calories:sumCalories,
                     deposit:'0',
                     // withdraw:food_data.food_price,
-                    withdraw:reqBuyItemData.food_price,
+                    withdraw:sumPrice,
                     total:newCurrentMoney,
                     responsible:'เจ้าของร้าน:'+global_data.first_name
                 }
@@ -169,7 +176,7 @@ buy_item_list = (req ,res ) => {
                     foodOrderList:reqBuyItemData.foodOderList,
                     // calories:food_data.food_calories,
                     // income:food_data.food_price,
-                    income:reqBuyItemData.food_price,
+                    income:sumPrice,
                     // withdraw:'0',
                     responsible:global_data.first_name
                 }
@@ -180,7 +187,7 @@ buy_item_list = (req ,res ) => {
                 const studentNewHistory = new student_history(student_data_record);
                 const storeNewHistory = new store_history(store_data_record);
                 // const msg_data = {title:'ซื้อ',message:food_data.food_name+' '+food_data.food_price+' บาท'}
-                const msg_data = {title:'ซื้อ',message:'ราคา '+reqBuyItemData.food_price+' บาท'}
+                const msg_data = {title:'ซื้อ',message:'ราคา '+sumPrice+' บาท'}
                 add_notification_buy(reqBuyItemData,msg_data);
                 student_model.updateOne({student_id:reqBuyItemData.student_id},{current_money:newCurrentMoney},(err,studentUpdate) => {
                     // console.log("Update student : " + JSON.stringify(studentUpdate));

@@ -798,9 +798,15 @@ $( document ).ready(function() {
     $('#itemData').css({"display":"initial"})
   }
 
-const addFoodOrder = (foodId,foodName,price)=>{
+const addFoodOrder = (foodId,foodName,price,calories)=>{
     openOrderModal()
-    foodOrder[foodId] = {foodName,amount:1,foodId,price:parseInt(price)}
+    foodOrder[foodId] = {
+        foodName,
+        foodId,
+        amount:1,
+        price:parseInt(price),
+        calories:parseInt(calories)
+    }
     const foodIdButton = '#food_list_id_'+foodId
     $(foodIdButton).prop('disabled', true);
     renderOrder()
