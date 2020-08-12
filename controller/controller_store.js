@@ -508,6 +508,19 @@ change_password = (req ,res ) => {
     })
 }
 
+const getStoreHistoryOrder = (req ,res ) => {
+    const { _id } =  req.query
+    store_history
+    .findOne({_id:_id}).exec((err , store_history_data) => {
+        if (err) {
+            res.status(500).send({error : ' find store history something wrong.'})
+        }
+        // console.log('history : ',store_history_data);
+        res.status(200).send({status:200,data:store_history_data._doc})
+    })
+
+}
+
 
 module.exports = {
     // function
@@ -527,5 +540,6 @@ module.exports = {
     store_change_password_page,
     // add menu
     add_menu,
-    delete_menu
+    delete_menu,
+    getStoreHistoryOrder
 }

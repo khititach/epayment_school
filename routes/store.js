@@ -40,6 +40,8 @@ router.get('/edit',controller.store_change_password_page);
     // change password
 router.patch('/edit/change_password',controller.change_password)
 
+router.get('/report/storeHistoryOrder',controller.getStoreHistoryOrder);
+
 
 
 module.exports = router;

@@ -134,7 +134,14 @@
                                         </td>
                                         
                                         <td><%= store_history_data[i].status %></td>
-                                        <td><%= store_history_data[i].food_name %></td>
+                                        <td>
+                                            <button class="btn btn-link"
+                                            data-toggle="modal" data-target="#myModal"
+                                            onclick="openOrderInfo('<%= store_history_data[i]._id %>')">
+                                             
+                                                <i class="fa fa-file"></i>
+                                            </button> 
+                                            <%= store_history_data[i].food_name %></td>
                                         <td><%= store_history_data[i].income %></td>
                                         <td><%= store_history_data[i].responsible %></td>
                                     </tr>
@@ -224,6 +231,48 @@
     </div>
 </div>
 
+<!-- food order modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">รายการอาหาร</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">รายการ</th>
+                    <th scope="col">จำนวน</th>
+                    <th scope="col">ราคา(บาท)</th>
+                    <th scope="col">รวม(บาท)</th>
+                  </tr>
+                </thead>
+                <tbody id="modalFoodOder">
+                 
+                  <!-- <tr>
+                    <td>รวม</td>
+                    <td></td>
+                    <td></td>
+                    <td>250</td>
+                  </tr> -->
+                </tbody>
+              </table>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
 <script>
 $(document).ready(function() {
@@ -263,4 +312,49 @@ pdf_get_date = () => {
 // go_to_pdf = (date) => {
 //     window.location = '/store/report/download_report'
 // }
+function renderTableBody({foodName="",price="",amount="",sumPrice=false}){
+    let sum = sumPrice?sumPrice:(+price)*(+amount)
+    return `
+    <tr>
+        <td>${foodName}</td>
+        <td>${amount}</td>
+        <td>${price} </td>
+        <td>${sum} </td>
+      </tr>
+    `
+}
+function openOrderInfo(orderId){
+    $.ajax({
+        type: 'GET',
+        url: '/store/report/storeHistoryOrder?_id='+orderId,
+        dataType: 'json',
+        success: (msg_back) => {
+            console.log(msg_back);
+            const  {status, data} = msg_back
+            const { foodOrderList } = data
+            if(status===200){
+                if(foodOrderList){
+                    let foodOrderTableData =''
+                    let sumPrice = 0
+                    for (const [key, value] of Object.entries(foodOrderList)) {
+                        foodOrderTableData = foodOrderTableData+renderTableBody(value)
+                        $('#modalFoodOder').html(foodOrderTableData)
+                        sumPrice = sumPrice+ (+value.price)*(+value.amount)
+                        console.log('sumPrice', foodOrderList)
+                    }
+                    const sumBody = {
+                        foodName:"รวม",
+                        sumPrice:sumPrice
+                    }
+                    $('#modalFoodOder').append(renderTableBody(sumBody))
+                } 
+            }
+        },
+        error: (msg_back) => {
+            // console.log(msg_back);
+        }
+    })
+
+}
+
 </script>
