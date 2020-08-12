@@ -14,7 +14,8 @@ const student_history_schema = new Schema({
     deposit:{ type:String }, // money in 
     withdraw:{ type:String }, // money out
     total:{ type:String }, // current money
-    responsible:{type:String } // storenumber + storeOwner
+    responsible:{type:String }, // storenumber + storeOwner
+    foodOrderList:{type:Object }
 });
 
     // store history schema
@@ -29,7 +30,8 @@ const store_history_schema = new Schema({
     // calories:{ type:String },
     income:{ type:String }, // edit : deposit > income
     // withdraw:{ type:String }, // remove
-    responsible:{type:String }
+    responsible:{type:String },
+    foodOrderList:{type:Object }
 })
 
 var student_history_model = mongoose.model("studenthistory",student_history_schema);

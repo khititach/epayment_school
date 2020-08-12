@@ -323,6 +323,9 @@ clear_data = () => {
     $("#buyItem_confirm").attr("disabled", true);
     $('#showStudentImageData').attr('src','/partials/image/unprofile.jpg')
     $("#showStudentData").html("");
+    //addnewData
+    foodOrder={}
+    closeOrderModal()
 }
 
 alert_popup = (msg) => {
@@ -758,42 +761,46 @@ $('#new_retype_password').on('change',() => {
     }
 })
 
-var foodOrder={}
+let foodOrder={}
+let foodPrice
 // inint value 
 $( document ).ready(function() {
     console.log('initData')
-    const initRow = `<div class="row" >
-    <h6 class="col-md-5 text-center">รายการ</h6>
-    <h6 class="col-md-2 text-center">จำนวน</h6>
-    <h6 class="col-md-5"></h6>
-    </div>`
-    // $('#orderData').append(initRow);
     closeOrderModal()
   });
 
   const appendOrder = ({foodId,foodName,amount})=>{
-    return `<div class="row" >
+    return `<div class="row mb-1" >
     <div class="col-md-5">${foodName}</div>
     <div class="col-md-2">${amount}</div>
     <div class="col-md-5">
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" onclick="increaseFoodAmount('${foodId}')" class="btn-sm  btn-outline-primary">เพิ่ม</button>
-            <button type="button" onclick="decreaseFoodAmount('${foodId}')" class="btn-sm  btn-outline-secondary">ลบ</button>
+            <button type="button" onclick="decreaseFoodAmount('${foodId}')" class="btn-sm  btn-outline-secondary  ml-2">ลบ</button>
         </div>
         </div>
     </div>`
   }
 
  const  closeOrderModal = ()=>{
+    //hide orderlist 
     $('#itemData').css({"display":"none"})
+    for (const [key, value] of Object.entries(foodOrder)) {
+        const foodIdButton = '#food_list_id_'+value.foodId
+        $(foodIdButton).prop('disabled', false);
+      }
+     //reset foodOrder list
+      foodOrder={}
+      renderOrder()
   }
 
   const  openOrderModal = ()=>{
     $('#itemData').css({"display":"initial"})
   }
 
-const addFoodOrder = (foodId,foodName)=>{
-    foodOrder[foodId] = {foodName,amount:1,foodId}
+const addFoodOrder = (foodId,foodName,price)=>{
+    openOrderModal()
+    foodOrder[foodId] = {foodName,amount:1,foodId,price:parseInt(price)}
     const foodIdButton = '#food_list_id_'+foodId
     $(foodIdButton).prop('disabled', true);
     renderOrder()
@@ -801,11 +808,13 @@ const addFoodOrder = (foodId,foodName)=>{
 
 const renderOrder = ()=>{
     let orderObject = ''
+    foodPrice = 0
     for (const [key, value] of Object.entries(foodOrder)) {
         orderObject = orderObject+appendOrder(foodOrder[key])
+        foodPrice = foodPrice + (foodOrder[key].price*foodOrder[key].amount)
       }
-      console.log('foodOrder', foodOrder)
       $('#orderData').html(orderObject) 
+      $('#sumFoodList').html(foodPrice) 
 }
 
 
@@ -825,4 +834,65 @@ const decreaseFoodAmount = (foodId)=>{
         foodOrder[foodId].amount--;
       }
       renderOrder()
+}
+
+
+
+confirmFoodOrderList = (student_id) => {
+    const _foodPrice = foodPrice
+    var student_money = $('#student_current_money').data('value');
+      // console.log('student current money : ',student_money,' / food price : ',food_price);
+      if (_foodPrice > student_money) {
+        toastr.error("จำนวนเงินไม่เพียงพอ")
+        clear_data();
+      } else {
+        $.confirm({
+            title: 'ยืนยันการซื้อ',
+            content: 'ชำระเงินราคา ' + _foodPrice + ' บาท',
+            type: 'green',
+            buttons: {
+                ok: {
+                    text: "ยืนยัน",
+                    btnClass: 'btn-primary',
+                    keys: ['enter'],
+                    action: function () {
+                        orderListTranscation(student_id,_foodPrice);          
+                    }
+                },
+                cancel: {
+                    text: "ยกเลิก",
+                    btnClass: 'btn-secondary',
+                    keys: ['esc'],
+                    action: function () {
+                        // console.log('ยกเลิกการเลือกรายการอาหาร');
+                    }
+  
+                }
+            },
+        });
+      }
+  
+  }
+
+  orderListTranscation = (student_id, food_price) => {
+    // console.log('student id : ', student_id, ' buy : ', food_id);
+    const foodOderList = foodOrder
+    $.ajax({
+        type: 'PATCH',
+        url: '/store/buy_item_list',
+        dataType: 'json',
+        data: {
+            student_id,
+            food_price,
+            foodOderList
+        },
+        success: (msg_back) => {
+            // console.log(msg_back);
+            alert_js_success(msg_back.success);
+            // clear_data();
+        },
+        error: (msg_back) => {
+            // console.log(msg_back);
+        }
+    })
 }

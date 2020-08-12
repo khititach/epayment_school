@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="buy-item-form add-shadow mt-2">
-          <div id="itemData" class="p-2" style="background-color: white;position: fixed;top:0;left:0;min-width: 347px;min-height: 1024px;display:initial">
+          <div id="itemData" class="p-2" style="background-color: white;position: fixed;top:0;left:0;min-width: 347px;min-height: 1024px;display:none">
             <div class="row">
               <div class="col-md-12">
                 <div class=" clearfix">
@@ -114,11 +114,31 @@
                 <h6 class="col-md-2 text-center">จำนวน</h6>
                 <h6 class="col-md-5"></h6>
               </div>
+              <!-- -------------------------Data space------------------------- -->
+            <div  class="mt-2" id="orderData"></div>
+              <!-- -------------------------Data space------------------------- -->
 
-            <div  class="mt-2" id="orderData">
-             
+              <!-- -------------------------summary space------------------------- -->
+              <div class="dropdown-divider mt-3"></div>
 
-            </div>
+              <div class="row mt-1 " >
+                <h6 class="col-md-5 text-center">รวม</h6>
+                <h6 class="col-md-2 text-center" id="sumFoodList"></h6>
+                <h6 class="col-md-5">บาท</h6>
+              </div>
+
+
+              <!-- -------------------------footer space------------------------- -->
+              <div class="fixed-bottom" style="max-width: 358px;">
+                <div class="row d-flex align-items-end">
+                  <div class="col-md-12">
+                      <button type="button"
+                      onclick="confirmFoodOrderList($('#student_id').text())"
+                       class="btn btn-primary buy-btn ">ซื้อ</button>
+                  </div>
+                </div>
+              </div>
+
           </div>
       </div>
       </div>
@@ -146,7 +166,7 @@
                     </h5>
                     <!-- onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+(row-1)].food_id %>','<%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>')"  -->
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+(row-1)].food_id %>"
-                      onclick="addFoodOrder('<%= store_food_list[i+(row-1)].food_id %>',' <%= store_food_list[i+(row-1)].food_name %>')"
+                      onclick="addFoodOrder('<%= store_food_list[i+(row-1)].food_id %>',' <%= store_food_list[i+(row-1)].food_name %>','<%= store_food_list[i+(row-1)].food_price %>')"
                       disabled>
                       <div>
                         <%= store_food_list[i+(row-1)].food_price %> บาท
@@ -163,7 +183,7 @@
                     <!-- onclick="confirm_buy_item($('#student_id').text(),'<%= store_food_list[i+row].food_id %>','<%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>')"  -->
               
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+row].food_id %>"
-                      onclick="addFoodOrder('<%= store_food_list[i+row].food_id %>',' <%= store_food_list[i+row].food_name %>')"
+                      onclick="addFoodOrder('<%= store_food_list[i+row].food_id %>',' <%= store_food_list[i+row].food_name %>','<%= store_food_list[i+row].food_price %>')"
                       disabled>
                       <div>
                         <%= store_food_list[i+row].food_price %> บาท
