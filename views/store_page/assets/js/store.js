@@ -364,11 +364,11 @@ category_check_btn = () => {
         // console.log('store food list : ',data);
         $('.category-btn').each((index,data) => {
             for (let i = 0; i < store_list.length; i++) {
-            //    console.log('category btn : ',data.value);
-            //    console.log('store food btn : ',store_list[i]);
-            //    console.log('category btn : ',data);
+            //    // console.log('category btn : ',data.value);
+            //    // console.log('store food btn : ',store_list[i]);
+            //    // console.log('category btn : ',data);
                if (data.value == store_list[i]) {
-                //    console.log('data value = store food id list');
+                //    // console.log('data value = store food id list');
                    
                    $('#'+data.id).removeClass('btn-success').addClass('btn-secondary').attr('disabled', true);
                }
@@ -509,7 +509,7 @@ open_order_bill = (id_order_list) => {
             open_order_modal(msg_back.success)
         },
         error:(msg_back) => {
-            console.log(msg_back)
+            // console.log(msg_back)
         }
     })
 
@@ -571,8 +571,8 @@ check_req_in_db = () => {
         type:'GET',
         dataType:'json',
         success:(msg_back) => {
-            console.log(msg_back)
-            console.log(msg_back.success)
+            // console.log(msg_back)
+            // console.log(msg_back.success)
             if (msg_back.success = true) {
                 $('#check_req').attr('disabled',true)
             }
@@ -581,26 +581,26 @@ check_req_in_db = () => {
             }
         },
         error:(msg_back) => {
-            console.log(msg_back)
+            // console.log(msg_back)
         }
     })
 }
 
     // request to receive money from admin
 req_receive_money = (store_number) => {
-    console.log('store number');
-    console.log(store_number);
+    // console.log('store number');
+    // console.log(store_number);
     $.ajax({
         url:'/store/report/receive_money',
         type:'POST',
         dataType:'json',
         data:{store_number},
         success:(msg_back) => {
-            console.log(msg_back)
+            // console.log(msg_back)
             alert_popup(msg_back)
         },
         error:(msg_back) => {
-            console.log(msg_back)
+            // console.log(msg_back)
         }
     })
 }
@@ -769,7 +769,7 @@ $('#selected_month_sales_data').on('change',() => {
 get_food_sales = () => {
 
     $.get('/store/report/get_food_sales/?month='+global_date,(data) => {
-        console.log('food sales data : ' ,data);
+        // console.log('food sales data : ' ,data);
         // process data for draw chart
         
         draw_food_sales_chart(process_food_sales(data));
@@ -946,7 +946,7 @@ draw_food_sales_chart = (processed_data) => {
 
 
 change_password = (new_password , retype_new_password) => {
-    console.log('new password : ', new_password , ' / retype : ',retype_new_password);
+    // console.log('new password : ', new_password , ' / retype : ',retype_new_password);
     if (new_password != retype_new_password) {
         $.alert({
                 title: 'แจ้งเตือน!',
@@ -991,7 +991,7 @@ change_password = (new_password , retype_new_password) => {
             });
             },
             error:(msg_back) => {
-                console.log('change password something wrong > ',msg_back);
+                // console.log('change password something wrong > ',msg_back);
                 
             }
         })

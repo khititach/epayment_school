@@ -418,13 +418,13 @@ change_store_status = (status) => {
             
         },
         error:(msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
         }
     })
 }
 
 reset_password = (admin_password,store_uid,store_dob) => {
-    console.log('admin confirm : ',admin_password,' store reset password : ',store_uid,' date : ',store_dob);
+    // console.log('admin confirm : ',admin_password,' store reset password : ',store_uid,' date : ',store_dob);
     $.ajax({
         type:'PATCH',
         url:'/admin/edit_store/reset_password',
@@ -435,7 +435,7 @@ reset_password = (admin_password,store_uid,store_dob) => {
             store_dob
         },
         success:(msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             $.alert({
                 title: 'เสร็จสิ้น!',
                 content: msg_back.success,
@@ -455,7 +455,7 @@ reset_password = (admin_password,store_uid,store_dob) => {
             });
         },
         error:(msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             $.alert({
                 title: 'แจ้งเตือน!',
                 content: msg_back.responseJSON.error,
@@ -612,7 +612,7 @@ readURL = (input) => {
         reader.addEventListener('load', (e) => {
 
             image_base64 = e.target.result;
-            console.log(image_base64);
+            // console.log(image_base64);
             $('#food_image_change_id')
                 .attr('src', e.target.result)
         })

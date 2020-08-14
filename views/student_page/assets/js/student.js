@@ -129,7 +129,7 @@ show_text = (id) => {
                     });
             },
             error:(msg_back) => {
-                console.log(msg_back);
+                // console.log(msg_back);
                 
             }
         })
@@ -186,7 +186,7 @@ show_text = (id) => {
                     });
             },
             error:(msg_back) => {
-                console.log(msg_back);
+                // console.log(msg_back);
                 
             }
         })
@@ -196,7 +196,7 @@ show_text = (id) => {
   
     // edit password
   edit_password = (new_password,new_password_retype) => {
-    //   console.log("new password : ",new_password," / retype : ",new_password_retype);
+    //   // console.log("new password : ",new_password," / retype : ",new_password_retype);
       if (new_password_retype != new_password) {
          $.alert({
             title: 'ผิดพลาด!',
@@ -238,7 +238,7 @@ show_text = (id) => {
                   });
           },
           error:(msg_back) => {
-            console.log(msg_back);
+            // console.log(msg_back);
             
           }
         })
