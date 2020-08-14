@@ -59,6 +59,10 @@
                             <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab"
                                 aria-controls="home" aria-selected="true">ประวัติยอดขาย</a>
                         </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" id="receive_money-tab" data-toggle="tab" href="#receive_money" role="tab"
+                                aria-controls="home" aria-selected="true">ส่งคำขอรับเงิน</a>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -89,7 +93,7 @@
                             <div class="col-md-4">
                                 <div class="card card-body add-shadow">
                                     <div class="text-center mb-3 name_title_Nsd">
-                                        <h3>สรุป</h3>
+                                        <h3>สรุปต่อเดือน</h3>
                                     </div>
                                     <div>
                                         <!-- money in -->
@@ -99,6 +103,29 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <h5 id="income_avg">บาท</h5>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- send request receive money -->
+                                <div class="card card-body add-shadow mt-3">
+                                    <div class="text-center mb-3 name_title_Nsd" >
+                                        <h3>ส่งคำขอรับเงิน</h3>
+                                    </div>
+                                    <div>
+                                        <!-- money in -->
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <h5>ยอดเงินคงเหลือ</h5>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <!-- <h5 >บาท</h5> -->
+                                                <h5><a id="present_current_money"></a> บาท</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="btn float-right" id="check_req" style="background-color: #138496;color: white;" onclick="req_receive_money('<%= global_data.store_number %>')">ขอรับเงิน</button>
                                             </div>
                                         </div>
 
@@ -134,7 +161,18 @@
                                         </td>
                                         
                                         <td><%= store_history_data[i].status %></td>
-                                        <td><%= store_history_data[i].food_name %></td>
+                                        <td>
+                                            <% if(store_history_data[i].order_list) {%>
+                                                <button class="btn btn-info" 
+                                                    onClick="open_order_bill('<%= store_history_data[i]._id %>')"
+                                                    data-toggle="modal" data-target="#order_list_modal">
+                                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                                </button>
+                                               
+                                            <%} else {%>
+                                                <%= store_history_data[i].food_name %>
+                                            <%}%>
+                                        </td>
                                         <td><%= store_history_data[i].income %></td>
                                         <td><%= store_history_data[i].responsible %></td>
                                     </tr>
@@ -180,7 +218,27 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <!-- send request recive money -->
+                    <!-- <div class="tab-pane fade show" id="receive_money" role="tabpanel" aria-labelledby="receive_money-tab">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <h3>ส่งคำขอรับเงิน</h3>
+                                    
+                                </div>
+                                <div>
+                                    <h2>ยอดเงินคงเหลือในระบบ <a id="present_current_money"></a> บาท</h2>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div>
+                            <h3>ส่งคำขอรับเงิน</h3>
+                            
+                        </div>
+                        <button class="btn btn-primary" id="check_req" onclick="req_receive_money('<%= global_data.store_number %>')">ขอรับเงิน</button>
+                    </div> -->
                     
                 </div>
             </div>
@@ -224,6 +282,50 @@
     </div>
 </div>
 
+<!-- show modal order list -->
+<div class="modal fade" id="order_list_modal" tabindex="-1" role="dialog" aria-labelledby="order_list_modal_Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="order_list_modal_Label">รายการอาหารที่ซื้อ</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <div id="generate_order_table"></div>
+
+                    <!-- <table class="table table-striped table-bordered" id="order_list_table" style="width:100%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                        <thead class="thead-dark">
+                        <tr>
+                            <td >อาหาร</td>
+                            <td >ราคา</td>
+                            <td >จำนวน</td>
+                            <td >รวมราคา</td>
+                        </tr>
+                        </thead>
+                        
+                        
+                    </table> -->
+                    <div>
+                        <h2 class="float-right">รวมราคาอาหาร <a id="total_price">0</a> บาท</h2> 
+                    </div>
+
+                </div>
+                
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 $(document).ready(function() {
@@ -242,15 +344,17 @@ $(document).ready(function() {
         },"order": [[ 0, "desc" ]],
 
     });
-
+    check_req_in_db();
     getDate();
     pdf_get_date();
     get_data_start_page();
-
+    get_present_current_money();
     // food sales
     get_food_sales();
     // draw_food_sales_chart();
+    
 } );
+
 
 
 pdf_get_date = () => {
@@ -260,7 +364,6 @@ pdf_get_date = () => {
     $("#pdf_selected_month").val(global_date);
 }
 
-// go_to_pdf = (date) => {
-//     window.location = '/store/report/download_report'
-// }
+
+
 </script>

@@ -29,6 +29,7 @@ router.get('/edit_student/?:student_id',controller.edit_student_detail_page);
 router.get('/edit_store',controller.edit_store_page);
 router.get('/edit_store/?:id',controller.edit_store_detail_page);
 router.patch('/edit_profile',controller.edit_store_profile);
+router.patch('/edit_store/?:id/approve_requset',controller.approve_requset);
         // edit store password
 router.patch('/store_change_password',controller.edit_store_change_password);
         // edit store change status

@@ -493,7 +493,7 @@ draw_chart = (chart_data, mode) => {
     }
     if (mode == 'mode_income') {
         var label_text = "รายรับ";
-        var color_line = "#54FC70";
+        var color_line = "#158467";
         var labelString_text = "บาท";
     }
     if (mode == 'mode_expend') {
@@ -538,6 +538,81 @@ draw_chart = (chart_data, mode) => {
 
     var draw_chart = new Chart(ctx, chart_data_month);
 
+}
+
+
+open_order_bill = (id_order_list) => {
+    // console.log('order list');
+    // console.log((id_order_list));
+
+    // send id to server 
+
+    $.ajax({
+        url:'/student/history/get_order_by_id?id='+id_order_list,
+        type:'GET',
+        dataType:'json',
+        // data:{id_order_list},
+        success:(msg_back) => {
+            open_order_modal(msg_back.success)
+        },
+        error:(msg_back) => {
+            // console.log(msg_back)
+        }
+    })
+
+}
+
+open_order_modal = (order_list_data) => {
+    // console.log('order list');
+    // console.log(order_list_data)
+    var data = '';
+    var order_list = order_list_data.order_list;
+    var total_price = 0;
+    var total_calories = 0;
+    // console.log(('order list length : ',Object.keys(order_list).length))
+    generate_order_table()
+    for (let i = 0; i < Object.keys(order_list).length; i++) {
+        data = '<tr>'+
+                    '<td>'+order_list[Object.keys(order_list)[i]].food_name+'</td>'+
+                    '<td>'+order_list[Object.keys(order_list)[i]].food_calories+'</td>'+
+                    '<td>'+order_list[Object.keys(order_list)[i]].amount+'</td>'+
+                    '<td>'+sum_price(order_list[Object.keys(order_list)[i]].food_calories,order_list[Object.keys(order_list)[i]].amount)+'</td>'+
+                '</tr>';
+         $('#order_list_table').append(data)
+
+         total_price = total_price + sum_price(order_list[Object.keys(order_list)[i]].food_price,order_list[Object.keys(order_list)[i]].amount);
+         total_calories = total_calories + sum_price(order_list[Object.keys(order_list)[i]].food_calories,order_list[Object.keys(order_list)[i]].amount);
+    }
+   
+    $('#total_price').html(total_price)
+    $('#total_calories').html(total_calories)
+   
+}
+
+generate_order_table = () => {
+    var order_table = ' <table class="table table-striped table-bordered" id="order_list_table" style="width:100%">'+
+                    '<col width="25%">'+
+                    '<col width="25%">'+
+                    '<col width="25%">'+
+                    '<col width="25%">'+
+                        '<thead class="thead-dark">'+
+                        '<tr>'+
+                            '<td >อาหาร</td>'+
+                            '<td >แคลอรี่(กิโลแคลอรี่)</td>'+
+                            '<td >จำนวน</td>'+
+                            '<td >รวมแคลอรี่(กิโลแคลอรี่)</td>'+
+                        '</tr>'+
+                        '</thead>'+
+                        
+                        
+                    '</table>';
+
+    $('#generate_order_table').html(order_table)
+}
+
+sum_price = (price, amount) => {
+    // console.log('price ' + price + ' amount '+ amount)
+    return price * amount;
 }
 
 

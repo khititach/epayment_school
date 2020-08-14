@@ -16,7 +16,7 @@ const student_history = history.student_history_model;
     // category model
 const category = require('../model/category');
     // notification model
-const notification_model = require('../model/notification');
+const {notification_model , receive_money_model} = require('../model/notification');
 
 
 // const school_model = require('../model/School');
@@ -198,7 +198,7 @@ topup = (req ,res ) => {
                     if (err) {
                         res.status(500).send({error:'Top-up : record history something wrong.'})
                     } else {
-                        res.status(200).json({success:'เติมเงินสำเร็จ'})        
+                        res.status(200).json({success:'เติมเงินสำเร็จ',newCurrentMoney})        
                     }
                 })
             })
@@ -551,10 +551,50 @@ edit_store_page = (req ,res ) => {
 
 edit_store_detail_page = (req ,res ) => {
     const store_NO = req.params;
-    console.log(store_NO);
+    // console.log(store_NO);
     store_model.findOne({store_number:store_NO.id},(err , store_data) => {
-        res.render('./admin_page/admin_edit_store_detail',{store_data});
+        receive_money_model.findOne({$and:[{store_number:store_NO.id},{status:'Disapproval'}]},(err , req_data) => {
+            if (err) {
+                console.log('find request receive money something wrong. > ',err)
+            } else {
+                console.log('req data')
+                
+                // console.log(req_data)
+                if (!req_data) {
+                    req_data = 'none'
+                } 
+                 res.status(200).render('./admin_page/admin_edit_store_detail',{store_data,req_data});
+            }
+        })
+       
     })
+}
+
+    // approve requset
+approve_requset = (req ,res) => {
+    const approve_requset_data = req.body
+    // console.log('approve request data')
+    // console.log(approve_requset_data)
+
+    receive_money_model.findOneAndUpdate({_id:approve_requset_data._id},{status:approve_requset_data.new_status,accept_date:Date().toLocaleString()},{multi: true },(err , request_data) => {
+        if (err) {
+            console.log('find request receive money something wrong. > '+err)
+        } else {
+            // console.log('request update')
+            // console.log(request_data)
+            const set_current_money = 0;
+            store_model.findOneAndUpdate({store_number:approve_requset_data.store_number},{current_money:set_current_money},(err, store_data) => {
+                if (err) {
+                    console.log('find store and set current money to 0 something wrong. > '+err)
+                } else {
+                    res.status(200).send({success:'อนุมัติคำขอรับเงินเสร็จสิ้น'})
+                }
+            })
+            
+        }
+    })
+
+    
 }
 
         // Store edit profile  
@@ -692,7 +732,7 @@ category_add = async (req ,res ) => {
                 food_name:food_data.food_name,
                 food_price:food_data.food_price,
                 food_calories:food_data.food_calories,
-                food_quantity:food_data.food_quantity,
+                food_quantity:1,
                 food_image:'',
             });
 
@@ -1053,6 +1093,7 @@ module.exports = {
     category_add_check,
     category_edit_check_name,
     // test page
-    category_edit_page
+    category_edit_page,
+    approve_requset
 
 }

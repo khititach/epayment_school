@@ -51,6 +51,8 @@ create_table = (data) => {
     student_currentMoney = data.current_money;
     $("#item_price").select().attr('readonly', false);
     $("#buyItem_confirm").attr("disabled", false);
+    $("#submit_order").attr("disabled", false);
+    $("#cancle_order").attr("disabled", false);
 }
 
 // - - - - - buy item by insert price - - - - - 
@@ -179,6 +181,119 @@ confirm_buy_item = (student_id, food_id, food_name, food_price) => {
   
   }
 
+// buy more order 
+var total_money = 0;
+const cart = {};
+
+add_item = (menu_no,food_id,food_name,food_price,food_calories) => {
+
+  if (!cart[food_id]) {
+        cart[food_id] = {
+          food_id:food_id,
+          food_name:food_name,
+          food_price:food_price,
+          food_calories:food_calories,
+          amount:1
+        }
+    } else {
+      cart[food_id].amount += 1;
+    }
+    // console.log(cart)
+
+    total_money = total_money + Number(cart[food_id].food_price) ;
+    // console.log(total_money)
+    $('#count_money').text(total_money);
+    // console.log(menu_no)
+
+      // add del button
+    $('#add_del_order_'+menu_no).html('<button class="btn btn-danger plus" onclick="del_item(\'' + menu_no + '\',\'' + food_id + '\')">-</button>');
+
+    $('#show_cart').html('<p>'+JSON.stringify(cart)+'</p>')
+
+}
+
+del_item = (menu_no,food_id) => {
+    // console.log('del food')
+    // console.log(cart[food_id])
+      // v2
+    total_money = total_money - Number(cart[food_id].food_price)
+
+    // console.log(cart)
+    $('#count_money').text(total_money);
+
+          // remove item from cart v2
+    if (cart[food_id].amount == 1) {
+      delete cart[food_id]
+      $('#add_del_order_'+menu_no).html('<a class="del_order_btn" id="add_del_order_menu_1"></a>')
+    }
+    else if (cart[food_id].amount > 1) {
+      cart[food_id].amount -= 1;
+    }
+    
+    $('#show_cart').html('<p>'+JSON.stringify(cart)+'</p>')
+    
+  }
+
+
+    // submit order to server
+    submit_order = (student_id) => {
+    // console.log('Submit order to server');
+    // console.log('order');
+    // console.log(cart);
+    // console.log('student id');
+    // console.log(student_id);
+
+    // check money
+    var student_money = $('#student_current_money').data('value');
+      // console.log('student current money : ',student_money,' / food price : ',food_price);
+      if (total_money > student_money) {
+        toastr.error("จำนวนเงินไม่เพียงพอ")
+        clear_data();
+      } else {
+        $.confirm({
+            title: 'ยืนยันการซื้อ',
+            content: '<h5>'+ 'ชำระเงินค่าอาหาร '+total_money +' บาท ' + '</h5>',
+            type: 'green',
+            buttons: {
+                ok: {
+                    text: "ยืนยัน",
+                    btnClass: 'btn-primary',
+                    keys: ['enter'],
+                    action: function () {
+                      $.ajax({
+                          type:'PATCH',
+                          url:'/store/buy_order',
+                          dataType:'json',
+                          data:{ 
+                            student_id:student_id,
+                            cart
+                          },
+                          success:(msg_back) => {
+                            // console.log('success')
+                            // console.log(msg_back)
+                            alert_js_success(msg_back.success);
+                          },error:(msg_back) => {
+                            // console.log('error')
+                            // console.log(msg_back)
+                            clear_data()
+                          }
+                        })          
+                    }
+                },
+                cancel: {
+                    text: "ยกเลิก",
+                    btnClass: 'btn-secondary',
+                    keys: ['esc'],
+                    action: function () {
+                        // console.log('ยกเลิกการเลือกรายการอาหาร');
+                    }
+  
+                }
+            },
+        });
+      }
+  }
+
 seleted_buy_item_list = (student_id, food_id, food_name, food_price) => {
     // console.log('student id : ', student_id, ' buy : ', food_id);
     $.ajax({
@@ -203,7 +318,7 @@ seleted_buy_item_list = (student_id, food_id, food_name, food_price) => {
 alert_js_success = (msg) => {
     $.confirm({
         title: 'แจ้งเตือน',
-        content: msg,
+        content:'<h5>'+ msg +'</h5>' ,
         type: 'green',
         autoClose: 'ok|3000',
         keyboardEnabled: true,
@@ -321,6 +436,14 @@ clear_data = () => {
     $("#buyItem_confirm").attr("disabled", true);
     $('#showStudentImageData').attr('src','/partials/image/unprofile.jpg')
     $("#showStudentData").html("");
+    $('.del_order_btn').html('<a class="del_order_btn" id="add_del_order_menu_1"></a>')
+    for (const i of Object.getOwnPropertyNames(cart)) {
+        delete cart[i];
+      }
+    total_money = 0;
+    $("#submit_order").attr("disabled", true);
+    $("#cancle_order").attr("disabled", true);
+    $('#count_money').text(total_money);
 }
 
 alert_popup = (msg) => {
@@ -371,7 +494,134 @@ alert_popup = (msg) => {
 
 
 // store report page script
+open_order_bill = (id_order_list) => {
+    // console.log('order list');
+    // console.log((id_order_list));
 
+    // send id to server 
+
+    $.ajax({
+        url:'/store/report/get_order_by_id?id='+id_order_list,
+        type:'GET',
+        dataType:'json',
+        // data:{id_order_list},
+        success:(msg_back) => {
+            open_order_modal(msg_back.success)
+        },
+        error:(msg_back) => {
+            console.log(msg_back)
+        }
+    })
+
+}
+
+open_order_modal = (order_list_data) => {
+    // console.log('order list');
+    // console.log(order_list_data)
+    var data = '';
+    var order_list = order_list_data.order_list;
+    var total_price = 0;
+    // console.log(('order list length : ',Object.keys(order_list).length))
+    generate_order_table()
+    for (let i = 0; i < Object.keys(order_list).length; i++) {
+        data = '<tr>'+
+                    '<td>'+order_list[Object.keys(order_list)[i]].food_name+'</td>'+
+                    '<td>'+order_list[Object.keys(order_list)[i]].food_price+'</td>'+
+                    '<td>'+order_list[Object.keys(order_list)[i]].amount+'</td>'+
+                    '<td>'+sum_price(order_list[Object.keys(order_list)[i]].food_price,order_list[Object.keys(order_list)[i]].amount)+'</td>'+
+                '</tr>';
+         $('#order_list_table').append(data)
+
+         total_price = total_price + sum_price(order_list[Object.keys(order_list)[i]].food_price,order_list[Object.keys(order_list)[i]].amount);
+    }
+   
+    $('#total_price').html(total_price)
+   
+}
+
+generate_order_table = () => {
+    var order_table = ' <table class="table table-striped table-bordered" id="order_list_table" style="width:100%">'+
+                    '<col width="25%">'+
+                    '<col width="25%">'+
+                    '<col width="25%">'+
+                    '<col width="25%">'+
+                        '<thead class="thead-dark">'+
+                        '<tr>'+
+                            '<td >อาหาร</td>'+
+                            '<td >ราคา(บาท)</td>'+
+                            '<td >จำนวน</td>'+
+                            '<td >รวมราคา(บาท)</td>'+
+                        '</tr>'+
+                        '</thead>'+
+                        
+                        
+                    '</table>';
+
+    $('#generate_order_table').html(order_table)
+}
+
+sum_price = (price, amount) => {
+    // console.log('price ' + price + ' amount '+ amount)
+    return price * amount;
+}
+
+check_req_in_db = () => {
+    $.ajax({
+        url:'/store/report/check_req',
+        type:'GET',
+        dataType:'json',
+        success:(msg_back) => {
+            console.log(msg_back)
+            console.log(msg_back.success)
+            if (msg_back.success = true) {
+                $('#check_req').attr('disabled',true)
+            }
+            if (msg_back.success = false) {
+                $('#check_req').attr('disabled',false)
+            }
+        },
+        error:(msg_back) => {
+            console.log(msg_back)
+        }
+    })
+}
+
+    // request to receive money from admin
+req_receive_money = (store_number) => {
+    console.log('store number');
+    console.log(store_number);
+    $.ajax({
+        url:'/store/report/receive_money',
+        type:'POST',
+        dataType:'json',
+        data:{store_number},
+        success:(msg_back) => {
+            console.log(msg_back)
+            alert_popup(msg_back)
+        },
+        error:(msg_back) => {
+            console.log(msg_back)
+        }
+    })
+}
+
+    // get current money
+get_present_current_money = () => {
+    $.ajax({
+        url:'/store/report/get_current_money',
+        type:'GET',
+        dataType:'json',
+        success:(msg_back) => {
+            // console.log('present current money')
+            // console.log(msg_back)
+            $('#present_current_money').html(msg_back.success.current_money)
+           
+        },
+        error:(msg_back) => {
+
+        }
+    })
+}
 
 // get data by select month and mode
 $('#selected_month').on('change',() => {
@@ -474,7 +724,7 @@ draw_income_chart = (data) => {
                     // data: [200, 0, 100, 0, 0, 0, 100, 300, 0, 100],
                     data:processed_data,
                     label: "รายรับ",
-                    borderColor: "#54FC70",
+                    borderColor: "#158467",
                     fill: false
                 }
             ]
@@ -519,7 +769,7 @@ $('#selected_month_sales_data').on('change',() => {
 get_food_sales = () => {
 
     $.get('/store/report/get_food_sales/?month='+global_date,(data) => {
-        // console.log('food sales data : ' ,data);
+        console.log('food sales data : ' ,data);
         // process data for draw chart
         
         draw_food_sales_chart(process_food_sales(data));

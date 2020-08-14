@@ -59,7 +59,7 @@
             <th>ชื่ออาหาร</th>
             <th>ราคา(บาท)</th>
             <th>แคลอรี่(กิโลแคลอรี่)</th>
-            <th>ปริมาณ</th>
+            <!-- <th>ปริมาณ</th> -->
             <th>แก้ไข</th>
           </tr>
         </thead>
@@ -78,9 +78,9 @@
             <td>
               <%= food_data[i].food_calories %>
             </td>
-            <td>
+            <!-- <td>
               <%= food_data[i].food_quantity %>
-            </td>
+            </td> -->
             <td>
               <button class="btn btn-info" data-toggle="modal" data-target="#ModalEditFood"
                 onclick="modal_edit_food_data('<%= food_data[i].food_id %>',
@@ -144,7 +144,7 @@
                 </div>   
               </div> 
             </div>
-            <div class="row d-flex justify-content-center">
+            <!-- <div class="row d-flex justify-content-center">
               <div class="col-md-3 mb-2 text-right">
                   <h5e>ปริมาณ</h5e>
               </div>
@@ -156,7 +156,7 @@
                   </div>
                 </div>
               </div> 
-            </div>
+            </div> -->
             <div class="row d-flex justify-content-center">
               <div class="col-md-3 mb-2 text-right">
                   <h5e>ราคา</h5e>

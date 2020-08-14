@@ -72,8 +72,24 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                aria-controls="profile" aria-selected="false">ข้อมูลร้านค้า</a>
+                                aria-controls="profile" aria-selected="false">ข้อมูลร้านค้า
+                                <% if(req_data.status === 'Disapproval') {%>
+                                    <i class="fa fa-exclamation" aria-hidden="true" style="color: red;"></i>
+                                <%} if(req_data === 'none') {%>
+    
+                                    <%}%>
+                            </a>
                         </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" id="approve_money-tab" data-toggle="tab" href="#approve_money" role="tab"
+                                aria-controls="profile" aria-selected="false">อนุมัติรับเงิน
+                            <% if(req_data.status === 'Disapproval') {%>
+                                <i class="fa fa-exclamation" aria-hidden="true" style="color: red;"></i>
+                            <%} if(req_data === 'none') {%>
+
+                                <%}%>
+                            </a>
+                        </li> -->
                        
                       
                     </ul>
@@ -217,7 +233,44 @@
 
         </div>
 
+        <div class="row mb-2">
+            <div class="col-md-4">
+               
+                <h5e>อนุมัติคำขอรับเงิน</h5e>
+            </div>
+            <div class="col-md-6">
+              
+                <% if(req_data.status === 'Disapproval') {%>
+                    <button class="btn btn-success" onclick="aprrove_request('<%= req_data._id %>','<%= store_data.store_number %>','Approve')">อนุมัติ</button>
+                <%} if(req_data === 'none') {%>
+                    <button class="btn btn-success" disabled>อนุมัติ</button>
+                    <%}%>
+            </div>
+
+        </div>
+
     </div>
+
+    <!-- approve money tab -->
+    <!-- <div class="tab-pane fade" id="approve_money" role="tabpanel" aria-labelledby="approve_money-tab">
+        <div>
+            <h3>จำนวนเงินในระบบ <%= store_data.current_money%> บาท</h3>
+            
+        </div>
+        <div>
+            <h3>อนุมัติคำขอ</h3>
+            
+        </div>
+        <div>
+            <% if(req_data.status === 'Disapproval') {%>
+                <button class="btn btn-success" onclick="aprrove_request('<%= req_data._id %>','<%= store_data.store_number %>','Approve')">อนุมัติ</button>
+            <%} if(req_data === 'none') {%>
+                <button class="btn btn-success" disabled>อนุมัติ</button>
+                <%}%>
+           
+        </div>
+    </div> -->
+
 </div>
 
 </div>
@@ -288,3 +341,5 @@
         </div>
     </div>
 </div>
+
+

@@ -3376,12 +3376,15 @@ input[type="button"].btn-block {
 .nav-tabs {
   border-bottom: 1px solid #dee2e6; }
   .nav-tabs .nav-item {
-    margin-bottom: -1px; }
+    margin-bottom: -1px; 
+    font-size: 17px; }
   .nav-tabs .nav-link {
     border: 1px solid transparent;
+    color: #d6a100;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem; }
     .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+      
       border-color: #e9ecef #e9ecef #dee2e6; }
     .nav-tabs .nav-link.disabled {
       color: #6c757d;
@@ -3391,6 +3394,7 @@ input[type="button"].btn-block {
   .nav-tabs .nav-item.show .nav-link {
     color: #495057;
     background-color: #fff;
+    font-weight: bolder;
     border-color: #dee2e6 #dee2e6 #fff; }
   .nav-tabs .dropdown-menu {
     margin-top: -1px;
@@ -4227,7 +4231,7 @@ input[type="button"].btn-block {
   font-weight: 700; }
 
 .alert-dismissible {
-  padding-right: 4rem; }
+  padding-right: 2rem; }
   .alert-dismissible .close {
     position: absolute;
     top: 0;

@@ -5,7 +5,7 @@ const student_model = User.student_model;
 const history = require('../model/history');
 const student_history = history.student_history_model;
     // notification model
-const notification_model = require('../model/notification');
+const { notification_model , receive_money_model} = require('../model/notification');
 
     // student home page
 student_home_page = (req ,res) => {
@@ -51,6 +51,28 @@ student_history_page = (req ,res ) => {
             // console.log(date);
             
             res.status(200).render('../views/student_page/student_history',{student_data:global_data,student_history_data});
+        }
+    })
+}
+
+    // get order list by id
+get_order_list = (req ,res ) => {
+    const id_order = req.query.id
+    // console.log('id ', id_order);
+
+    student_history.findOne({_id:id_order},'income order_list',(err , order_list_data) => {
+        if (err) {
+            console.log('find order in store history something wrong. > ', err)
+        }
+        if (!order_list_data) {
+            console.log('Not found order')
+            res.status(400).send({ error : 'ไม่เจอรายการซื้อ'})
+        }
+        if (order_list_data) {
+            console.log('order list')
+            // console.log(order_list_data)
+
+            res.status(200).send({ success : order_list_data})
         }
     })
 }
@@ -241,5 +263,6 @@ module.exports = {
     update_profile,
     edit_weight,
     edit_height,
-    edit_password
+    edit_password,
+    get_order_list
 }

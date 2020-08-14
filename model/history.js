@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { string } = require('mathjs');
 const Schema = mongoose.Schema;
 
     // student history schema
@@ -14,7 +15,8 @@ const student_history_schema = new Schema({
     deposit:{ type:String }, // money in 
     withdraw:{ type:String }, // money out
     total:{ type:String }, // current money
-    responsible:{type:String } // storenumber + storeOwner
+    responsible:{type:String }, // storenumber + storeOwner,
+    order_list:{type:Object}
 });
 
     // store history schema
@@ -28,8 +30,9 @@ const store_history_schema = new Schema({
     food_name:{ type:String }, // edit : food > food_name
     // calories:{ type:String },
     income:{ type:String }, // edit : deposit > income
-    // withdraw:{ type:String }, // remove
-    responsible:{type:String }
+    withdraw:{ type:String }, 
+    responsible:{type:String },
+    order_list:{type:Object}
 })
 
 var student_history_model = mongoose.model("studenthistory",student_history_schema);

@@ -17,6 +17,10 @@ router.patch('/edit_password',controller.edit_password);
 
     // student history page
 router.get('/history',controller.student_history_page);
+    // get order list by id
+router.get('/history/get_order_by_id',controller.get_order_list);
+
+
         // get food data
 // router.get('/get_food_history_data',controller.get_food_history_data);
 

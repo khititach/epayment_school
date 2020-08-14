@@ -47,43 +47,200 @@
     </div>
   </div>
 </nav>
+<!-- v0 -->
+<!-- <button class="btn btn-primary">คิดเงิน</button>
+<button type="button" class="btn btn-primary">
+  add <span class="badge badge-light" onclick="add_menu_in_query()"> <p id="clicks"></p></span>
+</button>
+<button type="button" onClick="onClick()">Click me</button>
+<p>Clicks: <a id="clicks">0</a></p> -->
+<!-- v1 -->
+<!-- <button class="btn btn-primary plus" onClick="add_menu()">+</button>
+<button class="btn btn-danger plus" onClick="del_menu()">-</button>
+<p>Clicks: <a id="add_menu">0</a></p> -->
 
-<!------ Include the above in your HEAD tag ---------->
+<!-- <div>
+  <h1>ข้าวมันไก่</h1><a id="count_menu_food_1" ></a>
+  <button class="btn btn-primary plus" onClick="add_menu('btn1','0001','ข้าวมันไก่','35')" >30 บาท </button><a id="add_del_btn"></a>
+</div>
+<div>
+  <h1>ข้าวมันไก่ทอด</h1><a id="count_menu_food_2" ></a>
+  <button class="btn btn-primary plus" onClick="add_menu('btn2','0001','ข้าวมันไก่ทอด','40')" >30 บาท </button><a id="add_del_btn"></a>
+</div>
 
-<div class="container emp-profile">
-    <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>
-  <ul class="responsive-table">
-    <li class="table-header">
-      <div class="col col-1">Job Id</div>
-      <div class="col col-2">Customer Name</div>
-      <div class="col col-3">Amount Due</div>
-      <div class="col col-4">Payment Status</div>
-    </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="Job Id">42235</div>
-      <div class="col col-2" data-label="Customer Name">John Doe</div>
-      <div class="col col-3" data-label="Amount">$350</div>
-      <div class="col col-4" data-label="Payment Status">Pending</div>
-    </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="Job Id">42442</div>
-      <div class="col col-2" data-label="Customer Name">Jennifer Smith</div>
-      <div class="col col-3" data-label="Amount">$220</div>
-      <div class="col col-4" data-label="Payment Status">Pending</div>
-    </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="Job Id">42257</div>
-      <div class="col col-2" data-label="Customer Name">John Smith</div>
-      <div class="col col-3" data-label="Amount">$341</div>
-      <div class="col col-4" data-label="Payment Status">Pending</div>
-    </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="Job Id">42311</div>
-      <div class="col col-2" data-label="Customer Name">John Carpenter</div>
-      <div class="col col-3" data-label="Amount">$115</div>
-      <div class="col col-4" data-label="Payment Status">Pending</div>
-    </li>
-  </ul>
-        </div>
+<div>
+  Menu in bill
+  <div id="menu_in_bill">
+
+  </div>
+</div> -->
+
+<!-- <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_0001" onclick="confirm_buy_item($('#student_id').text(),'0001','ข้าวมันไก่','35')">
+  <div>
+    35 บาท
+  </div>
+</button> -->
+
+<!-- v2 -->
+<div class="row">
+  <div class="col-6">
+    <div>
+      <h2>รวมยอดเงิน <a id="count_money">0</a> บาท</h2>
+    </div>
+    <div>
+      <a id="show_cart"></a>
+    </div>
+  </div>
+  <div class="col-6">
+    <div>
+      <h1>ข้าวมันไก่</h1><a id="count_order_food_1" ></a>
+      <button class="btn btn-primary plus" onClick="add_item('menu_1','0001','ข้าวมันไก่','30','300')" >30 บาท </button><a id="add_del_order_menu_1"></a>
+    </div>
+    <div>
+      <h1>ข้าวมันไก่ทอด</h1><a id="count_order_food_2" ></a>
+      <button class="btn btn-primary plus" onClick="add_item('menu_2','0002','ข้าวมันไก่ทอด','40','400')" >40 บาท </button><a id="add_del_order_menu_2"></a>
+    </div>
+    <div>
+      <h1>ข้าวขาหมู</h1><a id="count_order_food_3" ></a>
+      <button class="btn btn-primary plus" onClick="add_item('menu_3','0003','ข้าวขาหมู','45','500')" >45 บาท </button><a id="add_del_order_menu_3"></a>
+    </div>
+  </div>
+  
+</div>
+
+<div>
+  <button class="btn btn-success" onclick="submit_order()">คิดเงิน</button>
+</div>
+
+<div>
+  <button class="btn btn-success" onclick="test_func()">test func</button>
+</div>
+
+
+
     </div>
 </div>
+
+
+
+
+
+<script >
+  // v0
+  var clicks = 0;
+  function onClick() {
+      clicks += 1;
+      document.getElementById("clicks").innerHTML = clicks;
+  };
+
+
+  // v1
+  var add_menu_in_q = 0;
+  bill = [];
+  add_menu = (btn,food_id,food_name,food_price) => {
+    add_menu_in_q += 1;
+    var init_bill = {food_id,food_name,food_price};
+    bill.push(init_bill)
+    console.log(bill)
+    $('#count_menu').text(add_menu_in_q);
+    $('#add_del_btn').html('<button class="btn btn-danger plus" onClick="del_menu('+btn+')">-</button>');
+    $('#menu_in_bill').append(bill)
+  }
+
+  del_menu = (btn) => {
+    if (add_menu_in_q <= 0) {
+      
+    } else {
+      add_menu_in_q -= 1;
+      $('#count_menu').text(add_menu_in_q);
+    }
+  }
+
+  // v2
+  var cart = [];
+  var total_money = 0;
+  const cart_order = {};
+  add_item = (menu_no,food_id,food_name,food_price,food_calories) => {
+
+      // add order to bill v2
+    // console.log(cart_order)
+
+    if (!cart_order[food_id]) {
+        cart_order[food_id] = {
+          food_id:food_id,
+          food_name:food_name,
+          food_price:food_price,
+          food_calories:food_calories,
+          amount:1
+        }
+    } else {
+      cart_order[food_id].amount += 1;
+    }
+    console.log(cart_order)
+
+      // v2
+    total_money = total_money + Number(cart_order[food_id].food_price) ;
+    // console.log(total_money)
+    $('#count_money').text(total_money);
+    console.log(menu_no)
+
+      // add del button
+    $('#add_del_order_'+menu_no).html('<button class="btn btn-danger plus" onclick="del_item(\'' + menu_no + '\',\'' + food_id + '\')">-</button>');
+
+    $('#show_cart').html('<p>'+JSON.stringify(cart)+'</p>')
+  }
+
+
+
+  del_item = (menu_no,food_id) => {
+    console.log('del food')
+    console.log(cart_order[food_id])
+      // v2
+    total_money = total_money - Number(cart_order[food_id].food_price)
+
+    console.log(cart_order)
+    $('#count_money').text(total_money);
+
+          // remove item from cart v2
+    if (cart_order[food_id].amount == 1) {
+      delete cart_order[food_id]
+      $('#add_del_order_'+menu_no).html('<a id="add_del_order_menu_1"></a>')
+    }
+    else if (cart_order[food_id].amount > 1) {
+      cart_order[food_id].amount -= 1;
+    }
+    
+    $('#show_cart').html('<p>'+JSON.stringify(cart)+'</p>')
+    
+  }
+
+  // submit order to server
+  submit_order = () => {
+    console.log('Submit order to server');
+    console.log('order');
+    console.log(cart_order);
+    $.ajax({
+      type:'PATCH',
+      url:'/store/buy_order',
+      dataType:'json',
+      data:{ 
+        student_id:'14135',
+        cart_order
+      },
+      success:(msg_back) => {
+        console.log('success')
+        console.log(msg_back)
+      },error:(msg_back) => {
+        console.log('error')
+        console.log(msg_back)
+      }
+    })
+  }
+
+  // test
+  test_func = () => {
+    console.log([Object.keys(cart_order)])
+    // console.log(Object.keys(cart_order).length)
+    console.log(cart_order[Object.keys(cart_order)[0]].food_price * cart_order[Object.keys(cart_order)[0]].amount)
+  }
+</script>

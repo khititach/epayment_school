@@ -208,14 +208,14 @@
           <% if (posts[i] != null && posts[i].title == 'เติมเงิน') {%>
             <!-- <div class="notify-box"> -->
               <div class="alert alert-dismissible alert-success">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
                 <strong><%= posts[i].title %></strong> <%= posts[i].message %>
               </div>
             <!-- </div> -->
           <%}%>
           <% if (posts[i] != null && posts[i].title == 'ซื้อ') {%>
             <div class="alert alert-dismissible alert-danger">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
               <strong><%= posts[i].title %></strong> <%= posts[i].message %>
             </div>
           <%} else {%>

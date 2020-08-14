@@ -11,7 +11,8 @@ const store_history = history.store_history_model;
     // category model
 const category = require('../model/category');
     // notification model
-const notification_model = require('../model/notification');
+const { notification_model , receive_money_model} = require('../model/notification');
+const { number, boolean } = require('mathjs');
 
 // other function
     // Search student
@@ -203,6 +204,174 @@ buy_item_list = (req ,res ) => {
     // res.status(200).send({ success : 'ซื้ออาหารสำเร็จ'})
 }
 
+
+    // buy item more 2 order
+buy_more_item = (req ,res ) => {
+    const order_data = req.body;
+    const cart_order = order_data.cart;
+    // receive data > food id and amount , student id
+    console.log(order_data);
+
+    // find student to save history
+    student_model.findOne({student_id:order_data.student_id},'-image',async(err , student_data) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send({error : 'buy more item > find student data something wrong.'})
+        }
+        if (!student_data) {
+            res.status(400).send({error : 'ไม่พบข้อมูลนักเรียน'}) 
+        }
+        if (student_data) {
+            // student data
+            // console.log(student_data)
+
+            // check length
+            console.log('length')
+            console.log(Object.keys(cart_order).length)
+
+            // function sum all price
+            total_price = function() {
+                let total_all_price = 0;
+                for (let i = 0; i < Object.keys(cart_order).length; i++) {
+                    sum_price = cart_order[Object.keys(cart_order)[i]].food_price * cart_order[Object.keys(cart_order)[i]].amount
+                    total_all_price = total_all_price + sum_price;
+                }
+                // console.log('sum price all : ',total_all_price)
+                return total_all_price
+            }
+
+            total_calories = function() {
+                let total_all_calories = 0;
+                for (let i = 0; i < Object.keys(cart_order).length; i++) {
+                    sum_calories = Number(cart_order[Object.keys(cart_order)[i]].food_calories) *  cart_order[Object.keys(cart_order)[i]].amount;
+                    total_all_calories = total_all_calories + sum_calories;
+                }
+                // console.log('sum price all : ',total_all_price)
+                return total_all_calories
+            }
+
+            console.log('total price : ',total_price())
+            console.log('total calories : ',total_calories())
+
+            // check student money enough for food ?
+            if (student_data.current_money < total_price()) {
+                res.status(400).send({ error : 'จำนวนเงินของนักเรียนไม่เพียงพอ'})
+            } else {
+
+                // student > init order to save hiatory
+                const student_data_record = {
+                    id_card:student_data.id_card,
+                    student_id:student_data.student_id,
+                    date:Date().toLocaleString(),
+                    status:'ซื้อ',
+                    store_number:global_data.store_number,
+                    store_name:global_data.store_name,
+                    deposit:'0',
+                    calories:total_calories(),
+                    // sum all food price in obj
+                    withdraw:total_price(), 
+                    total:student_data.current_money - total_price(),
+                    responsible:'เจ้าของร้าน:'+global_data.first_name,
+                    order_list:cart_order
+                    
+                }
+                console.log('student data record')
+                console.log(student_data_record)
+
+                // store > init order to save hiatory
+                const store_data_record = {
+                    store_number:global_data.store_number,
+                    store_name:global_data.store_name,
+                    date:Date().toLocaleString(),
+                    student_id:student_data.student_id,
+                    status:'ซื้อ',
+                    // calories:food_data.food_calories,
+                    income:total_price(),
+                    withdraw:'0',
+                    responsible:global_data.first_name,
+                    order_list:cart_order
+                }
+
+                console.log('store data record')
+                console.log(store_data_record)
+
+                // step init bill to save model
+                    
+                const studentNewHistory = new student_history(student_data_record);
+                const storeNewHistory = new store_history(store_data_record);
+                const msg_data = {title:'ซื้อ',message:global_data.store_name+' '+total_price()+' บาท'}
+                add_notification_buy(order_data,msg_data);
+
+                // new current money student
+                const newCurrentMoney = math.subtract(Number(student_data.current_money),Number(total_price()));
+
+                // save to model
+
+            
+                store_model.findOne({store_number:global_data.store_number},'store_number uid current_money',(err, store_data) => {
+                    if (err) {
+                        console.log('update store money function something wrong')
+                    }
+                    if (store_data) {
+                        // console.log('store_data')
+                        // console.log(store_data)
+                        new_money = store_data.current_money + total_price();
+                        // console.log('new_money')
+                        // console.log(new_money)
+                        console.log('store new current money')
+                        console.log(new_money)
+
+                        // update student money
+                        student_model.updateOne({student_id:order_data.student_id},{current_money:newCurrentMoney},(err,studentUpdate) => {
+                            // console.log("Update student : " + JSON.stringify(studentUpdate));
+                            if (err) {
+                                res.status(500).send({error:'Buy item : update money something wrong.'})
+                            } 
+                            // store money update
+                            store_model.updateOne({store_number:global_data.store_number},{current_money:new_money},(err, store_update) => {
+                                if (err) {
+                                    console.log('update store money fail > ',err)
+                                    res.status(500).send({error:'update store money something wrong.'})
+                                } else {
+
+                                    studentNewHistory.save((err_student) => {
+                                        if (err_student) {
+                                            console.log('save student history fail')
+                                            res.status(500).send({error:'Buy item : record student history something wrong.'})
+                                        } else {
+                                            console.log('save student history success')
+                                            storeNewHistory.save((err_store) => {
+                                                if (err_store) {
+                                                    console.log('save store history fail')
+                                                    res.status(500).send({error:'Buy item : record store history something wrong.'})
+                                                } else {
+                                                    console.log('save store history success')
+                                                    res.status(200).send({success:'ซื้อขายสำเร็จ'})        
+                                                }
+                                            })
+                                        }
+                                    })
+
+                                }
+                            })
+                            
+                        })
+
+                    }
+                })
+                
+
+                
+
+                   
+
+
+
+            }
+        }
+    })
+}
+
     // Notification
 add_notification_buy = (data,msg_data) => {
     // data = topup data , msg_data = title, message 
@@ -343,7 +512,7 @@ get_food_sales = (req ,res ) => {
     const selected = req.query;
     const data_to_client = [];
     // console.log('selected month : ' + selected.month);
-    store_history.find({$and:[{store_number:global_data.store_number},{status:'ซื้อ'}]},'store_number date status food_id food_name',(err , history_data) => {
+    store_history.find({$and:[{store_number:global_data.store_number},{status:'ซื้อ'}]},'store_number date food_id food_name order_list',(err , history_data) => {
         if (err) {
             throw err;
         } else {
@@ -373,6 +542,90 @@ formatDate = (date) => {
     }
 
     return [year,month].join('-');
+}
+
+get_order_list = (req ,res ) => {
+    const id_order = req.query.id
+    console.log('id ', id_order);
+
+    store_history.findOne({_id:id_order},'income order_list',(err , order_list_data) => {
+        if (err) {
+            console.log('find order in store history something wrong. > ', err)
+        }
+        if (!order_list_data) {
+            console.log('Not found order')
+            res.status(400).send({ error : 'ไม่เจอรายการซื้อ'})
+        }
+        if (order_list_data) {
+            console.log('order list')
+            console.log(order_list_data)
+
+            res.status(200).send({ success : order_list_data})
+        }
+    })
+}
+
+get_current_money = (req ,res) => {
+    store_model.findOne({store_number:global_data.store_number},'store_number current_money',(err, store_data) => {
+        if (err) {
+            console.log('get current money something wrong. > ',err)
+        } else {
+            res.status(200).send({success:store_data})
+        }
+    })
+}
+
+    // check request receive money in db
+check_req_receive_money = (req ,res ) => {
+    receive_money_model.findOne({$and:[{store_number:global_data.store_number},{status:'Disapproval'}]},(err, req_data) => {
+        if (err) {
+            console.log('check request receive money somthing wrong. > '+err)
+        }
+        if (req_data) {
+            console.log(req_data)
+            // res.status(200).send({success:req_data})
+            if (req_data.status === 'Approve') {
+                res.status(200).send({success:true})
+            }
+            if (req_data.status === 'Disapproval') {
+                res.status(200).send({success:false})
+            }
+        }
+    })
+}
+
+receive_money = (req ,res ) => {
+    const req_data = req.body.store_number;
+    console.log('store number > '+req_data+ ' to receive money');
+
+
+    const init_req_receive = {
+        store_number:req_data,
+        title:'คำขอรับเงิน',
+        status:'Disapproval',
+        request_date:Date().toLocaleString(),
+        accept_date:''
+    }
+
+    console.log('init req receive money')
+    console.log(init_req_receive)
+
+    const initReqReceive = new receive_money_model(init_req_receive)
+
+    console.log('init req receive money model')
+    console.log(initReqReceive)
+
+
+    receive_money_model.create(init_req_receive,(err , req_receive_money_data) => {
+        if (err) {
+            console.log(err);
+            throw err;
+        } else {
+            console.log('insert request receive money success');
+            res.status(200).send({success:'ส่งคำขอรับเงินสำเร็จ'})
+        }
+    })
+
 }
 
 download_report_page = (req ,res ) => {
@@ -520,5 +773,11 @@ module.exports = {
     store_change_password_page,
     // add menu
     add_menu,
-    delete_menu
+    delete_menu,
+    // test
+    buy_more_item,
+    get_order_list,
+    get_current_money,
+    receive_money,
+    check_req_receive_money
 }

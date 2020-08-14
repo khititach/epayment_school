@@ -111,7 +111,7 @@ topup = (studentID, amount) => {
             // console.log(msg_back);
             $.alert({
                 title: 'เสร็จสิ้น!',
-                content: msg_back.success,
+                content: '<h5>'+ msg_back.success + ' ยอดเงินใหม่ ' + msg_back.newCurrentMoney + ' บาท' + '</h5>',
                 type: 'green',
                 buttons: {
                     ok: {
@@ -475,6 +475,39 @@ reset_password = (admin_password,store_uid,store_dob) => {
     })
 }
 
+
+aprrove_request = (_id,store_number,new_status) => {
+    // console.log('approve request')
+    // console.log('id')
+    // console.log(_id)
+    // console.log('store number')
+    // console.log(store_number)
+    // console.log('new status')
+    // console.log(new_status)
+
+    $.ajax({
+        url:'/admin/edit_store/'+store_number+'/approve_requset',
+        type:'PATCH',
+        dataType:'json',
+        data:{
+            _id,
+            store_number,
+            new_status
+        },
+        success:(msg_back) => {
+            // console.log('success');
+            // console.log(msg_back);
+            alert_popup(msg_back)
+
+        },
+        error:(msg_back) => {
+            // console.log('error');
+            // console.log(msg_back);
+        }
+    })
+
+}
+
 // edit student script
 
 // delete store script
@@ -783,7 +816,7 @@ $("#addrow").on("click", function () {
         cols += '<td><input type="text" class="form-control" name="food_name" id="food_name' + counter + '" onchange="auto_check_food_name(this.name,this.value,this.id)"/></td>';
         cols += '<td><input type="text" class="form-control" name="food_price"/></td>';
         cols += '<td><input type="text" class="form-control" name="food_calories"/></td>';
-        cols += '<td><input type="text" class="form-control" name="food_quantity"/></td>';
+        // cols += '<td><input type="text" class="form-control" name="food_quantity"/></td>';
         // cols += '<td><input type="text" class="form-control" name="food_image"/></td>';
 
         cols +=
