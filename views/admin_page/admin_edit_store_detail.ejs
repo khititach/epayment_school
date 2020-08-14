@@ -241,7 +241,11 @@
             <div class="col-md-6">
               
                 <% if(req_data.status === 'Disapproval') {%>
-                    <button class="btn btn-success" onclick="aprrove_request('<%= req_data._id %>','<%= store_data.store_number %>','Approve')">อนุมัติ</button>
+                    <button class="btn btn-success" 
+                    
+                    data-toggle="modal"
+                    data-target="#approve_money_modal"
+                    >อนุมัติ</button>
                 <%} if(req_data === 'none') {%>
                     <button class="btn btn-success" disabled>อนุมัติ</button>
                     <%}%>
@@ -336,6 +340,34 @@
                 <button type="submit" class="btn btn-primary"
                     onclick="reset_password($('#admin_password').val(),'<%= store_data.uid %>','<%= store_data.dob %>')">ยืนยัน</button>
                 <!-- <button type="submit" class="btn btn-primary" onclick="edit_profile($('#new_weight').val(),$('#new_height').val(),$('#new_password').val(),$('#new_retype_password').val())">บันทึก</button> -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal approve request money -->
+<div class="modal fade" id="approve_money_modal" tabindex="-1" role="dialog" aria-labelledby="approve_money_Label"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approve_money_Label">อนุมัติคำขอรับเงิน</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row rounded">
+                    <div class="col-md-12">
+                        <h5e>ยอดเงินทั้งหมด <%= store_data.current_money%> บาท</h5e>
+                    </div>
+                  
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" 
+                    onclick="aprrove_request('<%= req_data._id %>','<%= store_data.store_number %>','Approve')">อนุมัติ</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
             </div>
         </div>
