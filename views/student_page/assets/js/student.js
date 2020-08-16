@@ -522,12 +522,16 @@ draw_chart = (chart_data, mode) => {
                 yAxes: [{
                   scaleLabel: {
                     display: true,
+                    fontColor: 'black',
+                    fontSize: 20,
                     labelString: labelString_text
                   }
                 }],
                 xAxes:[{
                     scaleLabel: {
                         display: true,
+                        fontColor: 'black',
+                        fontSize: 20,
                         labelString: 'วันที่'
                       }
                 }]
