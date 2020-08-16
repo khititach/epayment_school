@@ -780,7 +780,7 @@ $('#selected_month_sales_data').on('change',() => {
 get_food_sales = () => {
 
     $.get('/store/report/get_food_sales/?month='+global_date,(data) => {
-        console.log('food sales data : ' ,data);
+        // console.log('food sales data : ' ,data);
         // process data for draw chart
         
         // draw_food_sales_chart(process_food_sales(data));
