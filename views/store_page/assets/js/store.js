@@ -204,7 +204,7 @@ add_item = (menu_no,food_id,food_name,food_price,food_calories) => {
     // console.log(total_money)
     $('#count_money').text(total_money);
     // console.log(menu_no)
-
+    $('#food_list_id_'+food_id).text(cart[food_id].amount);
       // add del button
     $('#add_del_order_'+menu_no).html('<button class="btn btn-danger plus" onclick="del_item(\'' + menu_no + '\',\'' + food_id + '\')">-</button>');
 
@@ -228,6 +228,12 @@ del_item = (menu_no,food_id) => {
     }
     else if (cart[food_id].amount > 1) {
       cart[food_id].amount -= 1;
+    }
+
+    if (!cart[food_id]) {
+        $('#food_list_id_'+food_id).addClass('badge badge-info badge-count').text('');
+    } else {
+        $('#food_list_id_'+food_id).html(cart[food_id].amount);
     }
     
     $('#show_cart').html('<p>'+JSON.stringify(cart)+'</p>')
@@ -441,6 +447,7 @@ clear_data = () => {
         delete cart[i];
       }
     total_money = 0;
+    $(".badge-count").addClass('badge badge-info badge-count').text('');
     $("#submit_order").attr("disabled", true);
     $("#cancle_order").attr("disabled", true);
     $('#count_money').text(total_money);
@@ -758,185 +765,182 @@ $('#selected_month_sales_data').on('change',() => {
     // console.log('month : ' + select_month);
     $.get('/store/report/get_food_sales/?month='+select_month,(data) => {
         // console.log('food sales data : ' ,data);
+        
         // process data for draw chart
         
-        draw_food_sales_chart(process_food_sales(data));
-        insert_food_sales_list(process_food_sales(data))
+        // draw_food_sales_chart(process_food_sales(data));
+        // insert_food_sales_list(process_food_sales(data))
+
+        order_list_label(processed_data(data))
+        order_list_graph(processed_data(data))
     })
 })
 
-// chart food sales
+// chart food sales count
 get_food_sales = () => {
 
     $.get('/store/report/get_food_sales/?month='+global_date,(data) => {
-        // console.log('food sales data : ' ,data);
+        console.log('food sales data : ' ,data);
         // process data for draw chart
         
-        draw_food_sales_chart(process_food_sales(data));
-        insert_food_sales_list(process_food_sales(data))
+        // draw_food_sales_chart(process_food_sales(data));
+        // insert_food_sales_list(process_food_sales(data));
+
+
+        // new processed data
+        // processed_data(data)
+        order_list_label(processed_data(data))
+        order_list_graph(processed_data(data))
     })
 }
 
-// process food sales data
-process_food_sales =  (data) => {
-    // console.log('data : ',data);
-    var process_data = [];
-    var process_data_detail = {};
-    var food_id_list = [];
-    // console.log('data : ',data);
-    
-    if (jQuery.isEmptyObject(data)) {
-        var last_data = 0
-    } else {
-        var last_data = data[data.length-1].food_id;
-    }
-    
-
-    for (let j = 1; j <= last_data; j++) {
-        for (let i = 0; i < data.length; i++) {
-            // console.log('i > ',i,' data : ',data[i],' / j > ',j);
-            
-            // console.log('data food id : ',data[i].food_id,' / j > ',j);
-              
-                if (data[i].food_id != 0) {
-                    if (data[i].food_id == j) {
-                        // console.log('food _id = j > ',data[i].food_id,' = ',j);
-                        
-                        process_data_detail.food_name = data[i].food_name;
-                        process_data_detail.food_id = data[i].food_id;
-                        
-                        if (process_data_detail.count == null) {
-                            process_data_detail.count = 1;
-                        } else {
-                            process_data_detail.count++;
-                        }
-                    } else {
-                        // console.log('food _id != j > ',data[i].food_id,' != ',j);
-                    }
-                    
-                }    
-        }
-        // console.log('food id list detail in for: ',process_data_detail );
-        process_data.push(process_data_detail);
-        // console.log('process data array : ',process_data);
-        process_data_detail = {}
-        
-    }
-    // console.log('food id list detail in out for: ',process_data_detail );
-
-    // process_data.push($.makeArray( process_data_detail['ชาเย็น'] ))
-
-    // console.log('data detail : ',$.isEmptyObject(process_data_detail)); 
-    // console.log('food id list detail : ',$.makeArray( process_data_detail['ชาเย็น'] ) );
-
-    // if ($.isEmptyObject(process_data_detail) != true) { // filter delete empty obj
-    //     process_data.push(process_data_detail)
-    //     var process_data_detail = {}
-    // }
-
-    var process_data = process_data.filter(function (el) {
-        return el.food_id != null;
+    // clean data
+processed_data = (data) => {
+    const clean_data = [];
+    // delete data that has no order_list and food_name
+    // console.log(data[3].order_list)
+    data.forEach(order => {
+        // console.log(order.order_list)
+        if (order.order_list !== undefined) {
+             clean_data.push(order)
+        } 
     });
 
-    // console.log('food id list : ',process_data_detail);
-    // console.log('process data array delete empty : ',process_data);
+    // console.log(clean_data)
 
-    return process_data;
+    // console.log('data : ',data);
+    // init data 
+    const order_cv = Object.assign({}, clean_data)
+    const order_count = {};
+
+    // console.log('convert array to object')
+    // console.log(order_cv[0])
+    // const first_order = order_cv[0].order_list;
+    // console.log(first_order[Object.keys(first_order)[0]].food_id)
+    // console.log(Object.keys(first_order).length)
+
+    // console.log(order_cv[Object.keys(order_cv)[0]].Object.keys(order_list)[0])
+
+    for (let i = 0; i < Object.keys(order_cv).length; i++) {
+        // console.log(order_cv[Object.keys(order_cv)[i]])
+        const first_order = order_cv[i].order_list;
+        for (let j = 0; j < Object.keys(first_order).length; j++) {
+
+            // console.log(first_order[Object.keys(first_order)[j]])
+            const set_food_id = first_order[Object.keys(first_order)[j]].food_id;
+            const set_food_name = first_order[Object.keys(first_order)[j]].food_name;
+            const set_food_amount = Number(first_order[Object.keys(first_order)[j]].amount);
+            if (!order_count[set_food_id]) {
+                    order_count[set_food_id] = {
+                        food_id:set_food_id,
+                        food_name:set_food_name,
+                        amount:set_food_amount
+                    }
+            } else {
+                order_count[set_food_id].amount += set_food_amount;
+            }
+            
+            
+        }
+    }
+
+    // console.log('order count')
+    // console.log(order_count)
+
+    return order_count;
 }
 
-// insert food list to div
-insert_food_sales_list = (data) => {
-    // console.log('data : ',data);
+    // show food sell count label 
+order_list_label = (data) => {
+    // console.log('order list label')
+    // console.log(data)
+    // console.log(data[Object.keys(data)[0]])
     // init div
     $('#insert_food_sales_list').html('');
-    for (let i = 0; i < data.length; i++) {
-       
-         var insert_to_div = '<div class="row">'+
-                            '<div class="col-md-6">'+
-                                '<h5>'+ data[i].food_name+'</h5>'+
+    for (let i = 0; i < Object.keys(data).length; i++) {
+        const food_data = data[Object.keys(data)[i]];
+        var insert_to_div = '<div class="row">'+
+                            '<div class="col-md-8">'+
+                                '<h5>'+ food_data.food_name+'</h5>'+
                             '</div>'+
-                            '<div class="col-md-6 font-black">'+
-                                '<h6>'+ data[i].count+' จาน/ชาม/ชิ้น/แก้ว</h6>'+
+                            '<div class="col-md-4 font-black">'+
+                                '<h6>'+ food_data.amount+' หน่วย</h6>'+
                             '</div>'+
                         '</div>';
         $('#insert_food_sales_list').append(insert_to_div);
     }
-   
-
 }
 
+    // show food sell count graph
+order_list_graph = (processed_data) => {
+// labels 
+var labels_data = [];
+jQuery.each(processed_data,(key,data) => {
+    // console.log('data : ',data);
+    labels_data.push(data.food_name)
+})
 
-    // draw food sales chart 
-        // platform draw chart
-        // data : 
-        // [ {food_name:'name 1', food_id:'id 1', count:'count '},
-        // {food_name:'name 2', food_id:'id 2', count:'count '} ]
-draw_food_sales_chart = (processed_data) => {
-    // labels 
-    var labels_data = [];
-    jQuery.each(processed_data,(key,data) => {
-        // console.log('data : ',data);
-        labels_data.push(data.food_name)
-    })
+// count 
+var count_data = [];
+jQuery.each(processed_data,(key,data) => {
+    // console.log('data : ',data);
+    count_data.push(data.amount)
+})
 
-    // count 
-    var count_data = [];
-    jQuery.each(processed_data,(key,data) => {
-        // console.log('data : ',data);
-        count_data.push(data.count)
-    })
- 
-    
-    // console.log('labels : ',labels_data);
-    // console.log('count data : ',count_data);
-    var canvas = $('#canvas_container').html('<canvas id="data_sales_chart"></canvas>');
-    var ctx = $('#data_sales_chart');
-    var sales_chart = {
-        type: 'bar',
-        data: {
-            labels: labels_data,
-            datasets: [{
-                label:'ยอดขาย(จาน/ชาม/ชิ้น)',
-                minBarLength: 0,
-                data: count_data,
-                backgroundColor: '#4287f5', 
-                
-            }]
-        },
-        options:{
-            scales:{
-                yAxes:[{
-                    display:true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'จำนวนที่ขาย'
-                    },
-                    ticks:{
-                        min:0,
-                        beginAtZero: true,
-                        userCallback: function(label, index, labels) {
-                            // when the floored value is the same as the value we have a whole number
-                            if (Math.floor(label) === label) {
-                                return label;
-                            }
 
+// console.log('labels : ',labels_data);
+// console.log('count data : ',count_data);
+var canvas = $('#canvas_container').html('<canvas id="data_sales_chart"></canvas>');
+var ctx = $('#data_sales_chart');
+var sales_chart = {
+    type: 'bar',
+    data: {
+        labels: labels_data,
+        datasets: [{
+            label:'ยอดขาย(หน่วย)',
+            minBarLength: 0,
+            data: count_data,
+            backgroundColor: '#4287f5', 
+            
+        }]
+    },
+    options:{
+        scales:{
+            yAxes:[{
+                display:true,
+                scaleLabel: {
+                    display: true,
+                    fontColor: 'black',
+                    fontSize: 20,
+                    labelString: 'จำนวนที่ขาย'
+                },
+                ticks:{
+                    min:0,
+                    beginAtZero: true,
+                    userCallback: function(label, index, labels) {
+                        // when the floored value is the same as the value we have a whole number
+                        if (Math.floor(label) === label) {
+                            return label;
                         }
+
                     }
-                }],
-                xAxes:[{
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'รายการอาหาร'
-                      }
-                }]
-            }
+                }
+            }],
+            xAxes:[{
+                scaleLabel: {
+                    display: true,
+                    fontColor: 'black',
+                    fontSize: 20,
+                    labelString: 'รายการอาหาร'
+                  }
+            }]
         }
-    
-    };
+    }
 
-    var draw_sales_chart = new Chart(ctx,sales_chart);
+};
+
+var draw_sales_chart = new Chart(ctx,sales_chart);
 }
-
 
 // gotoHTMLtoPDF = () => {
 //     window.location = '/store/report/download_report'

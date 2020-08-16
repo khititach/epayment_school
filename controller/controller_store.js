@@ -546,7 +546,7 @@ formatDate = (date) => {
 
 get_order_list = (req ,res ) => {
     const id_order = req.query.id
-    console.log('id ', id_order);
+    // console.log('id ', id_order);
 
     store_history.findOne({_id:id_order},'income order_list',(err , order_list_data) => {
         if (err) {
@@ -557,8 +557,8 @@ get_order_list = (req ,res ) => {
             res.status(400).send({ error : 'ไม่เจอรายการซื้อ'})
         }
         if (order_list_data) {
-            console.log('order list')
-            console.log(order_list_data)
+            // console.log('order list')
+            // console.log(order_list_data)
 
             res.status(200).send({ success : order_list_data})
         }

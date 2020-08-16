@@ -120,7 +120,7 @@
                 <% if(store_food_list[i+(row-1)] != null ) {%>
                   <div class="column-list" >
                     <h5 class="title-name-food">
-                      <%= store_food_list[i+(row-1)].food_name %>
+                      <%= store_food_list[i+(row-1)].food_name %> <a class="badge badge-info badge-count" id="food_list_id_<%= store_food_list[i+(row-1)].food_id %>"></a>
                     </h5>
                     
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+(row-1)].food_id %>"
@@ -141,7 +141,7 @@
                 <% if(store_food_list[i+row] != null ) {%>
                   <div class="column-list" >
                     <h5 class="title-name-food">
-                      <%= store_food_list[i+row].food_name %>
+                      <%= store_food_list[i+row].food_name %> <a class="badge badge-info badge-count" id="food_list_id_<%= store_food_list[i+row].food_id %>"></a>
                     </h5>
                     
                     <button class="btn btn-primary buy-btn buy_btn" id="food_list_id_<%= store_food_list[i+row].food_id %>"
