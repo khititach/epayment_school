@@ -470,6 +470,11 @@ change_month_set_summary_expend = (select_month) => {
         processed_data = process_data(data, "mode_expend")
         // var income_avg = average_data(processed_data);
         // processed_data = process_data(msg_back,"expend")
+
+        // expend per month 
+        expend_per_month = sum_data(processed_data);
+        $('#expend_per_month').text(expend_per_month + ' บาท');
+
         var expend_avg = average_data(processed_data);
         if (isNaN(expend_avg))  {
             $('#expend_avg').text('0 บาท'); 
