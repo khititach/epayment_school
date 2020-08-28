@@ -743,6 +743,7 @@ draw_income_chart = (data) => {
                   scaleLabel: {
                     display: true,
                     fontSize: 20,
+                    fontColor: 'black',
                     labelString: 'บาท'
                   }
                 }],
@@ -750,6 +751,7 @@ draw_income_chart = (data) => {
                     scaleLabel: {
                         display: true,
                         fontSize: 20,
+                        fontColor: 'black',
                         labelString: 'วันที่'
                       }
                 }]
