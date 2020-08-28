@@ -571,7 +571,7 @@ edit_store_detail_page = (req ,res ) => {
 }
 
     // approve requset
-approve_requset = (req ,res) => {
+approve_request = (req ,res) => {
     const approve_requset_data = req.body
     // console.log('approve request data')
     // console.log(approve_requset_data)
@@ -1094,6 +1094,6 @@ module.exports = {
     category_edit_check_name,
     // test page
     category_edit_page,
-    approve_requset
+    approve_request
 
 }

@@ -742,12 +742,14 @@ draw_income_chart = (data) => {
                 yAxes: [{
                   scaleLabel: {
                     display: true,
+                    fontSize: 20,
                     labelString: 'บาท'
                   }
                 }],
                 xAxes:[{
                     scaleLabel: {
                         display: true,
+                        fontSize: 20,
                         labelString: 'วันที่'
                       }
                 }]
